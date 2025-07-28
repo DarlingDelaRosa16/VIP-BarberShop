@@ -21,6 +21,7 @@ import { ListDatesComponent } from './modules/layout/layout/modules/barbershop/v
 import { authGuard, authGuardBackToLogIn } from './guards/auth.guard';
 import { BarbersReportsComponent } from './modules/layout/layout/modules/reports/views/barbers-reports/barbers-reports.component';
 import { SaleComponent } from './modules/layout/layout/modules/sale/sale.component';
+import { SalesListComponent } from './modules/layout/layout/modules/sale/view/sales-list/sales-list.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,10 @@ export const routes: Routes = [
       {
         path: 'ventas',
         component: SaleComponent,
+      },
+       {
+        path: 'listado-facturas',
+        component: SalesListComponent,
       },
       {
         path: 'mantenimiento',
@@ -69,31 +74,33 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'inventario',
-        component: InventoryRouterComponent,
-        children: [
-          {
-            path: '',
-            component: DashboardInventoryComponent,
-            outlet: 'inventario'
-          },
-          {
-            path: 'productos',
-            component: ProductsComponent,
-            outlet: 'inventario'
-          },
-          {
-            path: 'entradas',
-            component: InboundComponent,
-            outlet: 'inventario'
-          },
-          {
-            path: 'salidas',
-            component: OutboundComponent,
-            outlet: 'inventario'
-          },
-        ]
+        path: 'productos',
+        component: ProductsComponent,
+        // outlet: 'inventario'
       },
+      {
+        path: 'entradas',
+        component: InboundComponent,
+        // outlet: 'inventario'
+      },
+      {
+        path: 'salidas',
+        component: OutboundComponent,
+        // outlet: 'inventario'
+      },
+      // {
+      //   path: 'inventario',
+      //   component: InventoryRouterComponent,
+      //   children: [
+      //     {
+      //       path: '',
+      //       component: DashboardInventoryComponent,
+      //       outlet: 'inventario'
+      //     },
+
+
+      //   ]
+      // },
       {
         path: 'reportes',
         component: ReportsComponent,

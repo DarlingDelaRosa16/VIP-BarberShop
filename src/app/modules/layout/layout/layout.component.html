@@ -14,13 +14,51 @@
         <mat-icon>content_cut</mat-icon>Barberia
       </a>
 
-      <a class="item-menu" [routerLink]="['/layout/inventario']" routerLinkActive="active"> <!---->
-        <mat-icon>inventory_2</mat-icon>Inventario
-      </a>
+      <a class="item-menu" (click)="inventaryOpened = !inventaryOpened"><mat-icon>inventory_2</mat-icon>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
+          Inventario
+          <mat-icon *ngIf="inventaryOpened;else close">keyboard_arrow_up</mat-icon>
 
-      <a class="item-menu" [routerLink]="['/layout/ventas']" routerLinkActive="active"> <!---->
-        <mat-icon>shopping_cart</mat-icon>Ventas
+          <ng-template #close>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </ng-template>
+        </div>
       </a>
+      <div *ngIf="inventaryOpened">
+        <a class="sub-item-menu" [routerLink]="['/layout/entradas']" routerLinkActive="active">
+          <mat-icon>arrow_forward</mat-icon>Entradas
+        </a>
+
+        <a class="sub-item-menu" [routerLink]="['/layout/salidas']" routerLinkActive="active">
+          <mat-icon>arrow_back</mat-icon>Salidas
+        </a>
+
+        <a class="sub-item-menu" [routerLink]="['/layout/productos']" routerLinkActive="active">
+          <i class="fa-solid fa-scissors"></i> Productos
+        </a>
+      </div>
+
+
+      <a class="item-menu" (click)="ventaOpened = !ventaOpened"><mat-icon>shopping_cart</mat-icon>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
+          Facturación
+          <mat-icon *ngIf="ventaOpened;else close2">keyboard_arrow_up</mat-icon>
+          <ng-template #close2>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </ng-template>
+        </div>
+      </a>
+      <div *ngIf="ventaOpened">
+
+        <a class="sub-item-menu" [routerLink]="['/layout/listado-facturas']" routerLinkActive="active"> <!---->
+          <mat-icon>receipt_long</mat-icon>Listado de facturas
+        </a>
+
+        <a class="sub-item-menu" [routerLink]="['/layout/ventas']" routerLinkActive="active"> <!---->
+          <mat-icon>shopping_cart</mat-icon>Venta de producto
+        </a>
+
+      </div>
 
       <a class="item-menu" [routerLink]="['/layout/reportes']" routerLinkActive="active"> <!---->
         <mat-icon>assignment</mat-icon>Reportes
@@ -75,29 +113,30 @@
         </div>
 
         <div class="logout"> <!--*ngIf="userSystemService.getUnitOrg.nombre"-->
-          <span style=" margin-right: 15px;" >
+          <span style=" margin-right: 15px;">
             <h3 style="margin: 0; font-weight: 400; font-size: 20px;">{{user.full_name}} </h3>
             <h3 style="margin: 0; font-weight: 200; font-size: 16px;">{{user.role}}</h3>
           </span>
-          <button style="width: 40px;height: 40px; border-radius: 100px; background-color: #000; border: none;" > <!--[matMenuTriggerFor]="menu"-->
+          <button style="width: 40px;height: 40px; border-radius: 100px; background-color: #000; border: none;">
+            <!--[matMenuTriggerFor]="menu"-->
             <mat-icon style="color: white;">person</mat-icon>
           </button>
           <!-- <mat-menu class="menuPanel" #menu="matMenu"> -->
-            <!-- <div mat-menu-item class="profile">
+          <!-- <div mat-menu-item class="profile">
                   <mat-icon>person</mat-icon>
                   <span>asd</span>
                   <br>
                   <span class="email">das</span>
                 </div> -->
 
-            <!--(click)="changePassword()"-->
-            <!-- <button mat-menu-item >
+          <!--(click)="changePassword()"-->
+          <!-- <button mat-menu-item >
                 <mat-icon>lock</mat-icon>
                 <span>Cambiar contraseña</span>
               </button> -->
 
-            <!--(click)="logOut()"-->
-            <!-- <button mat-menu-item>
+          <!--(click)="logOut()"-->
+          <!-- <button mat-menu-item>
                           <mat-icon>exit_to_app</mat-icon>
                           <span>Cerrar sesion</span>
                       </button> -->

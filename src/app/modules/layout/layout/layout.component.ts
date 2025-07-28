@@ -4,14 +4,20 @@ import { ModulesImports } from '../../../helpers/modulesImports';
 import { SnackBarService } from '../services/snackBar.service';
 import { SystemInformationService } from '../services/general.service';
 import { Router } from '@angular/router';
+import { PrimeComponentsModules } from '../../../helpers/primeNg';
 
 @Component({
   selector: 'app-layout',
-  imports: [MaterialComponents, ModulesImports],
+  imports: [MaterialComponents, ModulesImports, PrimeComponentsModules],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
+
+  user: any
+  sidenavOpened: boolean = false;
+  ventaOpened: boolean = false;
+  inventaryOpened: boolean = false;
 
   constructor(
     private router: Router,
@@ -19,11 +25,7 @@ export class LayoutComponent {
     private systemInformationService: SystemInformationService
   ){
     this.user = this.systemInformationService.getUser
-    console.log(this.user);
-
   }
-  user: any
-  sidenavOpened: boolean = false;
 
   async logOut(){
     let closeAccount: boolean = await this.snackBar.snackbarConfirmation('Estas seguro de cerrar sesión?', '')
