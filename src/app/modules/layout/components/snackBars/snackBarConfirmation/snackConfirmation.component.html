@@ -1,0 +1,12 @@
+<div style="display: flex; justify-content: space-between; align-items: center; width: 600px;">
+  <span>
+      <h3 style="color: white; font-weight: 200; margin: 0;">{{data.confirmationTitle}}</h3>
+      <h4 style="color: white; font-weight: 200; margin: 0;">{{data.confirmationSubTitle}}</h4>
+  </span>
+  <mat-icon style="color: white;">contact_support</mat-icon>
+</div>
+
+<span style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+  <button style="border-radius: 2px; width: 100%; background-color: #004b8d; color: white; margin-top: 10px; height: 31px;" (click)="onComfirm()" mat-stroked-button>Aceptar</button>
+  <button style="border-radius: 2px; width: 100%; background-color: #F44336; color: white; margin-top: 10px; height: 31px;" (click)="closeSnackbar()" mat-stroked-button>Cancelar</button>
+</span>

@@ -1,0 +1,90 @@
+<div class="title">
+  <h1>Crear Cliente</h1>
+</div>
+
+<form [formGroup]="clientForm" (ngSubmit)="saveChanges()" style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
+
+  <h2 style="font-weight: 400;">Formulario para creación de clientes</h2>
+  <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+      <label for="name">Nombre</label>
+      <input pInputText id="name" formControlName="first_name" />
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label for="lastName">Apellido</label>
+      <input pInputText id="lastName" formControlName="last_name"/>
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+    <!-- <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label for="rol">Rol</label>
+      <p-select [options]="generalRequestService.rol()" optionLabel="name" formControlName="role_id" />
+    </div> -->
+  </div>
+  <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label for="email">Email</label>
+      <input pInputText id="email" formControlName="email"/>
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label for="password">Constraseña</label>
+      <input pInputText id="password" formControlName="password"/>
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label for="confirmPassword">Confirmar Contraseña</label>
+      <input pInputText id="confirmPassword" formControlName="password_confirmation" />
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 2">
+      <label for="address">Dirección</label>
+      <input pInputText id="address" formControlName="address" />
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 2">
+      <label for="phoneNumber">Numero de Telefono</label>
+      <input pInputText id="phoneNumber" formControlName="phone_number" />
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+  </div>
+
+  <div class="buttonContainer">
+    <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" type="button" (click)="clientForm.reset()" />
+    <p-button label="Guardar Cliente" icon="pi pi-send" severity="contrast" type="submit" />
+  </div>
+</form>
+
+<p-table [value]="clientService.clients()" showGridlines [tableStyle]="{ 'min-width': '50rem', 'margin-top': '10px' }">
+  <ng-template #header>
+    <tr>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Correo Electronico</th>
+      <!-- <th>Estado</th> -->
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-barber>
+    <tr>
+      <td>{{ barber.first_name }}</td>
+      <td>{{ barber.last_name }}</td>
+      <td>{{ barber.email }}</td>
+      <!-- <td>{{ barber.status }}</td> -->
+      <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
+      <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,117 @@
+.paymentModal {
+  padding: 25px;
+}
+
+.total-section {
+  text-align: center;
+}
+
+.total-label {
+  color: #6b7280;
+  font-weight: 100;
+  margin-bottom: 5px;
+}
+
+.total-amount {
+  font-size: 30px;
+  margin: 0;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.tabs-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+  background-color: black;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 35px 0 15px 0;
+}
+
+.tab-trigger {
+  /* width: 110px; */
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 10px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.tab-trigger.active {
+  background-color: white;
+  color: black;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.quick-amounts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+}
+
+.quick-amount-btn {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.quick-amount-btn:hover {
+  background-color: #f9fafb;
+  border-color: #16a34a;
+}
+
+.cashSummary {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  border: 1px solid #ccc;
+  background-color: #f9fafb;
+  padding: 5px 5px 5px 30px;
+  border-radius: 15px;
+  margin: 30px 0 15px 0;
+}
+
+.moneyRecived,
+.changeReturn {
+  display: grid;
+  padding: 10px;
+  grid-template-columns: 10% 90%;
+}
+
+.montoContainer {
+  align-self: center;
+  padding: 10px;
+}
+
+.montoContainer h3 {
+  margin: 0;
+}
+
+.changeReturn {
+  border-radius: 10px;
+  padding: 0 4px;
+  background-color: #dcfce7;
+}
+
+.montoTitle {
+  font-size: 17px;
+  color: #6b7280;
+  font-weight: 100;
+}
+
+.buttonContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 30px;
+}

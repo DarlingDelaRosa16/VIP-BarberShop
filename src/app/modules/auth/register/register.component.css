@@ -1,0 +1,86 @@
+/* Contenedor Principal */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Tarjeta de Login */
+.login-card {
+  width: 450px;
+  padding: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background: white;
+  text-align: center;
+}
+
+/* Título */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Subtítulo */
+.subtitle {
+  color: #707070;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* Grupos de Formularios */
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #d1d1d1;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Botón de Inicio de Sesión */
+.login-button {
+  width: 80%;
+  height: 40px;
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background-color: #333;
+}
+
+/* Texto de Registro */
+.register-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-link {
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}

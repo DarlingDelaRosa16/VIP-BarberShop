@@ -1,0 +1,112 @@
+<mat-sidenav-container>
+
+  <mat-sidenav mode="side" [(opened)]="sidenavOpened">
+    <div class="logosideMenuContainer">
+      <!-- <img [routerLink]="['formulacion']" class="logoPlanner" src="DyCVBO.png" alt="Planificación Institucional"> -->
+    </div>
+
+    <div class="sideMenuOptionsContainer"> <!---*ngIf="userLogged.rol.modulos"-->
+
+      <a class="item-menu" [routerLink]="['/layout/inicio']" routerLinkActive="active"> <!-- -->
+        <mat-icon>home</mat-icon>Inicio
+      </a>
+      <a class="item-menu" [routerLink]="['/layout/estado-barberia']" routerLinkActive="active"> <!---->
+        <mat-icon>content_cut</mat-icon>Barberia
+      </a>
+
+      <a class="item-menu" [routerLink]="['/layout/inventario']" routerLinkActive="active"> <!---->
+        <mat-icon>inventory_2</mat-icon>Inventario
+      </a>
+
+      <a class="item-menu" [routerLink]="['/layout/ventas']" routerLinkActive="active"> <!---->
+        <mat-icon>shopping_cart</mat-icon>Ventas
+      </a>
+
+      <a class="item-menu" [routerLink]="['/layout/reportes']" routerLinkActive="active"> <!---->
+        <mat-icon>assignment</mat-icon>Reportes
+      </a>
+      <!-- <a *ngIf="improvePlan && appHelpers.isTodayInRange(improvePlan.fechaInicio, improvePlan.fechaFin) && this.systemInformationService.activeRol().nombre !== 'supervisado'" class="item-menu" [routerLink]="['/layout/plan-de-mejora']" routerLinkActive="active">
+              <mat-icon>star</mat-icon>Plan de mejora
+          </a>
+          <a *ngIf="evaluationComptency && appHelpers.isTodayInRange(evaluationComptency.fechaInicio, evaluationComptency.fechaFin) && this.systemInformationService.activeRol().nombre !== 'supervisado'" class="item-menu" [routerLink]="['/layout/evaluacion-competencias']" routerLinkActive="active">
+              <mat-icon>description</mat-icon>Evaluación de competencias
+          </a> -->
+    </div>
+
+    <div>
+      <div class="ConfigsideMenuContainer">
+        <!--*ngIf="this.systemInformationService.activeRol().nombre !== 'Supervisor' && this.systemInformationService.activeRol().nombre !== 'supervisado'"-->
+        <div class="item-menu" [routerLink]="['/layout/mantenimiento']" routerLinkActive="activeOut">
+          <mat-icon>settings</mat-icon>Mantenimiento
+        </div>
+      </div>
+
+      <div class="ConfigsideMenuContainer"><!--(click)="cerrarSesion()"-->
+        <div class="item-menu" routerLinkActive="activeOut" (click)="logOut()">
+          <mat-icon>logout</mat-icon>Cerrar Sesión
+        </div>
+      </div>
+    </div>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="componentsContent">
+      <mat-toolbar class="navbar">
+
+        <div class="btnMenuContainer"> <!--*ngIf="userSystemService.getUnitOrg.nombre"-->
+          <button class="btnMenu" (click)="sidenavOpened = !sidenavOpened">
+            <mat-icon>menu</mat-icon>
+          </button>&nbsp;
+          <!-- <h2 class="departamento">{{usuario.RecintoSigla}}</h2> -->
+
+          <!-- *ngIf="unidadOrgData.subUnidad.length > 1"-->
+          <!-- <button class="dropdown-toggle" (click)="toggleDropdown($event)">
+              <mat-icon>expand_more</mat-icon>
+            </button>
+           -->
+          <!-- <div class="dropdown-menu" [class.show]="dropdownOpen">
+              <ng-container *ngFor="let unit of unidadOrgData.subUnidad">
+                <button class="dropdown-item" (click)="changeUnitOrg({id: unit.id, nombre: unit.nombre})">
+                  {{unit.nombre}}
+                </button>
+              </ng-container>
+            </div> -->
+        </div>
+
+        <div class="logout"> <!--*ngIf="userSystemService.getUnitOrg.nombre"-->
+          <span style=" margin-right: 15px;" >
+            <h3 style="margin: 0; font-weight: 400; font-size: 20px;">{{user.full_name}} </h3>
+            <h3 style="margin: 0; font-weight: 200; font-size: 16px;">{{user.role}}</h3>
+          </span>
+          <button style="width: 40px;height: 40px; border-radius: 100px; background-color: #000; border: none;" > <!--[matMenuTriggerFor]="menu"-->
+            <mat-icon style="color: white;">person</mat-icon>
+          </button>
+          <!-- <mat-menu class="menuPanel" #menu="matMenu"> -->
+            <!-- <div mat-menu-item class="profile">
+                  <mat-icon>person</mat-icon>
+                  <span>asd</span>
+                  <br>
+                  <span class="email">das</span>
+                </div> -->
+
+            <!--(click)="changePassword()"-->
+            <!-- <button mat-menu-item >
+                <mat-icon>lock</mat-icon>
+                <span>Cambiar contraseña</span>
+              </button> -->
+
+            <!--(click)="logOut()"-->
+            <!-- <button mat-menu-item>
+                          <mat-icon>exit_to_app</mat-icon>
+                          <span>Cerrar sesion</span>
+                      </button> -->
+          <!-- </mat-menu> -->
+        </div>
+      </mat-toolbar>
+      <div class="routerOuletContainer">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

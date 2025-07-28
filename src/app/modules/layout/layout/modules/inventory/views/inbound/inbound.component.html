@@ -1,0 +1,49 @@
+<div  style="display: flex; justify-content: space-between;">
+  <div class="title">
+    <h1>Entradas</h1>
+  </div>
+  <p-button label="Resumen Inventario" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" />
+</div>
+
+<div class="buttonContainer">
+  <p-button label="Crear Entradas" variant="outlined" severity="contrast" />
+</div>
+
+<p-table
+    [value]="[
+    { date: '2024-03-01', noFact: 'F001', itbis: 180.00, subTotal: 1000.00, total: 1180.00 },
+    { date: '2024-03-02', noFact: 'F002', itbis: 270.00, subTotal: 1500.00, total: 1770.00 },
+    { date: '2024-03-03', noFact: 'F003', itbis: 90.00, subTotal: 500.00, total: 590.00 },
+    { date: '2024-03-04', noFact: 'F004', itbis: 360.00, subTotal: 2000.00, total: 2360.00 },
+    { date: '2024-03-05', noFact: 'F005', itbis: 450.00, subTotal: 2500.00, total: 2950.00 },
+    { date: '2024-03-06', noFact: 'F006', itbis: 135.00, subTotal: 750.00, total: 885.00 },
+    { date: '2024-03-07', noFact: 'F007', itbis: 225.00, subTotal: 1250.00, total: 1475.00 },
+  ]
+  "
+    showGridlines
+    [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th>Fecha</th>
+                <th>No. Factura</th>
+                <th>ITBIS</th>
+                <th>SubTotal</th>
+                <th>Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-product>
+            <tr>
+                <td>{{ product.date }}</td>
+                <td>{{ product.noFact }}</td>
+                <td>{{ product.itbis }}</td>
+                <td>{{ product.subTotal }}</td>
+                <td>{{ product.total }}</td>
+                <td><i class="pi pi-list" style="display: grid; place-items: center; color: rgb(12, 12, 181);"></i> </td>
+                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
+                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
+            </tr>
+        </ng-template>
+</p-table>

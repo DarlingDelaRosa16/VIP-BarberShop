@@ -1,0 +1,139 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <div class="title">
+    <h1>Reportes de Barberos</h1>
+  </div>
+  <p-button label="Reportes Generales" icon="pi pi-arrow-left" variant="outlined" severity="secondary"
+    [routerLink]="['../']" />
+</div>
+
+<div class="buttonContainer">
+
+  <div style="display: flex; flex-direction: column; gap: 2px; flex: 0.1">
+    <p-datepicker [(ngModel)]="rangeDates" selectionMode="range" [readonlyInput]="true" placeholder="Rango de fecha" />
+  </div>
+
+  <form [formGroup]="reportBarberForm">
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 0.2">
+      <p-select [options]="barberService.barbers()" optionValue="id" optionLabel='first_name' placeholder="Barbero"
+        formControlName="barber_id" />
+    </div>
+
+  </form>
+
+  <div class="card flex justify-center">
+    <p-selectbutton [options]="preSetDates" [(ngModel)]="value" (ngModelChange)="findBySetDate()" optionLabel="label" optionValue="value"
+      optionDisabled="constant" />
+  </div>
+
+  <p-button icon="pi pi-search" aria-label="Save" (onClick)="findReport()" />
+</div>
+
+<div class="report-container" *ngIf="data && data.final_balance != '0.00'; else nodata">
+  <h2 style="font-weight: 400;">Reporte de Barbero</h2>
+  <div class="barber-header">
+    <h3 class="barber-name" style="font-weight: 200;">{{ data.barber_name }}</h3>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total de Servicios</div>
+      <div class="stat-value">${{ data.total_services }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Porcentaje de Comisión</div>
+      <div class="stat-value">{{ data.commission_percentage }}%</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Total de Comisión</div>
+      <div class="stat-value">${{ data.total_commission }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Ingresos Netos</div>
+      <div class="stat-value">${{ data.net_income }}</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Total de Despachos</div>
+      <div class="stat-value">${{ data.total_dispatches }}</div>
+    </div>
+
+    <div class="stat-card balance-card">
+      <div class="stat-label">Balance Final</div>
+      <div class="stat-value" [ngClass]="{'negative': data.final_balance < 0, 'positive': data.final_balance >= 0}">
+        ${{ data.final_balance }}
+      </div>
+    </div>
+  </div>
+
+  <h3 style="font-weight: 300;">Facturas</h3>
+  <div class="table-container">
+    <p-table [value]="data.invoices" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template #header>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Cliente</th>
+          <th>Total</th>
+          <th>ITBIS</th>
+          <th>Estado</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-invoice>
+        <tr>
+          <td>{{ invoice.invoice_id }}</td>
+          <td>{{ invoice.date }}</td>
+          <td>{{ invoice.client_name }}</td>
+          <td class="total">${{ invoice.total }}</td>
+          <td>${{ invoice.itbis }}</td>
+          <td class="status" [ngClass]="{ 'paid': invoice.status === 'Pagado' }">{{ invoice.status }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <h3 style="font-weight: 300;">Despachos</h3>
+  <div class="table-container">
+    <p-table [value]="data.dispatches" showGridlines [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template #header>
+        <tr>
+          <th>ID</th>
+          <th>Fecha</th>
+          <th>Productos</th>
+          <th>Total</th>
+          <th>Estado</th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-dispatch>
+        <tr>
+          <td>{{ dispatch.dispatch_id }}</td>
+          <td>{{ dispatch.date }}</td>
+          <td>
+            <div class="products-container">
+              <div class="product-item" *ngFor="let product of dispatch.products">
+                <div class="product-name">{{ product.product }}</div>
+                <div class="product-details">
+                  <span class="product-quantity">{{ product.quantity }}</span>
+                  <span class="product-multiply">×</span>
+                  <span class="product-price">${{ product.unit_cost }}</span>
+                  <span class="product-equals">=</span>
+                  <span class="product-total">${{ product.sub_total }}</span>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="total">${{ dispatch.total }}</td>
+          <td class="status" [ngClass]="{ 'delivered': dispatch.status === 'Entregado' }">{{ dispatch.status }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<ng-template #nodata>
+  <div style="background-color: #eee; height: 100px; display: grid; place-items: center; border-radius: 5px ;">
+    <h3 style="color: #242424;">Filtre los campos para mostrar reporte de barbero.</h3>
+  </div>
+</ng-template>

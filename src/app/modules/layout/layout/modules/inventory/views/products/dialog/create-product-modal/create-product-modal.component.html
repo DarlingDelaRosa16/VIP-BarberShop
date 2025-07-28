@@ -1,0 +1,56 @@
+<div class="modal">
+  <div class="closerContainer">
+    <i class="pi pi-times closer" (click)="closeModal()"></i>
+  </div>
+
+  <div class="title">
+    <h1>Crear Producto</h1>
+  </div>
+
+  <form [formGroup]="productForm" (ngSubmit)="saveChanges()" style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
+
+    <h2 style="font-weight: 400;">Formulario para creación de productos</h2>
+
+    <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name">Nombre</label>
+        <input pInputText id="name" formControlName="name" />
+        <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+        <label >Precio Unitario</label>
+        <p-inputnumber inputId="integeronly" formControlName="unit_cost" />
+      </div>
+
+    </div>
+
+    <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+        <label >Precio de venta</label>
+        <p-inputnumber inputId="integeronly" formControlName="sale_price" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+        <label >ITBIS</label>
+        <p-select [options]="systemInformationService.getArrayItbis" optionValue="value" optionLabel="label" formControlName="itbis" />
+      </div>
+
+    </div>
+
+    <div style="display: flex; gap: 5px; margin: 5px 0;">
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+        <label>Descripción</label>
+        <textarea rows="5" cols="30" pTextarea formControlName="description"></textarea>
+      </div>
+    </div>
+
+    <div class="buttonContainer">
+      <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" (click)="productForm.reset()" />
+      <p-button label="Guardar Producto" icon="pi pi-send" severity="contrast" type="submit" />
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,133 @@
+
+import { EventEmitter, Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarLouder } from '../components/snackBars/snackBarLouder/snackLouder.component';
+import { SnackbarError } from '../components/snackBars/snackBarError/snackError.component';
+import { SnackbarServerError } from '../components/snackBars/SnackBarServerError/snackServerError.component';
+import { SnackBarSuccess } from '../components/snackBars/snackSuccess/snackSuccess.component';
+import { SnackConfirmation } from '../components/snackBars/snackBarConfirmation/snackConfirmation.component';
+
+@Injectable({ providedIn: 'root' })
+
+export class SnackBarService {
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private rendererFactory: RendererFactory2
+  ) {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+  }
+
+  snackBarRef: any
+  private overlayElement!: any;
+  private renderer: Renderer2;
+
+  snackbarLouder(state: boolean) {
+    if (state) {
+      this.createOverlay();
+      this.snackBarRef = this.snackBar.openFromComponent(SnackBarLouder, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      })
+    } else {
+      if (this.snackBarRef) {
+        setTimeout(() => {
+          this.snackBarRef.dismiss()
+          this.removeOverlay();
+        }, 500);
+      }
+    }
+  }
+
+  snackbarSuccess() {
+    this.snackBarRef = this.snackBar.openFromComponent(SnackBarSuccess, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 2500
+    })
+  }
+
+  // snackbarStaySuccess(titleMessage: string, successMessage: string) {
+  //   this.snackBarRef = this.snackBar.openFromComponent(SnackBarStaySuccess, {
+  //     horizontalPosition: 'center',
+  //     verticalPosition: 'top',
+  //     data: { successMessage, titleMessage }
+  //   })
+  //   this.removeOverlay()
+  // }
+
+  snackbarServerError() {
+    this.snackBarRef = this.snackBar.openFromComponent(SnackbarServerError, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 10000,
+    })
+  }
+
+  snackbarError(errorMessage: string, time: number = 2500) {
+    this.snackBarRef = this.snackBar.openFromComponent(SnackbarError, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: time,
+      data: errorMessage
+    })
+  }
+
+  // snackbarWarning(warningMessage: string, time: number = 2500) {
+  //   this.snackBarRef = this.snackBar.openFromComponent(SnackbarWarning, {
+  //     horizontalPosition: 'center',
+  //     verticalPosition: 'top',
+  //     duration: time,
+  //     data: warningMessage
+  //   })
+  // }
+
+  snackbarConfirmation(
+    confirmationTitle: string = '¿Estas seguro de eliminar el registro?',
+    confirmationSubTitle: string = 'Esta acción no se puede deshacer.'
+  ): Promise<boolean> {
+    this.createOverlay();
+
+    return new Promise((resolve) => {
+      const snackBarRefConfirm = this.snackBar.openFromComponent(SnackConfirmation, {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        data: { confirmationTitle, confirmationSubTitle }
+      })
+
+      snackBarRefConfirm.afterDismissed().subscribe(info => {
+        this.removeOverlay();
+
+        if (info.dismissedByAction) {
+          resolve(true);
+        } else {
+          this.removeOverlay();
+          resolve(false);
+        }
+      });
+    })
+  }
+
+  private createOverlay() {
+    if (!this.overlayElement) {
+      this.overlayElement = this.renderer.createElement('div');
+      this.renderer.setStyle(this.overlayElement, 'position', 'fixed');
+      this.renderer.setStyle(this.overlayElement, 'top', '0');
+      this.renderer.setStyle(this.overlayElement, 'left', '0');
+      this.renderer.setStyle(this.overlayElement, 'width', '100%');
+      this.renderer.setStyle(this.overlayElement, 'height', '100%');
+      this.renderer.setStyle(this.overlayElement, 'backgroundColor', 'rgba(0, 0, 0, 0.2)');
+      this.renderer.setStyle(this.overlayElement, 'zIndex', '50');
+      this.renderer.setStyle(this.overlayElement, 'cursor', 'not-allowed');
+      this.renderer.appendChild(document.body, this.overlayElement); // Añadir al DOM
+    }
+  }
+
+  // Método para remover el overlay
+  private removeOverlay() {
+    if (this.overlayElement) {
+      this.renderer.removeChild(document.body, this.overlayElement);
+      this.overlayElement = null;
+    }
+  }
+}

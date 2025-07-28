@@ -1,0 +1,39 @@
+
+<div style="display: flex; justify-content: space-between;">
+  <div class="title">
+      <h1>Mantenimiento</h1>
+  </div>
+  <span></span>
+</div>
+
+<div class="mantenimientoContainer">
+
+  <div class="mantenimientoOptions">
+
+      <a class="item-menu" [routerLink]="[{ outlets: { mantenimiento: ['crear-servicios'] } }]"
+          routerLinkActive="active">
+          <mat-icon>star</mat-icon>Servicios
+      </a>
+
+      <a class="item-menu" [routerLink]="[{ outlets: { mantenimiento: ['crear-colaboradores'] } }]"
+          routerLinkActive="active">
+          <mat-icon>handshake</mat-icon>Socios
+      </a>
+
+      <!-- <a class="item-menu" [routerLink]="[{ outlets: { mantenimiento: ['porcentaje-de-pago'] } }]"
+          routerLinkActive="active">
+          Porcentajes de Pago
+      </a> -->
+
+      <a class="item-menu" [routerLink]="[{ outlets: { mantenimiento: ['crear-clientes'] } }]"
+          routerLinkActive="active">
+          <mat-icon>group</mat-icon>Clientes
+      </a>
+
+  </div>
+
+  <div class="mantenimientoForms">
+      <router-outlet name="mantenimiento"></router-outlet>
+  </div>
+
+</div>

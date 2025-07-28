@@ -1,0 +1,110 @@
+<!-- <div class="viewInitContent"> -->
+
+  <div class="title">
+    <h1>Inicio</h1>
+  </div>
+
+  <div class="buttonContainer">
+    <!-- <p-button label="Productos" variant="outlined" severity="contrast" /> -->
+    <!-- <p-button label="Entradas" variant="outlined" severity="contrast" /> -->
+    <!-- <p-button label="Salidas" variant="outlined" severity="contrast" /> -->
+    <!-- <p-button label="Barberos" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { reportes: ['reportes-barberos'] }}]"/> -->
+    <!-- <p-button label="Clientes" variant="outlined" severity="contrast" /> -->
+  </div>
+
+  <div class="EstadisticsContainer">
+    <!-- routerLink="/almacen/administrar-entrada" -->
+
+
+    <mini-card [icon]="'pi pi-user'" [link]="" [name]="'Barberos Activos'" [amount]="generalService.daily().active_barbers"></mini-card>
+    <mini-card [icon]="'pi pi-money-bill'" [link]="" [name]="'Ingresos Totales'" [amount]="generalService.daily().total_completed"></mini-card>
+    <mini-card [icon]="'pi pi-calendar-clock'" [link]="" [name]="'Citas Programadas'" [amount]="generalService.daily().total_scheduled"></mini-card>
+    <mini-card [icon]="'pi pi-check-circle'" [link]="" [name]="'Citas Completas'" [amount]="generalService.daily().total_completed"></mini-card>
+
+    <!-- <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
+      <div class="contentLast">
+        <div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <h2 style="margin: 0; font-weight: 500;">Clientes Atendidos</h2>
+            <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
+          </div>
+          <h4 style="margin: 2px 0; font-weight: 700;">Mes de Marzo</h4>
+        </div>
+        <div class="cardContent" style="margin-top: 25px;">
+          <h1 class="numberOf">187</h1>
+        </div>
+      </div>
+    </div>
+
+    <div class="cardLastOnes" routerLink="/almacen/administrar-entrada">
+      <div class="contentLast">
+        <div>
+          <div style="display: flex; justify-content: space-between;">
+            <h2 style="margin: 0; font-weight: 500;">Servicios Mas Populares</h2>
+            <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
+          </div>
+          <h4 style="margin: 2px 0; font-weight: 700;">Los servicios mas solicitados</h4>
+        </div>
+
+        <div style="margin-top: 10px;">
+          <div class="recentMov">
+            <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div>
+            <i class="pi pi-plus"
+              style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>
+                <h3 style="margin: 0; font-weight: 500;">Corte Hombre</h3>
+                <h4 style="margin: 2px 0; font-weight: 200;">138 servicios</h4>
+              </span>
+
+              <h3 style="margin: 0; font-weight: 500;">{{55200 | currency}}</h3>
+            </div>
+          </div>
+
+          <div class="recentMov">
+            <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div>
+            <i class="pi pi-arrow-down-left"
+              style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>
+                <h3 style="margin: 0; font-weight: 500;">Cerquillo</h3>
+                <h4 style="margin: 2px 0; font-weight: 200;">100 servicios</h4>
+              </span>
+
+              <h3 style="margin: 0; font-weight: 500;">{{25000 | currency}}</h3>
+            </div>
+          </div>
+
+          <div class="recentMov">
+            <i class="pi pi-arrow-down-left"
+              style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>
+                <h3 style="margin: 0; font-weight: 500;">Corte Niños</h3>
+                <h4 style="margin: 2px 0; font-weight: 200;">76</h4>
+              </span>
+
+              <h3 style="margin: 0; font-weight: 500;">{{22800 | currency}}</h3>
+            </div>
+          </div>
+
+          <div class="recentMov">
+            <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div>
+            <i class="pi pi-plus"
+              style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>
+                <h3 style="margin: 0; font-weight: 500;">Corte de Barba</h3>
+                <h4 style="margin: 2px 0; font-weight: 200;">42</h4>
+              </span>
+
+              <h3 style="margin: 0; font-weight: 400;">{{8400 | currency}}</h3>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+
+  </div>

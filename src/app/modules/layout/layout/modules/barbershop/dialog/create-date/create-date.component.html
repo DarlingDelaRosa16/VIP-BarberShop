@@ -1,0 +1,77 @@
+<div class="modal" style="height: 100%;">
+  <div class="closerContainer">
+    <i class="pi pi-times closer" (click)="closeModal()"></i>
+  </div>
+
+  <div class="title">
+    <h1>Crear Cita</h1>
+  </div>
+
+  <div style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
+    <form [formGroup]="datesForm" (ngSubmit)="saveChanges()">
+
+      <h2 style="font-weight: 400; margin: 10px 0;">Formulario para creación de citas</h2>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+          <label>Fecha</label>
+          <p-datepicker formControlName="appointment_date" />
+          <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label>Barbero</label>
+          <p-select [options]="barberService.barbers()" optionValue="id" optionLabel='first_name'
+            formControlName="barber_id" />
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label>Cliente</label>
+          <p-select [options]="clientService.clients()" optionValue="id" optionLabel='first_name'
+            formControlName="client_id" />
+        </div>
+
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label>Servicios</label>
+          <p-multiselect [options]="serviceService.services()" formControlName="services" optionLabel="name"
+            placeholder="Seleccione los servicios" styleClass="w-full md:w-80" />
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: end; margin: 10px 0;">
+        <p-button label="Buscar Horario" icon="pi pi-search" (onClick)="findTimeSlots()" />
+      </div>
+
+      <h3 style="font-weight: 200; margin: 10px 0;">Horarios Disponibles</h3>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 10px 0;">
+        @for (range of hoursRange; track $index) {
+        <label class="selectable"
+          style="border: 1px solid #ccc; display: grid; place-items: center; padding: 5px; cursor: pointer; border-radius: 5px;">
+
+          <input type="radio" name="selectedRange" hidden formControlName="selectedRange" [value]="range">
+          {{ range.start_time }} - {{ range.end_time }}
+
+        </label>
+        }@empty {
+        <div
+          style="grid-column: 1/3; border: 1px solid #e9e9eb; display: grid; place-items: center; height: 100px; background-color: #eee; border-radius: 5px;">
+          No hay rangos de horario para mostrar
+        </div>
+        }
+      </div>
+
+      <div class="buttonContainer">
+        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" (click)="putOutboundDispatch()" />
+        <p-button label="Guardar Cita" icon="pi pi-send" severity="contrast" type="submit" />
+      </div>
+    </form>
+  </div>
+</div>

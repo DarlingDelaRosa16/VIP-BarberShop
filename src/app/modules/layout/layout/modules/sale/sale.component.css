@@ -1,0 +1,26 @@
+.clientCard, .productCard, .productCardDetail {
+  border-radius: 4px;
+  margin: 10px 0;
+  padding: 15px;
+  /* cursor: pointer; */
+  border: 1px solid #e9e9eb;
+  border-left: 2px solid #242424;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.productDetailsContainer{
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+.productCardDetail{
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 58vh;
+}
+
+.productCard{
+  margin-right: 5px;
+}

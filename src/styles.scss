@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #edf2fa;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  background-color: #eee;
+  border-left: #242424 4px solid;
+  padding: 0 15px;
+}
+
+.title h1 {
+  margin: 0;
+  font-size: 22px;
+  color: #242424;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  padding: 10px 0;
+}
+
+.modal {
+  padding: 5px 25px 25px 25px;
+  background-color: #FFF;
+}
+
+.closerContainer {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+}
+
+.closer{
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 50px;
+}
+
+.closer:hover{
+  color: white;
+  background-color: #000;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ddd;
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

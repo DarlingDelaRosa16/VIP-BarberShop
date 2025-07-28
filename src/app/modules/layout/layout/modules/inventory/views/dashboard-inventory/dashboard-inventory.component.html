@@ -1,0 +1,222 @@
+<!-- <div class="viewInitContent"> -->
+
+<div class="title">
+  <h1>Inventario</h1>
+</div>
+
+<div class="buttonContainer">
+  <p-button label="Productos" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { inventario: ['productos'] }}]" />
+  <p-button label="Entradas" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { inventario: ['entradas'] }}]" />
+  <p-button label="Salidas" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { inventario: ['salidas'] }}]" />
+</div>
+
+<div class="EstadisticsContainer">
+
+  <div class="infoCard" routerLink="/almacen/administrar-entrada">
+    <div class="content">
+      <div>
+        <h2 style="margin: 0; font-weight: 500;">Mensuales</h2>
+        <h4 style="margin: 2px 0; font-weight: 700;">Entradas</h4>
+      </div>
+
+      <div class="cardContent">
+        <!-- <h1 class="numberOf">{{numEntradaMes}}</h1> -->
+        <h1 class="numberOf">42</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="infoCard" routerLink="/almacen/administrar-entrada">
+    <div class="content">
+      <div>
+        <h2 style="margin: 0; font-weight: 500;">Diarias</h2>
+        <h4 style="margin: 2px 0; font-weight: 700;">Entradas</h4>
+      </div>
+
+      <div class="cardContent">
+        <!-- <h1 class="numberOf">{{numEntradaDay}}</h1> -->
+        <h1 class="numberOf">37</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="infoCardSalida" routerLink="/almacen/administrar-salida">
+    <div class="content">
+      <div>
+        <h2 style="margin: 0; font-weight: 500;">Mensuales</h2>
+        <h4 style="margin: 2px 0; font-weight: 700;">Salidas</h4>
+      </div>
+
+      <div class="cardContent">
+        <h1 class="numberOf">9</h1>
+        <!-- <h1 class="numberOf">{{numSalidaMes}}</h1> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="infoCardSalida" routerLink="/almacen/administrar-salida">
+    <div class="content">
+      <div>
+        <h2 style="margin: 0; font-weight: 500;">Diarias</h2>
+        <h4 style="margin: 2px 0; font-weight: 700;">Salidas</h4>
+      </div>
+
+      <div class="cardContent">
+        <h1 class="numberOf">2  </h1>
+        <!-- <h1 class="numberOf">{{numSalidaDay}}</h1> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
+    <div class="contentLast">
+      <div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <h2 style="margin: 0; font-weight: 500;">Total Productos</h2>
+          <i class="pi pi-box" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
+        </div>
+        <h4 style="margin: 2px 0; font-weight: 700;">Inventario</h4>
+      </div>
+      <div class="cardContent" style="margin-top: 25px;">
+        <h1 class="numberOf">124</h1>Items
+      </div>
+    </div>
+  </div>
+
+  <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
+    <div class="contentLast">
+      <div>
+
+        <div style="display: flex; justify-content: space-between;">
+          <h2 style="margin: 0; font-weight: 500;">Valor Total</h2>
+          <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
+        </div>
+        <h4 style="margin: 2px 0; font-weight: 700;">Inventario</h4>
+      </div>
+      <div class="cardContent" style="margin-top: 25px;">
+        <h1 class="numberOf">{{25022 | currency }} </h1>DOP
+      </div>
+    </div>
+  </div>
+
+  <div class="cardLastOnes" routerLink="/almacen/administrar-entrada">
+    <div class="contentLast">
+      <div>
+        <div style="display: flex; justify-content: space-between;">
+          <h2 style="margin: 0; font-weight: 500;">Actividad Reciente</h2>
+          <!-- <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i> -->
+        </div>
+        <h4 style="margin: 2px 0; font-weight: 700;">Ultimos Movimientos</h4>
+      </div>
+      <div style="margin-top: 10px;">
+
+        <div class="recentMov">
+          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
+          <i class="pi pi-plus" style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">Champu Prestige</h3>
+              <h4 style="margin: 2px 0; font-weight: 200;">Añadidos: 10 unidades</h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 500;">Hoy, 12:00 PM</h3>
+          </div>
+        </div>
+
+        <div class="recentMov">
+          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
+          <i class="pi pi-arrow-down-left" style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">Gel ECO</h3>
+              <h4 style="margin: 2px 0; font-weight: 200;">Retirados: 4 unidades</h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 500;">Ayer, 2:24 PM</h3>
+          </div>
+        </div>
+
+        <div class="recentMov">
+          <i class="pi pi-arrow-down-left" style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">Alcohol Etilico</h3>
+              <h4 style="margin: 2px 0; font-weight: 200;">Retirados: 1 unidades</h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 500;">Ayer, 1:24 PM</h3>
+          </div>
+        </div>
+
+        <div class="recentMov">
+          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
+          <i class="pi pi-plus" style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">Acondicionador Blue</h3>
+              <h4 style="margin: 2px 0; font-weight: 200;">Añadidos: 15 unidades</h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 400;">Hoy, 9:23 AM</h3>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- <mat-card class="cardExistencia" *ngIf="itemEscasez > 0 && rol == 1">
+      <div class="contentLast">
+        <div>
+          <mat-card-title>Productos en escasez</mat-card-title>
+        </div>
+        <table>
+          <thead class="headerTable">
+            <th class="headerCell">Codigo</th>
+            <th class="headerCell">Nombre</th>
+            <th class="headerCell">Stock actual</th>
+            <th class="headerCell">Stock Minimo</th>
+          </thead>
+          <tbody>
+            <tr class="dataRow" *ngFor="let producto of dataFilteredP"
+              (click)="getProductoAgotaminetoRecinto(producto.catalogo.id)">
+              <td class="dataCell">{{producto.catalogo.id}}</td>
+              <td class="dataCell">{{producto.descripcion}}</td>
+              <td class="dataCell" style="color: red;">{{producto.stock}}</td>
+              <td class="dataCell">{{producto.stockMinimo}}</td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+    </mat-card> -->
+
+  <!-- <div class="recintoExistencia" *ngIf="itemEscasez > 0 && rol == 1">
+
+      <mat-card class="cardRecinto" *ngFor="let recinto of dataRecintoEscasez">
+
+        <div class="contentRecintoRec">
+          <div>
+            <mat-card-title>{{recinto.recinto.nombre}}:</mat-card-title>
+          </div>
+
+          <div class="cardContent">
+            <mat-card-subtitle *ngIf="recinto.producto != null; else noStock">
+              <h1 class="numberOfRec"> {{recinto.producto.stock}}</h1>
+            </mat-card-subtitle>/{{recinto.producto.stockMinimo}}
+            <ng-template #noStock>
+              <h1 class="numberOf">0</h1>
+            </ng-template>
+          </div>
+        </div>
+      </mat-card>
+
+    </div> -->
+</div>
+
+
+<!-- </div> -->
+
+
+<!-- </div> -->

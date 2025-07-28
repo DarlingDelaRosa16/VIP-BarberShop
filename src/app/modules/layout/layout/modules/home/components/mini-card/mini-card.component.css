@@ -1,0 +1,26 @@
+.infoCard, .infoCardSalida, .cardLastOnesEntradas, .cardLastOnes, .cardLastTwos{
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
+  border: 1px solid #e9e9eb;
+  border-left: 2px solid #242424;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cardLastOnesEntradas{
+  height: 170px;
+}
+
+.contentLast, .content, .contentRecinto, .contentRecintoRec{
+  padding: 16px;
+}
+
+.cardContent{
+  place-items: end;
+}
+
+.numberOf, .numberOfRec{
+  font-size: 36px;
+  font-weight: 100;
+  margin: 0;
+}

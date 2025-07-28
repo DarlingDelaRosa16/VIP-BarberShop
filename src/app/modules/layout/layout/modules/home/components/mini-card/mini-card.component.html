@@ -1,0 +1,15 @@
+<div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
+      <div class="contentLast">
+        <div>
+
+          <div style="display: flex; justify-content: space-between;">
+            <h2 style="margin: 0; font-weight: 500;">{{name()}}</h2>
+            <i [class]="icon()" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
+          </div>
+          <!-- <h4 style="margin: 2px 0; font-weight: 700;">diarios</h4> -->
+        </div>
+        <div class="cardContent" style="margin-top: 25px;">
+          <h1 class="numberOf">{{amount()}}</h1>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,45 @@
+<div  style="display: flex; justify-content: space-between;">
+  <div class="title">
+    <h1>Listado de Citas</h1>
+  </div>
+  <p-button label="Calendario Citas" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" />
+</div>
+
+<div class="buttonContainer">
+  <p-button label="Crear Cita" variant="outlined" severity="contrast" (onClick)="openCreateDateModal()"/>
+</div>
+
+<p-table
+    [value]="barbershopService.dates()"
+    showGridlines
+    [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template #header>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Barbero</th>
+                <th>Horario</th>
+                <th>Estado</th>
+                <th>Completar</th>
+                <th>Servicios</th>
+                <th></th>
+                <th><div class="loader" *ngIf="barbershopService.dates().length == 0"></div></th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-dates>
+            <tr>
+                <td>{{ dates.appointment_date }}</td>
+                <td>{{ dates.client_name }}</td>
+                <td>{{ dates.barber_name }}</td>
+                <td>{{ dates.start_time }} - {{ dates.end_time }}</td>
+                <td>{{ dates.status }}</td>
+                <td style="display: flex; justify-content: center; "><p-button *ngIf="dates.status === 'Reservado'; else noCompletar" (click)="changeStatusDate(dates.id)" label="Completar" icon="pi pi-thumbs-up" severity="contrast" /></td>
+                <ng-template #noCompletar>
+                  <td style="display: flex; justify-content: center; "><span style="height: 20px;"></span></td>
+                </ng-template>
+                <td><i class="pi pi-list" style="display: grid; place-items: center; color: rgb(12, 12, 181); cursor: pointer;" (click)="openDetailViewModal(dates.services , 'Listado de Servicios', 'Nombre de Servicios')"></i> </td>
+                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;" *ngIf="dates.status === 'Reservado'; else noCompletar"></i> </td>
+                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red; cursor: pointer;" *ngIf="dates.status === 'Reservado'; else noCompletar" (click)="removeDate(dates.id)"></i> </td>
+            </tr>
+        </ng-template>
+</p-table>

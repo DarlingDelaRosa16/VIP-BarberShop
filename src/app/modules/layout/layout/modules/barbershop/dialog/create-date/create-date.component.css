@@ -1,0 +1,5 @@
+.selectable:has(input:checked) {
+  background-color: black;
+  color: white;
+  /* border-color: #0056b3; */
+}

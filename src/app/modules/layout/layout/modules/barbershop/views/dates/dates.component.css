@@ -1,0 +1,39 @@
+.container {
+  /* width: 80%; */
+  margin: auto;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  /* border-collapse: collapse */
+}
+
+th, td {
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  text-align: center;
+  /* padding: 20px; */
+  /* height: 60px; */
+  box-sizing: border-box;
+  position: relative;
+}
+
+.appointment, .pending, .canceled{
+  background-color: #242424;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  top: 10px;
+}
+
+.pending{
+  background-color: #ccc;
+}
+
+.canceled{
+  background-color: darkred;
+}

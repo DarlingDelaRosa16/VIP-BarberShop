@@ -1,0 +1,57 @@
+<div class="paymentModal">
+
+  <div class="total-section">
+    <h4 class="total-label">Total a Pagar</h4>
+    <h2 class="total-amount">RD$ 8,399.00 </h2> <!--${{ totalAmount.toFixed(2) }}-->
+  </div>
+
+  <div class="tabs-list">
+    <button class="tab-trigger" [class.active]="selectedPaymentMethod === 1" (click)="selectPaymentMethod(1)">
+      Efectivo
+    </button>
+
+    <button class="tab-trigger" [class.active]="selectedPaymentMethod === 2" (click)="selectPaymentMethod(2)">
+      Tarjeta
+    </button>
+
+    <button class="tab-trigger" [class.active]="selectedPaymentMethod === 3" (click)="selectPaymentMethod(3)">
+      Transferencia
+    </button>
+  </div>
+
+  <div class="form-group" style="margin: 15px 0;">
+    <label for="email">Monto Recibido:</label>
+    <input type="text" placeholder="Escriba el monto recibido de parte del cliente." pInputText />
+  </div>
+
+  <!-- Quick Amount Buttons -->
+  <div class="quick-amounts">
+    <button type="button" *ngFor="let amount of quickAmounts" class="quick-amount-btn">
+      <!--(click)="setQuickAmount(amount, undefined)"-->
+      ${{ amount }}
+    </button>
+  </div>
+
+  <!-- Cash Summary -->
+  <div class="cashSummary">
+    <div class="moneyRecived">
+      <i style="display: grid; place-self: center;" class="pi pi-user"></i>
+      <div class="montoContainer">
+        <h3 class="montoTitle">Monto recibido</h3>
+        <h3>RD$ 350</h3>
+      </div>
+    </div>
+    <div class="changeReturn">
+      <i style="display: grid; place-self: center; color: #15803d;" class="pi pi-user"></i>
+      <div class="montoContainer">
+        <h3 class="montoTitle">Monto a devolver</h3>
+        <h3 style="color: #15803d;">RD$ 350</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttonContainer">
+    <p-button  icon="pi pi-times-circle" label="Cancelar Pago" severity="secondary" [style]="{ width: '100%' }" />
+    <p-button  icon="pi pi-money-bill" label="Realizar Pago" severity="success"  [style]="{ width: '100%' }"/>
+  </div>
+</div>

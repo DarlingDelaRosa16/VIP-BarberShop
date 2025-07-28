@@ -1,0 +1,150 @@
+
+
+.alertNotifications{
+  background-color: #eee;
+  margin-bottom: 5px;
+  padding: 0px 5px;
+}
+
+.iconStock{
+  cursor: pointer;
+}
+
+.contentLast, .content, .contentRecinto, .contentRecintoRec{
+  /* display: grid; */
+  padding: 16px;
+}
+
+.content, .contentRecinto, .contentRecintoRec{
+  grid-template-columns: 1fr 1fr;
+}
+
+/* .contentRecinto, .contentRecintoRec{
+  width: 85%;
+  box-sizing: border-box;
+} */
+
+.contentRecintoRec{
+  padding: 16px 10px;
+}
+
+.EstadisticsContainer{
+  display: grid;
+  /* margin-top: 5px; */
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /* grid-template-rows: auto; */
+}
+
+.infoCard, .infoCardSalida, .cardLastOnesEntradas, .cardLastOnes{
+  border-radius: 4px;
+  margin: 10px;
+  cursor: pointer;
+  border: 1px solid #e9e9eb;
+  border-left: 2px solid #242424;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cardLastOnesEntradas{
+  height: 170px;
+}
+
+.buttonContainer{
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  padding: 10px 10px 0 10px;
+}
+/*
+.infoCardSalida{
+  border-left: 5px #004b8d solid;
+} */
+
+.cardLastOnes{
+  /* border-left: 5px #004b8d solid; */
+  grid-column: 3/5;
+  /* width: 97%; */
+  /* margin: 10px 10px; */
+  /* cursor: pointer; */
+}
+
+.recentMov{
+  display: grid;
+  grid-template-columns: 50px auto;
+  padding: 5px;
+  margin-top: 10px;
+  border-bottom: 1px solid #e9e9eb;
+}
+
+/*
+.cardLastOnesEntradas{
+  border-left: 5px rgba(0, 128, 0, 0.801) solid;
+  grid-column: 1/3;
+} */
+
+/* .cardExistencia{
+  border-left: 5px rgba(255, 102, 0, 0.808) solid;
+  grid-column: 1/3;
+  width: 100;
+  margin: 10px 10px;
+} */
+
+/* .recintoExistencia{
+  grid-column: 3/5;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr ;
+  grid-template-rows: 20vh 20vh;
+} */
+/*
+.cardRecinto{
+  display: grid;
+  place-items: center;
+  background-color: rgba(255, 112, 16, 0.603);
+  width: 100;
+  margin: 10px 10px;
+  color: white;
+} */
+
+
+.cardContent{
+  /* display: grid; */
+  /* height: 100%; */
+  /* padding: 0px 10px; */
+  /* box-sizing: border-box; */
+  place-items: end;
+}
+
+.numberOf, .numberOfRec{
+  font-size: 36px;
+  font-weight: 100;
+  margin: 0;
+}
+
+.numberOfRec{
+  color: white;
+}
+
+.headerTable{
+  height: 4vh;
+}
+
+table {
+  margin-top: 5px;
+}
+
+.headerCell {
+  text-align: start;
+  font-weight: 500;
+  padding: 0;
+}
+
+.dataCell{
+  padding: 0;
+}
+
+.dataRow{
+  cursor: pointer;
+}
+
+/* .cardExistencia .contentLast table tbody .dataRow:hover{
+  background-color: rgba(255, 112, 16, 0.144);
+} */
