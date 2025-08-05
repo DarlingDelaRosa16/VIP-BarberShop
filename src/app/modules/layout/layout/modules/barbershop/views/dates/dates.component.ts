@@ -1,31 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, EnvironmentInjector, inject, OnInit } from '@angular/core';
 import { PrimeComponentsModules } from '../../../../../../../helpers/primeNg';
 import { ModulesImports } from '../../../../../../../helpers/modulesImports';
 import { BarbershopService } from '../../service/barbershop.service';
 import { RequestHelperService } from '../../../../../services/requestHelper.service';
 import { SnackBarService } from '../../../../../services/snackBar.service';
 import { MatDialog } from '@angular/material/dialog';
-import dayjs from 'dayjs';
 import 'dayjs/locale/es';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
+import { CalendarEvent, CalendarModule } from 'angular-calendar';
+import { Subject } from 'rxjs';
+import { PaymentComponent } from '../../../sale/dialog/payment/payment.component';
 
 @Component({
   selector: 'app-dates',
-  imports: [PrimeComponentsModules, ModulesImports],
+  imports: [PrimeComponentsModules, ModulesImports, CalendarModule],
   templateUrl: './dates.component.html',
   styleUrl: './dates.component.css'
 })
 export class DatesComponent implements OnInit {
 
-  calendar: any = {}; // Mapa con días y horas
-  timeSlots = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
-  daysOfWeek = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  pixelsPerMinute = 1.5
-  rowHeight = 60 * this.pixelsPerMinute;
+  viewDate: Date = new Date();
+  events: CalendarEvent[] = [];
+  refresh = new Subject<void>();
+
+  // citas: any[] = [
+  //   {
+
+  //     appointment_date: "2025-07-18",
+  //     barber_name: "Erick Perez",
+  //     client_id: 1,
+  //     client_name: "Lis Maria",
+  //     created_at: "2025-07-18T04:41:50.000000Z",
+  //     created_by: "Erick Perez",
+  //     end_time: "14:15:00",
+  //     id: 1,
+  //     services: ['Corte de cabello', 'Masaje'],
+  //     start_time: "14:12:00",
+  //     status: "Reservado",
+  //     updated_at: "2025-07-18T04:41:50.000000Z"
+  //   }
+  // ]
 
   constructor(
     public dialog: MatDialog,
@@ -33,93 +46,47 @@ export class DatesComponent implements OnInit {
     private snackBar: SnackBarService,
     public snackbarService: SnackBarService,
     private requestHelpers: RequestHelperService,
-    // private systemInformationService: SystemInformationService
-  ) {
-  }
+  ) { }
 
-  ngOnInit() {
-    this.barbershopService.getDates()
-    this.initializeCalendar();
-    this.loadAppointments();
-  }
+  private injector = inject(EnvironmentInjector);
 
-  initializeCalendar() {
-    this.daysOfWeek.map(day => {
-      this.calendar[day] = {};
+  ngOnInit(): void {
+    // Ejecuta la llamada para llenar el signal
+    this.barbershopService.getDates();
 
-      this.timeSlots.map(slot => {
-        this.calendar[day][slot] = [];
-      });
+    // ✅ Usa runInContext para ejecutar effect de manera segura
+    this.injector.runInContext(() => {
+      effect(() => {
+        const citas = this.barbershopService.dates();
 
-    });
-  }
+        this.events = citas.map((item: any) => {
+          const start = new Date(`${item.appointment_date}T${item.start_time}`);
+          const end = new Date(`${item.appointment_date}T${item.end_time}`);
 
-  loadAppointments() {
-    this.barbershopService.getDatesSS().subscribe((res: any) => {
-      res.data.map((appo: any) => {
-        const date = dayjs(appo.appointment_date);
-        const dayName = this.getDayName(date.day());
-
-        const startDateTime = dayjs(`${appo.appointment_date}T${appo.start_time}`);
-        const endDateTime = dayjs(`${appo.appointment_date}T${appo.end_time}`);
-
-        const durationMinutes = endDateTime.diff(startDateTime, 'minute');
-        const offsetMinutes = startDateTime.minute(); // para el desplazamiento dentro del bloque
-
-        // Agrega estos al objeto
-        appo.duration = durationMinutes;
-        appo.offset = offsetMinutes;
-
-        // Buscar el bloque en el que cae la cita
-        for (let i = 0; i < this.timeSlots.length - 1; i++) {
-          const blockStart = dayjs(`${appo.appointment_date}T${this.timeSlots[i]}:00`);
-          const blockEnd = dayjs(`${appo.appointment_date}T${this.timeSlots[i + 1]}:00`);
-
-          // console.log(startDateTime.isSameOrAfter(blockStart));
-
-          if (startDateTime.isSameOrAfter(blockStart) && startDateTime.isBefore(blockEnd)) {
-            if (this.calendar[dayName] && this.calendar[dayName][this.timeSlots[i]]) {
-              this.calendar[dayName][this.timeSlots[i]].push(appo);
-              console.log('Agregado:', { dayName, timeSlot: this.timeSlots[i], cliente: appo.client_name });
-            }
-            return; // termina el loop cuando ya se insertó
-          }
-        }
-
-        // Si no se encontró un bloque donde insertarlo
-        console.warn('No se pudo agregar:', {
-          cliente: appo.client_name,
-          dayName,
-          startTime: appo.start_time
+          return {
+            start,
+            end,
+            title: `${item.client_name} con ${item.barber_name} - ${item.services.join(', ')}`,
+            // color: {
+            //   primary: '#374151',
+            //   secondary: '#fff'
+            // }
+          } as CalendarEvent;
         });
+
+        this.refresh.next(); // actualiza vista
       });
     });
   }
 
-  getDayName(dayNumber: number): string {
-    // dayjs().day() => 0: Domingo, 1: Lunes, ..., 6: Sábado
-    const map = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    return map[dayNumber];
+
+
+  handleEventClick(event: CalendarEvent): void {
+    const dialogRef = this.dialog.open(PaymentComponent, {
+      width: '1300px',
+    }) //, { data: { elementoList, nombre }, }
+    dialogRef.afterClosed().subscribe(() => {
+    });
   }
+
 }
-
-
-
-// loadAppointments() {
-//     this.barbershopService.getDatesSS().subscribe((res: any) => {
-
-//       res.data.map((appo: any) => {
-
-//         const date = dayjs(appo.appointment_date);
-//         const dayName = this.getDayName(date.day());
-
-//         const startHour = dayjs(`${appo.appointment_date}T${appo.start_time}`, 'HH:mm:ss').format('HH:mm');
-
-//         if (this.calendar[dayName] && this.calendar[dayName][startHour]) {
-//           this.calendar[dayName][startHour].push(appo);
-//         } else {
-//           console.warn('No se pudo agregar:', { dayName, startHour });
-//         }
-//       });
-//     });
-//   }

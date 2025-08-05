@@ -13,6 +13,7 @@ export interface ProductPostI {
 
 export interface ProductShoppingCartI {
   itbis: number,
+  total_itbis_pro: number,
   name: string,
   id: number,
   sale_price: number,

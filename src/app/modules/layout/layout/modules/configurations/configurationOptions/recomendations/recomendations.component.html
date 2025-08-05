@@ -1,0 +1,63 @@
+<div class="title">
+  <h1>Crear Recomendación</h1>
+</div>
+
+<form [formGroup]="recomendationForm" (ngSubmit)="saveChanges()" style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
+
+  <h2 style="font-weight: 400;">Formulario para creación de recomendaciones</h2>
+  <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+      <label for="name">Servicio</label>
+      <input pInputText id="name" formControlName="name" />
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label >Descripción</label>
+      <p-inputnumber inputId="integeronly" formControlName="current_price" />
+      <!-- <input pInputText id="username" aria-describedby="username-help" /> -->
+      <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+    </div>
+
+  </div>
+
+  <!-- <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+      <label></label>
+      <input pInputText id="duration"  formControlName="duration" />
+    </div>
+    <div style="flex: 1;"></div>
+  </div> -->
+
+  <div class="buttonContainer">
+    <p-button label="Limpiar Formulario" icon="pi pi-eraser" severity="secondary" (click)="recomendationForm.reset()" />
+    <p-button label="Guardar Recomendación" icon="pi pi-send" type="submit" [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+  </div>
+</form>
+
+<p-table  [value]="recomendationService.recomendation()" showGridlines [tableStyle]="{ 'min-width': '50rem', 'margin-top': '10px' }"
+
+  >
+  <ng-template #header>
+    <tr>
+      <th>Servicio</th>
+      <th>Descripcion</th>
+      <!-- <th>Precio</th> -->
+      <!-- <th>Duración</th> -->
+      <th></th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product>
+    <tr>
+      <td>{{ product.service.name }}</td>
+      <td>{{ product.description }}</td>
+      <!-- <td>{{ product.current_price }}</td> -->
+      <!-- <td>{{ product.duration }} Min</td> -->
+      <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;" (click)="recomendationForm.reset(product)" ></i> </td>
+      <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;" ></i> </td>
+    </tr>
+  </ng-template>
+</p-table>

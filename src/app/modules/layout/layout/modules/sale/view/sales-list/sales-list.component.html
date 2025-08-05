@@ -1,1 +1,42 @@
-<p>sales-list works!</p>
+<div  style="display: flex; justify-content: space-between;">
+  <div class="title">
+    <h1>Listado de Facturas</h1>
+  </div>
+  <!-- <p-button label="Resumen Inventario" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" /> -->
+</div>
+<!--
+<div class="buttonContainer">
+  <p-button label="Crear Productos" variant="outlined" severity="contrast" (click)="openCreateProductModal()" />
+</div> -->
+
+<!-- [value]="salesService.sales()" -->
+<p-table
+    showGridlines
+    [tableStyle]="{ 'min-width': '50rem', 'margin-top': '15px'}">
+        <ng-template #header>
+            <tr>
+                <th>Codigo</th>
+                <th>Fecha Creacion</th>
+                <th>Nombre</th>
+                <th>Precio Unitario</th>
+                <th>Precio De Venta</th>
+                <th>ITBIS</th>
+                <th>Existencia</th>
+                <th></th>
+                <th><div class="loader" ></div></th> <!--*ngIf="salesService.sales().length == 0"-->
+            </tr>
+        </ng-template>
+        <ng-template #body let-product>
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.created_at | date }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.unit_cost }}</td>
+                <td>{{ product.sale_price }}</td>
+                <td>{{ product.itbis }}</td>
+                <td>{{ product.stock }}</td>
+                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
+                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
+            </tr>
+        </ng-template>
+</p-table>

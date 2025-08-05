@@ -19,39 +19,66 @@
     </button>
   </div>
 
-  <div class="form-group" style="margin: 15px 0;">
-    <label for="email">Monto Recibido:</label>
-    <input type="text" placeholder="Escriba el monto recibido de parte del cliente." pInputText />
+  <div class="form-group" style="margin: 15px 0;" *ngIf="selectedPaymentMethod == 1">
+    <label>Monto Recibido:</label>
+    <input type="text" placeholder=" Escriba el monto recibido de parte del cliente" pInputText />
   </div>
 
-  <!-- Quick Amount Buttons -->
-  <div class="quick-amounts">
-    <button type="button" *ngFor="let amount of quickAmounts" class="quick-amount-btn">
-      <!--(click)="setQuickAmount(amount, undefined)"-->
-      ${{ amount }}
-    </button>
+  <div *ngIf="selectedPaymentMethod == 1; else noMoneyPay">
+    <!-- Quick Amount Buttons -->
+    <div class="quick-amounts">
+      <button type="button" *ngFor="let amount of quickAmounts" class="quick-amount-btn">
+        <!--(click)="setQuickAmount(amount, undefined)"-->
+        ${{ amount }}
+      </button>
+    </div>
+
+    <!-- Cash Summary -->
+    <div class="cashSummary">
+      <div class="moneyRecived">
+        <i style="display: grid; place-self: center;" class="fa-solid fa-money-bills"></i>
+        <div class="montoContainer">
+          <h3 class="montoTitle">Monto recibido</h3>
+          <h3>RD$ 350</h3>
+        </div>
+      </div>
+      <div class="changeReturn">
+        <i style="display: grid; place-self: center; color: #2563eb;" class="fa-solid fa-coins"></i>
+        <div class="montoContainer">
+          <h3 class="montoTitle">Monto a Devolver</h3>
+          <h3 style="color: #2563eb; ">RD$ 350</h3>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Cash Summary -->
-  <div class="cashSummary">
-    <div class="moneyRecived">
-      <i style="display: grid; place-self: center;" class="pi pi-user"></i>
+  <ng-template #noMoneyPay>
+    <div class="form-group" style="margin: 15px 0;">
+      <label>{{selectedPaymentMethod == 2 ? 'Número de Ticket' : 'Número de Transferencia'}}</label>
+
+      <input type="text" placeholder="Ejemplo: TK-100001" pInputText />
+    </div>
+
+    <div class="form-group" style="margin: 15px 0;">
+      <label>Observación</label>
+      <input type="text" placeholder="Observación Adicional (Opcional)" pInputText />
+    </div>
+
+    <div class="changeReturn" style="margin-top: 15px; border: 1px solid #ccc; padding: 15px 10px;">
+      <i style="display: grid; place-self: center; color: #2563eb;" [class]="selectedPaymentMethod == 2 ? 'pi pi-credit-card' : 'fa-solid fa-mobile-screen'"></i>
       <div class="montoContainer">
-        <h3 class="montoTitle">Monto recibido</h3>
-        <h3>RD$ 350</h3>
+        <h3 class="montoTitle">Monto a Recibir</h3>
+        <h3 style="color: #2563eb; ">RD$ 350</h3>
       </div>
     </div>
-    <div class="changeReturn">
-      <i style="display: grid; place-self: center; color: #15803d;" class="pi pi-user"></i>
-      <div class="montoContainer">
-        <h3 class="montoTitle">Monto a devolver</h3>
-        <h3 style="color: #15803d;">RD$ 350</h3>
-      </div>
-    </div>
-  </div>
+  </ng-template>
 
   <div class="buttonContainer">
-    <p-button  icon="pi pi-times-circle" label="Cancelar Pago" severity="secondary" [style]="{ width: '100%' }" />
-    <p-button  icon="pi pi-money-bill" label="Realizar Pago" severity="success"  [style]="{ width: '100%' }"/>
+    <p-button icon="pi pi-times-circle" label="Cancelar Pago" severity="secondary" [style]="{ width: '100%' }" />
+    <div [ngSwitch]="selectedPaymentMethod">
+      <p-button *ngSwitchCase="1" icon="pi pi-money-bill" label="Guardar Pago" [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+      <p-button *ngSwitchCase="2" icon="pi pi-credit-card" label="Guardar Pago" [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+      <p-button *ngSwitchCase="3" icon="fa-solid fa-mobile-screen" label="Guardar Pago" [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+    </div>
   </div>
 </div>

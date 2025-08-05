@@ -33,8 +33,8 @@
   </div>
 
   <div class="buttonContainer">
-    <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" (click)="servicesForm.reset()" />
-    <p-button label="Guardar Servicio" icon="pi pi-send" severity="contrast" type="submit" />
+    <p-button label="Limpiar Formulario" icon="pi pi-eraser" severity="secondary" (click)="servicesForm.reset()" />
+    <p-button label="Guardar Servicio" icon="pi pi-send"[style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb' }" type="submit" />
   </div>
 </form>
 

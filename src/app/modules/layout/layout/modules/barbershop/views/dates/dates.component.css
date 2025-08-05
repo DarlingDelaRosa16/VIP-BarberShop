@@ -28,6 +28,13 @@ th, td {
   width: 80%;
   left: 10%;
   top: 10px;
+  transition: all 0.3s ease;
+}
+
+.appointment:hover, .pending:hover, .canceled:hover {
+  transform: translateY(-10px); /* Se "levanta" */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Sombra para dar efecto de profundidad */
+  z-index: 3;
 }
 
 .pending{
@@ -37,3 +44,5 @@ th, td {
 .canceled{
   background-color: darkred;
 }
+
+

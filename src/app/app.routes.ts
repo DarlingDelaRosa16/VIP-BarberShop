@@ -22,6 +22,7 @@ import { authGuard, authGuardBackToLogIn } from './guards/auth.guard';
 import { BarbersReportsComponent } from './modules/layout/layout/modules/reports/views/barbers-reports/barbers-reports.component';
 import { SaleComponent } from './modules/layout/layout/modules/sale/sale.component';
 import { SalesListComponent } from './modules/layout/layout/modules/sale/view/sales-list/sales-list.component';
+import { RecomendationsComponent } from './modules/layout/layout/modules/configurations/configurationOptions/recomendations/recomendations.component';
 
 export const routes: Routes = [
   {
@@ -54,6 +55,11 @@ export const routes: Routes = [
           {
             path: 'crear-servicios',
             component: ServicesComponent,
+            outlet: 'mantenimiento'
+          },
+          {
+            path: 'recomendaciones',
+            component: RecomendationsComponent,
             outlet: 'mantenimiento'
           },
           {

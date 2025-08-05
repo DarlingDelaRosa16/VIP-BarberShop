@@ -6,14 +6,28 @@
 
   <h3 style="margin: 0 0 10px 0;"><i class="pi pi-user"></i> Datos de Cliente</h3>
 
-  <form>
+  <!-- <form> -->
 
-    <div class="form-group">
+  <!-- <div class="form-group">
       <label for="email">Cliente</label>
       <input type="text" placeholder="Busca por nombre de cliente" pInputText />
-    </div>
+    </div> -->
 
-  </form>
+  <p-select [options]="clientService.clients()" optionLabel="name" [filter]="true" filterBy="first_name"
+    [showClear]="true" placeholder="Busca por nombre de cliente" [(ngModel)]="clientSelected" (onChange)="showClient()">
+    <ng-template #selectedItem let-selectedOption>
+      <div class="flex items-center">
+        <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+      </div>
+    </ng-template>
+    <ng-template let-client #item>
+      <div class="flex items-center">
+        <div>{{ client.first_name }} {{ client.last_name }}</div>
+      </div>
+    </ng-template>
+  </p-select>
+
+  <!-- </form> -->
 
 </div>
 
@@ -23,11 +37,19 @@
     <h3 style="margin: 0 0 10px 0;"><i class="pi pi-shopping-bag"></i> Productos</h3>
 
     <div class="form-group">
-      <!-- <label for="email">pro</label> -->
-      <input type="text" placeholder="Busca por nombre de producto" pInputText />
+      <input type="text" [(ngModel)]="filterproduct" (input)="filterProduct()" placeholder="Busca por nombre de producto" pInputText />
     </div>
 
-    <p-table [value]="this.productService.products()" scrollable="true" [scrollHeight]="'56vh'" showGridlines [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem'}">
+    <!--
+    <div style="display: flex; flex-direction: column; gap: 2px; flex: 12">
+      <label>Producto</label>
+      <p-select placeholder="Busca por nombre de producto" [options]="" optionValue="id"
+        optionLabel="name" formControlName="product_id" />
+    </div> -->
+
+
+    <p-table [value]="this.productService.products()" scrollable="true" [scrollHeight]="'49.5vh'" showGridlines
+      [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem'}">
 
       <ng-template #header>
         <tr>
@@ -43,10 +65,11 @@
         <tr>
           <!-- <td>{{ product.id }}</td> -->
           <td>{{ product.name }}</td>
-          <td>{{ product.sale_price }}</td>
+          <td>{{ product.sale_price | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
           <td>{{ product.itbis }}%</td>
           <td>{{ product.stock }}</td>
-          <td><i (click)="addItemShoppingCart(product)" matTooltip="Añadir al carrito" class="pi pi-cart-plus" style="display: grid; place-items: center; color: blue; cursor: pointer;"></i> </td>
+          <td><i (click)="addItemShoppingCart(product)" matTooltip="Añadir al carrito" class="pi pi-cart-plus"
+              style="display: grid; place-items: center; color: blue; cursor: pointer;"></i> </td>
           <!-- (click)="removeProduct(product.product_id)" -->
         </tr>
       </ng-template>
@@ -68,15 +91,16 @@
         <input [(ngModel)]="filterShoppingCart" type="text" placeholder="Busca por nombre de producto" pInputText />
       </div>
 
-      <p-table [value]="filteredCart" showGridlines scrollable="true" [scrollHeight]="'41.5vh'" [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem' }">
+      <p-table [value]="filteredCart" showGridlines scrollable="true" [scrollHeight]="'45.5vh'"
+        [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem' }">
 
         <ng-template #header>
           <tr>
             <!-- <th>Codigo</th> -->
-            <th>Nombre</th>
-            <th style="width: 10px;">Cantidad</th>
-            <th style="width: 10px;">ITBIS</th>
-            <th>SubTotal</th>
+            <th >Nombre</th>
+            <th >Cantidad</th>
+            <th >ITBIS</th>
+            <th >SubTotal</th>
             <th></th>
           </tr>
         </ng-template>
@@ -85,22 +109,26 @@
             <!-- <td>{{ product.id }}</td> -->
             <td>{{ product.name }}</td>
             <td>{{ product.quantity }}</td>
-            <td>{{ product.itbis}}</td>
+            <td>{{ product.total_itbis_pro | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
             <td>{{ product.subTotal | currency:'RD$ ' : 'symbol':'1.2-2' }}</td>
-            <td><i (click)="removeItemShoppingCart(product.id)" matTooltip="Remover del carrito" class="pi pi-cart-minus" style="display: grid; place-items: center; color: red; cursor: pointer;"></i> </td>
+            <td><i (click)="removeItemShoppingCart(product.id)" matTooltip="Remover del carrito"
+                class="pi pi-cart-minus" style="display: grid; place-items: center; color: red; cursor: pointer;"></i>
+            </td>
             <!-- (click)="removeProduct(product.product_id)" -->
           </tr>
         </ng-template>
         <ng-template pTemplate="footer">
           <tr>
-            <td colspan="3" style="text-align: right; font-weight: bold;">Total:</td>
-            <td>0</td>
+            <td colspan="2" style="text-align: right; font-weight: bold;">Total:</td>
+            <td>{{totalItbis | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+            <td>{{total | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
             <td></td>
           </tr>
         </ng-template>
       </p-table>
     </div>
-    <p-button [style]="{ width: '100%' }" (click)="openPaymentModal()" label="Seleccionar Metodo de Pago" icon="pi pi-credit-card" type="submit" />
+    <p-button [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb'}" (click)="openPaymentModal()" label="Seleccionar Metodo de Pago"
+      icon="pi pi-credit-card" type="submit" />
   </div>
 
 </div>

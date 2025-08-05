@@ -4,7 +4,7 @@ import { SystemInformationService } from '../../../../../../services/general.ser
 import { RequestHelperService } from '../../../../../../services/requestHelper.service';
 import { PersonGetI } from '../../../../../interface/general.Interface';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
 export class ClientService {
 
@@ -29,7 +29,9 @@ export class ClientService {
 
   public getClients() {
     return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/clients`, this.header))
-      .subscribe((res: any) => { this.client$.set(res.data); });
+      .subscribe((res: any) => {
+        this.client$.set(res.data);
+      });
   }
 
   // public putBarber(service: BarberPostI) {

@@ -27,8 +27,8 @@ export class ProductService {
   private products$ = signal<ProductGetI[]>([])
   public products = computed(() => this.products$())
 
-  public getProducts() {
-    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/products`, this.header))
+  public getProducts(name: string = "") {
+    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/products?name=${name}`, this.header))
       .subscribe((res: any) => { this.products$.set(res.data); });
   }
 

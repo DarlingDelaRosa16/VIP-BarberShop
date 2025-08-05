@@ -37,7 +37,7 @@ mat-sidenav {
   margin-bottom: 1vh;
   border-radius: 15px;
   place-items: center;
-  background-color: #000;
+  background-color: #111827;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px;
 }
 
@@ -55,7 +55,7 @@ mat-sidenav {
   height: 73vh;
   padding: 10px 0;
   border-radius: 15px;
-  background-color: #000;
+  background-color: #111827;
   box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px;
 }
 /*
@@ -128,6 +128,7 @@ mat-sidenav {
   font-weight: 400;
 }
 
+
 .item-menu, .sub-item-menu {
   width: 250px;
   height: 41px;
@@ -142,6 +143,18 @@ mat-sidenav {
   font-family: 'Montserrat', sans-serif;
 }
 
+.item-menu:hover {
+  background-color: #374151;
+}
+
+.ConfigsideMenuContainer .item-menu:hover {
+  border-radius: 15px;
+}
+
+.sub-item-menu:hover  {
+  background-color: #374151;
+}
+
 .sub-item-menu {
   padding: 0px 35px;
   grid-template-columns: 40px 175px;
@@ -149,7 +162,12 @@ mat-sidenav {
 
 .active,
 .activeOut {
-  background-color: #242424;
+  background-color: #2563eb;
+}
+
+.active:hover,
+.activeOut:hover {
+  background-color: #2563eb;
 }
 
 .activeOut {
@@ -170,7 +188,7 @@ mat-sidenav {
 }
 
 ::ng-deep .routerOuletContainer::-webkit-scrollbar-thumb {
-  background-color: #000;
+  background-color: #111827;
   border-radius: 15px;
   border-left: 8px solid #ffffff;
 }

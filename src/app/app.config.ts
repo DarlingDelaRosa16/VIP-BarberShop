@@ -9,6 +9,7 @@ import lara from '@primeng/themes/lara';
 import material from '@primeng/themes/material';
 import nora from '@primeng/themes/nora';
 import { HttpClientModule } from '@angular/common/http';
+import { calendarProviders } from './calendar.config';
 
 
 export const appConfig: ApplicationConfig = {
@@ -24,8 +25,7 @@ export const appConfig: ApplicationConfig = {
       }
       }
     }),
-    importProvidersFrom(
-      HttpClientModule
-    )
+    importProvidersFrom( HttpClientModule),
+    ...calendarProviders
   ]
 };

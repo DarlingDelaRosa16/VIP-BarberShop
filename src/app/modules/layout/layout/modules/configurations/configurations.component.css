@@ -32,6 +32,10 @@
   box-sizing: border-box;
 }
 
+.item-menu:hover {
+  background-color: #eee;
+}
+
 .mantenimientoForms{
   box-sizing: border-box;
   min-height: 71vh;
@@ -40,6 +44,7 @@
   padding: 15px;
 }
 
-.active {
-  background-color: #eee;
+.active, .active:hover {
+  background-color: #374151;
+  color: white;
 }

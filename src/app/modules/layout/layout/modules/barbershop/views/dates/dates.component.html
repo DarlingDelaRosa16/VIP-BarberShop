@@ -9,37 +9,46 @@
 </div>
 
 <div class="container">
+
+  <!-- <div class="calendar-container"> -->
+  <mwl-calendar-week-view [viewDate]="viewDate" [events]="events"
+    [hourSegments]="2"
+    [dayStartHour]="8"
+    [dayEndHour]="19"
+    [refresh]="refresh"
+    (eventClicked)="handleEventClick($event.event)">
+     >
+  </mwl-calendar-week-view>
+
+  <!-- </div> -->
+
   <!-- <h2>Citas</h2>
   <div class="buttons">
       <button>Gestión de sillas</button>
       <button>Asignar Cliente</button>
   </div> -->
 
-  <table>
-  <tr>
-    <th style="width: 100px;"></th>
-    <th *ngFor="let day of daysOfWeek">{{ day }}</th>
-  </tr>
+  <!-- <table>
+    <tr>
+      <th style="width: 100px;"></th>
+      <th *ngFor="let day of daysOfWeek">{{ day }}</th>
+    </tr>
 
-  <tr *ngFor="let time of timeSlots"  [style.height.px]="rowHeight">
-    <td>{{ time }}</td>
+    <tr *ngFor="let time of timeSlots" [style.height.px]="rowHeight">
+      <td>{{ time }}</td>
 
-    <td *ngFor="let day of daysOfWeek">
-      <div *ngFor="let cita of calendar[day][time]">
-        <div [ngClass]="{
+      <td *ngFor="let day of daysOfWeek">
+        <div *ngFor="let cita of calendar[day][time]">
+          <div [ngClass]="{
           'appointment': cita.status === 'Completado',
           'pending': cita.status === 'Reservado',
           'canceled': cita.status === 'Cancelada'
-        }"
-
-        [style.height.px]="cita.duration * pixelsPerMinute"
-        [style.marginTop.px]="cita.offset * pixelsPerMinute"
-        >
-          {{ cita.client_name }} <br>
-          {{ cita.start_time.slice(0, 5) }} - {{ cita.end_time.slice(0, 5) }}
+        }" [style.height.px]="cita.duration * pixelsPerMinute" [style.marginTop.px]="cita.offset * pixelsPerMinute">
+            {{ cita.client_name }} <br>
+            {{ cita.start_time.slice(0, 5) }} - {{ cita.end_time.slice(0, 5) }}
+          </div>
         </div>
-      </div>
-    </td>
-  </tr>
-</table>
+      </td>
+    </tr>
+  </table> -->
 </div>

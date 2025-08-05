@@ -21,6 +21,8 @@
     "@angular/router": "^19.2.0",
     "@fortawesome/fontawesome-free": "^7.0.0",
     "@primeng/themes": "^19.0.10",
+    "angular-calendar": "^0.31.1",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.10",

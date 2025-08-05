@@ -59,7 +59,7 @@ body {
 
 .closer:hover{
   color: white;
-  background-color: #000;
+  background-color: #374151;
 }
 
 .form-group {
@@ -87,3 +87,86 @@ body {
     transform: rotate(360deg);
   }
 }
+
+
+
+/// Calendar
+
+
+// .cal-week-view {
+//   background-color: #374151;
+// }
+
+.cal-header {
+  background-color: #374151;
+  padding-bottom: 10px !important;
+  color: white;
+}
+
+.cal-header:hover {
+  background-color: #374151 !important;
+}
+
+.cal-day-headers {
+  background-color: #374151 !important;
+}
+
+.cal-day-headers .cal-header span {
+  color: white !important;
+  font-weight: 600;
+}
+
+// .cal-hour-rows {
+//   background-color: gree !important;
+// }
+
+
+
+.cal-today {
+  background-color: #2563eb !important;
+}
+
+
+// .cal-day-header {
+//   border-right: 10px solid yellow !important;
+// }
+
+.cal-time-label {
+  background-color: black !important;
+  color: white !important;
+  font-size: 12px;
+}
+
+// .cal-time-events {
+//   background-color: pink;
+// }
+
+// .cal-hour {
+//   border-bottom: 10px solid gray;
+//   background-color: red !important;
+// }
+
+.cal-week-view {
+  background-color: #efefef !important; /* fondo general del calendario */
+}
+
+
+.cal-event {
+  background-color: #2563eb !important;
+  color: white !important;
+  // border-radius: 40px !important;
+  // padding: 14px !important;
+  // font-size: 20px;
+  // font-weight: 500;
+}
+
+// .cal-event-title {
+//   white-space: normal;
+//   background-color: black;
+// }
+
+// .cal-day-headers .cal-today {
+//   background-color: #2563eb !important;
+//   color: white !important;
+// }
+
