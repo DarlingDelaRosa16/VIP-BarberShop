@@ -9,7 +9,7 @@ import { PaymentComponent } from '../payment/payment.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ProductShoppingCartI } from '../../../inventory/views/products/interface/product.interface';
 import { PersonGetI } from '../../../../interface/general.Interface';
-import { invoicePostI } from '../../interface/sale.interface';
+import { invoicePostI, invoicePostProductI } from '../../interface/sale.interface';
 
 @Component({
   selector: 'app-payment-product',
@@ -95,12 +95,12 @@ export class PaymentProductComponent {
       })
     })
 
-    let invoice: invoicePostI = {
+    let invoice: invoicePostProductI = {
       reference_number: this.numTicket,
       aprovation_number: this.numTransfer,
       payment_type_id: this.selectedPaymentMethod,
       client_id: this.data.usuario.id,
-      appointment_id: this.data.dates != undefined ? this.data.dates.id : 0,
+      // appointment_id: this.data.dates != undefined ? this.data.dates.id : 0,
       status_id: 8,
       products: products ,
     }

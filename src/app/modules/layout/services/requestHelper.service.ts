@@ -41,7 +41,7 @@ export class RequestHelperService {
   }
 
   handleResponseProvitional(response: any, onSuccess: () => void, formToReset?: FormGroup, onSecondSuccess?: () => void) {
-    if (response.data.appointment_id > 0) {
+    if (response.data.id > 0) {
       this.snackBar.snackbarLouder(false);
       setTimeout(() => {
         this.snackBar.snackbarSuccess();

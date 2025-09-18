@@ -31,4 +31,13 @@ export interface invoicePostI {
   products: { id: number, quantity: number }[]
 }
 
+export interface invoicePostProductI {
+  reference_number: string,
+  aprovation_number: string,
+  payment_type_id: number,
+  client_id: number,
+  status_id: number,
+  products: { id: number, quantity: number }[]
+}
+
 

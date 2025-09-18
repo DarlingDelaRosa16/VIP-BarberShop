@@ -2,7 +2,7 @@ import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SystemInformationService } from '../../../../services/general.service';
 import { RequestHelperService } from '../../../../services/requestHelper.service';
-import { invoiceGetI, invoicePostI } from '../interface/sale.interface';
+import { invoiceGetI, invoicePostI, invoicePostProductI } from '../interface/sale.interface';
 
 @Injectable({ providedIn: 'root' })
 
@@ -46,7 +46,7 @@ export class SalesService {
       }
     });
   }
-  public postInvoice(invoice: invoicePostI) {
+  public postInvoice(invoice: invoicePostI | invoicePostProductI) {
     return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/invoices`, invoice, this.header,));
   }
 }

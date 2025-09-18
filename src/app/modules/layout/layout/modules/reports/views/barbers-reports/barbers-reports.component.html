@@ -57,7 +57,7 @@
 
 </form>
 
-<div style="display: flex; justify-content: end;">
+<div style="display: flex; justify-content: end;" *ngIf="data && data.final_balance != '0.00'">
   <p-button variant="outlined" severity="success" label="Imprimir" icon="pi pi-print" printSectionId="print"
     [useExistingCss]="true" ngxPrint />
 

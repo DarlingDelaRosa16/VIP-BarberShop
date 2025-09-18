@@ -136,13 +136,12 @@ export class SaleComponent implements OnInit {
   }
 
   openPaymentModal() {
-    console.log(this.clientSelected, this.shopingCart.length);
-
-    console.log(this.shopingCart.length <= 0 && this.clientSelected.id > 0);
-
     if (this.shopingCart.length > 0 && this.clientSelected != undefined) {
       const dialogRef = this.dialog.open(PaymentProductComponent, { data: { usuario: this.clientSelected, productos: this.shopingCart } })
       dialogRef.afterClosed().subscribe(() => {
+        this.shopingCart = []
+        this.clientSelected = undefined as any;
+        this.productService.getProducts()
       });
     } else {
       this.messageService.add({

@@ -30,10 +30,10 @@ export class BarbersComponent implements OnInit{
       address:  new FormControl('',Validators.required),
       first_name:new FormControl('', Validators.required),
       last_name: new FormControl('', Validators.required),
-      password:  new FormControl('', Validators.required),
+      // password:  new FormControl('', Validators.required),
       phone_number:  new FormControl('', Validators.required),
       commission: new FormControl('', Validators.required),
-      password_confirmation: new FormControl('', Validators.required),
+      // password_confirmation: new FormControl('', Validators.required),
     })
   }
 
