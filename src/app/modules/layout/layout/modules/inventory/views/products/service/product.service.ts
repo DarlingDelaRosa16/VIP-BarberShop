@@ -4,7 +4,7 @@ import { SystemInformationService } from '../../../../../../services/general.ser
 import { RequestHelperService } from '../../../../../../services/requestHelper.service';
 import { ProductGetI, ProductPostI } from '../interface/product.interface';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
 export class ProductService {
 
@@ -24,19 +24,38 @@ export class ProductService {
     this.header = { headers: this.headers };
   }
 
-  private products$ = signal<ProductGetI[]>([])
-  public products = computed(() => this.products$())
+  private products$ = signal<ProductGetI[]>([]);
+  private loadingProducts$ = signal<boolean>(false);
+
+  // ✅ signals públicos (solo lectura en el template)
+  public products = computed(() => this.products$());
+  public loadingProducts = computed(() => this.loadingProducts$());
 
   public getProducts(name: string = "") {
-    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/products?name=${name}`, this.header))
-      .subscribe((res: any) => { this.products$.set(res.data); });
+    this.loadingProducts$.set(true); // empieza cargando
+
+    this.requestHelper.handleRequest(() =>
+      this.http.get(`${this.baseURL}/products?name=${name}`, this.header)
+    ).subscribe({
+      next: (res: any) => {
+        this.products$.set(res.data);
+        this.loadingProducts$.set(false); // terminó bien
+      },
+      error: () => {
+        this.loadingProducts$.set(false); // aunque falle, detén el loading
+      }
+    });
   }
 
   public postProducts(product: ProductPostI) {
-    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/products`, product, this.header, ));
+    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/products`, product, this.header,));
   }
 
   public putProducts(product: ProductPostI) {
-    return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/products/${product.id}`, product, this.header, ));
+    return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/products/${product.id}`, product, this.header,));
+  }
+
+  public deleteInbound(product: number) {
+    return this.requestHelper.handleRequest(() => this.http.delete(`${this.baseURL}/products/${product}`, this.header,));
   }
 }

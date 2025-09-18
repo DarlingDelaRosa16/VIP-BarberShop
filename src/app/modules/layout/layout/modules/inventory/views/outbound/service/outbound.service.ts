@@ -24,22 +24,52 @@ export class OutboundService {
     this.header = { headers: this.headers };
   }
 
-  private outbound$ = signal<OutboundGetI[]>([])
-  public outbound = computed(() => this.outbound$())
+  private outbound$ = signal<OutboundGetI[]>([]);
+private outboundDis$ = signal<OutboundGetI[]>([]);
 
-  private outboundDis$ = signal<OutboundGetI[]>([])
-  public outboundDis = computed(() => this.outboundDis$())
+// Loading states
+private loadingOutbound$ = signal<boolean>(false);
+private loadingOutboundDis$ = signal<boolean>(false);
 
-  public getOutbound() {
-    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/inventory-exits`, this.header))
-      .subscribe((res: any) => { this.outbound$.set(res.data); });
-  }
+// Computed públicos
+public outbound = computed(() => this.outbound$());
+public outboundDis = computed(() => this.outboundDis$());
+public loadingOutbound = computed(() => this.loadingOutbound$());
+public loadingOutboundDis = computed(() => this.loadingOutboundDis$());
 
-  public getOutboundDispatch() {
-    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/barber-dispatch`, this.header))
-      .subscribe((res: any) => { this.outboundDis$.set(res.data); console.log(res);
-      });
-  }
+// Obtener Outbound
+public getOutbound() {
+  this.loadingOutbound$.set(true);
+
+  this.requestHelper.handleRequest(() =>
+    this.http.get(`${this.baseURL}/inventory-exits`, this.header)
+  ).subscribe({
+    next: (res: any) => {
+      this.outbound$.set(res.data);
+      this.loadingOutbound$.set(false);
+    },
+    error: () => {
+      this.loadingOutbound$.set(false);
+    }
+  });
+}
+
+// Obtener Outbound Dispatch
+public getOutboundDispatch() {
+  this.loadingOutboundDis$.set(true);
+
+  this.requestHelper.handleRequest(() =>
+    this.http.get(`${this.baseURL}/barber-dispatch`, this.header)
+  ).subscribe({
+    next: (res: any) => {
+      this.outboundDis$.set(res.data);
+      this.loadingOutboundDis$.set(false);
+    },
+    error: () => {
+      this.loadingOutboundDis$.set(false);
+    }
+  });
+}
 
   public postOutbound(outbound: OutboundPostI) {
     return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/inventory-exits`, outbound, this.header, ));
@@ -50,10 +80,14 @@ export class OutboundService {
   }
 
   public putOutbound(outbound: OutboundPostI) {
-    return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/products/${outbound.id}`, outbound, this.header, ));
+    return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/inventory-exits/${outbound.id}`, outbound, this.header, ));
   }
 
   public putOutboundDispatch(outbound: OutboundPostI) {
     return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/barber-dispatch/${outbound.id}`, outbound, this.header, ));
+  }
+
+  public deleteOutbound(inbound: number) {
+    return this.requestHelper.handleRequest(() => this.http.delete(`${this.baseURL}/inventory-exits/${inbound}`, this.header,));
   }
 }

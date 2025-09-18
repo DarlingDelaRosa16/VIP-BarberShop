@@ -9,14 +9,18 @@
 .total-label {
   color: #6b7280;
   font-weight: 100;
-  margin-bottom: 5px;
 }
 
-.total-amount {
-  font-size: 30px;
+.total-amount, .total-itbis {
+  font-size: 25px;
   margin: 0;
   font-weight: bold;
-  color: #1f2937;
+  color: green;
+}
+
+.total-itbis{
+  color: #6b7280;
+  font-size: 20px;
 }
 
 .tabs-list {
@@ -26,12 +30,12 @@
   background-color: #374151;
   border-radius: 15px;
   padding: 5px;
-  margin: 35px 0 15px 0;
+  margin: 0 0 15px 0;
 }
 
+/* width: 110px;
+display: flex; */
 .tab-trigger {
-  /* width: 110px; */
-  /* display: flex; */
   align-items: center;
   justify-content: center;
   padding: 10px;
@@ -74,11 +78,11 @@
 .cashSummary {
   display: grid;
   grid-template-columns: 48% 52%;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   background-color: #f9fafb;
   padding: 5px 5px 5px 30px;
   border-radius: 15px;
-  margin: 30px 0 15px 0;
+  margin: 10px 0 15px 0;
 }
 
 .moneyRecived,

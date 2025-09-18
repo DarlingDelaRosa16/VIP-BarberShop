@@ -40,11 +40,34 @@ export class RequestHelperService {
     }
   }
 
+  handleResponseProvitional(response: any, onSuccess: () => void, formToReset?: FormGroup, onSecondSuccess?: () => void) {
+    if (response.data.appointment_id > 0) {
+      this.snackBar.snackbarLouder(false);
+      setTimeout(() => {
+        this.snackBar.snackbarSuccess();
+        onSuccess();
+        formToReset?.reset();
+        if (onSecondSuccess != undefined) onSecondSuccess();
+      }, 500);
+    } else {
+      this.snackBar.snackbarLouder(false);
+      this.snackBar.snackbarError('Ocurrio un error la operación no se realizo correctamente.')
+    }
+  }
+
   saveChanges(saveFunction: () => void, updateFunction: () => void, idRegister: number, form: FormGroup) {
     if (form.valid) {
       this.snackBar.snackbarLouder(true)
       if (idRegister > 0) updateFunction()
       else saveFunction()
+      form.reset()
+    } else this.snackBar.snackbarError('Completa los campos requeridos para realizar la acción.')
+  }
+
+  saveChangesNoForm(saveFunction: () => void, updateFunction: () => void, idRegister: any) {
+    if (idRegister.id > 0) {
+      this.snackBar.snackbarLouder(true)
+      saveFunction()
     } else this.snackBar.snackbarError('Completa los campos requeridos para realizar la acción.')
   }
 }

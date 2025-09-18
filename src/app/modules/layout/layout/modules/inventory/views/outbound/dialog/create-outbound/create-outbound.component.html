@@ -1,78 +1,137 @@
-<div class="modal" style="height: 100%;">
-  <div class="closerContainer">
+<div style="padding: 10px 20px 20px 20px; min-height: 625px; max-height: 93vh; background-color: white;">
+
+  <div class=" GeneralSpaceBetDiv" style="width: 510px;">
+    <h2 class="Stitle" style="margin: 10px 0;"> <i class="fa-solid fa-people-carry-box"></i> {{elements == undefined ?
+      'Crear salida' : 'Editar salida' }}</h2>
     <i class="pi pi-times closer" (click)="closeModal()"></i>
   </div>
 
-  <div class="title">
-    <h1>Crear Salida</h1>
-  </div>
-
-  <div style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
+  <div style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 10px; padding: 10px 20px;">
     <form [formGroup]="outboundForm" (ngSubmit)="saveChanges()">
 
-      <h2 style="font-weight: 400; margin: 10px 0;">Formulario para creación de Salidas</h2>
+      <h3 style="font-weight: 400; margin: 10px 0 15px 0;"> <i class="fa-solid fa-people-carry-box"></i> Formulario para
+        creación de salidas</h3>
 
       <div style="display: flex; gap: 5px; margin: 5px 0;">
 
         <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
-          <label>Fecha</label>
-          <p-datepicker formControlName="exit_date" />
-          <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+          <label> <i class="pi pi-calendar iconStyle"></i> Fecha</label>
+          <p-datepicker placeholder="Seleccione la fecha" showIcon fluid formControlName="exit_date" />
         </div>
+
+         <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label> <i class="pi pi-sitemap iconStyle"></i> Tipo de salida</label>
+          <p-select [filter]="true" filterBy="nombre" placeholder="Nombre de tipo de salida"
+            formControlName="exit_type" [options]="tiposSalidaAlmacen" optionValue="nombre" >
+            <!-- [loading]=".loading()"  (onChange)="showClient()"-->
+
+            <ng-template #selectedItem let-selectedOption>
+              <div class="flex items-center">
+                <div>{{ selectedOption.nombre }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template let-tentrada #item>
+              <div>
+                <div>{{ tentrada.nombre }} </div>
+                <!-- <h4 style="margin: 0; font-weight: 600;">{{client.email}}</h4> -->
+              </div>
+            </ng-template>
+          </p-select>
+
+        </div>
+
       </div>
 
       <div style="display: flex; gap: 5px; margin: 5px 0;">
-        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-          <label>Descripción</label>
-          <textarea rows="2" cols="30" pTextarea formControlName="note"></textarea>
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 5px;">
+          <label> <i class="pi pi-book iconStyle"></i> Descripción</label>
+          <textarea rows="2" cols="30" pTextarea formControlName="note"
+            style="max-width: 500px; width: 100%; resize: vertical;" placeholder="Escriba una descripción o nota">
+          </textarea>
         </div>
       </div>
 
-      <h3 style="font-weight: 500; margin: 15px 0 10px 0; ">Seleccione los productos</h3>
-      <div [formGroup]="productsForm" style="display: flex; gap: 5px; margin: 5px 0;">
+      <div style="display: flex; gap: 5px; margin: 10px 0 5px 0;">
 
-        <div style="display: flex; flex-direction: column; gap: 2px; flex: 12">
-          <label>Producto</label>
-          <p-select [options]="productService.products()" optionValue="id" optionLabel="name"
-            formControlName="product_id" />
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 3">
+          <label> <i class="pi pi-box iconStyle"></i> Producto</label>
+          <p-select [options]="productService.products()" optionLabel="name" placeholder="Busca por nombre de producto"
+            [filter]="true" filterBy="name,description" formControlName="product_id" />
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 2px; flex: 0.1">
-          <label>Cantidad</label>
-          <p-inputnumber inputId="integeronly" formControlName="quantity" />
-        </div>
-
-        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-          <label>.</label>
-          <p-button icon="pi pi-send" (click)="addProduct()" />
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 2px;">
+          <label> <i class="pi pi-hashtag iconStyle"></i> Cantidad</label>
+          <p-inputnumber inputId="integeronly" formControlName="quantity" fluid placeholder="Ejemplo: 2" />
         </div>
       </div>
 
-      <p-table [value]="products" showGridlines [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem'}">
+      <div style="display: flex; justify-content: space-between; gap: 2px; flex: 1">
+        <span  style="display: flex; margin-left: 2px; font-weight: 800;">
+          <h4 style="margin: 0 2px; font-weight: 400; "  *ngIf="this.outboundForm.value.product_id" >Existencia: </h4>
+          <h4 style="margin: 0 2px; font-weight: 400; " *ngIf="this.outboundForm.value.product_id"> {{outboundForm.value.product_id.stock}} Unidades</h4>
+        </span>
+        <p-button icon="pi pi-plus" label="Agregar" (click)="addItem()"/>
+      </div>
+
+      <p-table [value]="shopingCart" scrollable="true" [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem' }"
+        [scrollHeight]="'33.5vh'">
+
         <ng-template #header>
           <tr>
-            <!-- <th>Codigo</th> -->
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th></th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="pi pi-tag" style="font-size: 12px;"></i> Nombre
+            </th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="fa-solid fa-hashtag" style="font-size: 10px;"></i> Cant
+            </th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="pi pi-money-bill" style="font-size: 10px;"></i> Precio
+            </th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="pi pi-dollar" style="font-size: 12px;"></i> SubTotal
+            </th>
+            <th style="width: 2% !important;"></th>
           </tr>
         </ng-template>
         <ng-template #body let-product>
           <tr>
             <!-- <td>{{ product.id }}</td> -->
-            <td>{{ product.product_id }}</td>
+            <td>{{ product.name }}</td>
             <td>{{ product.quantity }}</td>
-            <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"
-                (click)="removeProduct(product.product_id)"></i> </td>
+            <td>{{ product.unit_cost | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+            <td>{{ product.subTotal | currency:'RD$ ' : 'symbol':'1.2-2' }}</td>
+            <td><i (click)="removeItemShoppingCart(product.id)" matTooltip="Remover producto" class="pi pi-times"
+                style="display: grid; place-items: center; color: red; cursor: pointer; font-size: 14px;"></i>
+            </td>
+            <!-- (click)="removeProduct(product.product_id)" -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="3" style="text-align: right; font-weight: bold;">Total:</td>
+            <!-- <td>{{totalItbis | currency:'RD$ ' : 'symbol':'1.2-2'}}</td> -->
+            <td style="color: green;">{{total | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+            <td></td>
           </tr>
         </ng-template>
       </p-table>
 
-      <div class="buttonContainer">
-        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger"
-          (click)="outboundForm.reset()" type="button" />
-        <p-button label="Guardar Salida" icon="pi pi-send" severity="contrast" type="submit" />
+      <!-- <div style="display: flex; justify-content: end; gap: 10px; flex: 1; margin-top: 10px;">
+        <h3 style="margin: 0; font-weight: 500;">Monto total:</h3>
+        <h3 style="margin: 0; color: green;">{{total | currency: 'RD$ ':'symbol':'1.2-2'}}</h3>
+      </div> -->
+
+      <div class="buttonContainer" style="margin-top: 10px;">
+        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="secondary"
+          (click)="clearForm()" type="button" />
+
+        <p-button [label]="elements == undefined ? 'Guardar Salida' : 'Editar Salida'" icon="pi pi-send"
+          [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" type="submit" />
       </div>
     </form>
   </div>
 </div>
+
+<p-toast position="bottom-right" />

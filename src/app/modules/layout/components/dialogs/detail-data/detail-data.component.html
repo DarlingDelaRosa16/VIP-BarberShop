@@ -1,29 +1,55 @@
 <div class="modal">
-  <div class="fuctionContent">
-      <h2 class="Stitle">{{propiedad.nombre}}</h2>
+
+  <div class="fuctionContent GeneralSpaceBetDiv" >
+    <h2 class="Stitle"> <i [class]="propiedad.icon"></i> {{propiedad.nombre}}</h2>
+    <i class="pi pi-times closer" (click)="close()"></i>
   </div>
 
   <div>
-      <div style="border:1px solid  #ccc ;">
-
-        <p-table
-        [value]="propiedad.elementoList"
-        showGridlines
-        [tableStyle]="{ 'min-width': '30rem' }">
+    <div>
+      <p-table [value]="propiedad.elementoList" [tableStyle]="{ 'min-width': '30rem' }">
 
         <ng-template #header>
           <tr>
             <th>{{propiedad.entidad}}</th>
+            <th *ngIf="propiedad.entidad === 'Nombre de Productos' || propiedad.entidad === 'Nombre de productos' || propiedad.entidad === 'Detalles de la factura' " >Costo unitario</th>
+            <th *ngIf="propiedad.entidad === 'Nombre de Productos' || propiedad.entidad === 'Nombre de productos' || propiedad.entidad === 'Detalles de la factura' " >Cantidad</th>
+            <th *ngIf="propiedad.entidad === 'Detalles de la factura' ">SubTotal</th>
           </tr>
         </ng-template>
 
-        <ng-template #body let-elemento>
+        <ng-template #body let-elemento *ngIf="propiedad.entidad == 'Nombre de Servicios' ">
           <tr>
-            <td>{{ elemento }}</td>
+            <td>{{ elemento.name }}</td>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-elemento *ngIf="propiedad.entidad === 'Nombre de Productos' ">
+          <tr >
+            <td>{{ elemento.product.name }}</td>
+            <td>{{ elemento.product.unit_cost | currency:'RD$ ':'symbol':'1.2-2'}}</td>
+            <td>{{ elemento.quantity }}</td>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-elemento *ngIf="propiedad.entidad === 'Nombre de productos' ">
+          <tr >
+            <td>{{ elemento.product_name }}</td>
+            <td>{{ elemento.unit_cost | currency:'RD$ ':'symbol':'1.2-2'}}</td>
+            <td>{{ elemento.quantity }}</td>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-elemento *ngIf="propiedad.entidad === 'Detalles de la factura' ">
+          <tr >
+            <td>{{ elemento.name }}</td>
+            <td>RD$ {{ elemento.price}}</td>
+            <td>{{ elemento.quantity }}</td>
+            <td>{{ elemento.subtotal }}</td>
           </tr>
         </ng-template>
 
       </p-table>
-      </div>
-   </div>
+    </div>
+  </div>
 </div>

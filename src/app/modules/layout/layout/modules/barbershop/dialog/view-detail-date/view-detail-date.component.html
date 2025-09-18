@@ -1,0 +1,150 @@
+<div style="padding: 25px; max-height: 92vh;">
+
+  <div class=" fuctionContent GeneralSpaceBetDiv">
+    <h2 style="margin: 0;"> <i class="pi pi-calendar" style="margin-right: 8px; font-size: 20px;"></i>Detalles de cita
+    </h2>
+    <span style="display: flex; gap: 10px;">
+
+      <p-tag *ngIf="data.status == 'Reservado' " severity="warn" icon="pi pi-info-circle" value="Reservado" />
+      <p-tag *ngIf="data.status == 'En proceso' " severity="info" icon="pi pi-spinner-dotted" value="En proceso" />
+      <p-tag *ngIf="data.status == 'Cancelado' " severity="danger" icon="pi pi-times" value="Cancelado" />
+      <p-tag *ngIf="data.status == 'Completado' " icon="pi pi-check" severity="success" value="Completado" />
+
+      <i class="pi pi-times closer" (click)="close()"></i>
+    </span>
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd; padding: 5px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-user"
+        style="margin-right: 4px; font-size: 14px; "></i> Información de cliente</h3>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"> <i class="pi pi-user iconStyle" ></i> Cliente</label>
+        <input pInputText id="name" disabled [value]="data.client_name" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="pi pi-mobile iconStyle" ></i> Numero de telefono</label>
+        <input pInputText id="tel" disabled [value]="data.cliente.phone_number" />
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 5px; margin-top: 8px;">
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="email"><i class="pi pi-envelope iconStyle"  ></i> Correo Electronico</label>
+        <input pInputText id="email" disabled [value]="data.cliente.email" />
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd;  padding: 5px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-calendar"
+        style="margin-right: 4px; font-size: 14px; "></i> Información de cita</h3>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"><i class="pi pi-calendar iconStyle" ></i> Fecha</label>
+        <input pInputText id="name" disabled [value]="data.date | date: 'dd/MM/yyyy' " />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"> <i class="pi pi-clock iconStyle" ></i> Duración</label>
+        <input pInputText id="tel" disabled [value]="totalDuration + ' min'"/>
+      </div>
+
+    </div>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"> <i class="pi pi-play iconStyle" ></i> Hora de inicio</label>
+        <input pInputText id="name" disabled [value]="data.start | date: 'HH:mm a' "/>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="pi pi-pause-circle iconStyle" ></i> Hora de fin</label>
+        <input pInputText id="tel" disabled [value]="data.end | date: 'HH:mm a' " />
+      </div>
+
+    </div>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"><i class="fa-solid fa-scissors iconStyleFa" ></i> Barbero</label>
+        <input pInputText id="name" disabled [value]="data.barber_name" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="fa-solid fa-traffic-light iconStyleFa" ></i> Estado</label>
+        <input pInputText id="tel" disabled [value]="data.status" [style]="{ 'background-color' : data.color.primary, 'color': 'white'}" />
+      </div>
+
+    </div>
+
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd; padding:  5px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-user"
+        style="margin-right: 4px; font-size: 14px; "></i> Servicios</h3>
+
+    <div style=" margin: 7px 0;" *ngFor="let service of data.services">
+      <div class="GeneralSpaceBetDiv" style="padding: 10px; border: 1px solid #aaa; border-radius: 10px; background-color: #eee; ">
+        <div>
+          <h4 style="margin: 0; font-weight: 500;">{{service.name}}</h4>
+          <h5 style="margin: 0; font-weight: 100;">{{service.duration}} Min</h5>
+        </div>
+        <h4 style="margin: 0; font-weight: 500; color: green;">{{ service.price | currency: 'RD$ ':'symbol':'1.2-2'}}
+        </h4>
+      </div>
+    </div>
+
+    <div>
+      <span class="GeneralSpaceBetDiv">
+        <h4 class="total-label" style="margin: 8px 0 0 0;">Duración total</h4>
+        <h2 class="total-itbis">{{totalDuration}} min</h2>
+      </span>
+      <span class="GeneralSpaceBetDiv">
+        <h4 class="total-label" style="margin: 8px 0 10px 0;">Total a Pagar</h4>
+        <!--[ngStyle]="{ 'padding': data.productos == undefined ? '13px 0' : '0 0' }"-->
+        <h2 class="total-amount">{{totalSum | currency: 'RD$ ':'symbol':'1.2-2'}}</h2>
+      </span>
+    </div>
+
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd; padding: 5px 15px 25px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-user"
+        style="margin-right: 4px; font-size: 14px; "></i> Información de registro</h3>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"><i class="pi pi-user iconStyle" ></i> Creado por</label>
+        <input pInputText id="name" disabled [value]="data.created_by" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="pi pi-calendar-plus iconStyle" ></i> Fecha creación</label>
+        <input pInputText id="tel" disabled [value]="data.created | date: 'dd/MM/yyyy' " />
+      </div>
+    </div>
+
+    <div style="margin-top: 8px;">
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <label for="email"><i class="pi pi-refresh iconStyle" ></i> Ultima actualización</label>
+        <input pInputText id="email" disabled [value]="data.updated| date: 'dd/MM/yyyy' "/>
+      </div>
+    </div>
+
+  </div>
+
+</div>

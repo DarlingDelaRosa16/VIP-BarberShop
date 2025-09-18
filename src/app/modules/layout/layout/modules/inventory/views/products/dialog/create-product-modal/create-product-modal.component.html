@@ -1,56 +1,64 @@
-<div class="modal">
-  <div class="closerContainer">
+<div style="padding: 10px 20px 20px 20px; min-height: 490px; max-height: 93vh; background-color: white;">
+
+  <div class=" GeneralSpaceBetDiv" style="width: 510px;">
+    <h2 class="Stitle" style="margin: 10px 0;"> <i class="pi pi-box"></i> {{elements == undefined ? 'Crear producto' :
+      'Editar producto' }}</h2>
     <i class="pi pi-times closer" (click)="closeModal()"></i>
   </div>
 
-  <div class="title">
-    <h1>Crear Producto</h1>
+  <div style=" border-radius: 8px; border: 1px solid #ddd;  padding: 10px 18px;">
+
+    <form [formGroup]="productForm" (ngSubmit)="saveChanges()">
+
+      <h3 style="font-weight: 400; margin: 10px 0 15px 0;"> <i class="pi pi-box "></i> Formulario para creación de
+        productos</h3>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+          <label><i class="pi pi-tag iconStyle"></i> Nombre</label>
+          <input pInputText formControlName="name" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label> <i class="pi pi-money-bill iconStyle"></i> Precio Unitario</label>
+          <p-inputnumber inputId="integeronly" formControlName="unit_cost" />
+        </div>
+
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label> <i class="pi pi-dollar iconStyle"></i> Precio de venta</label>
+          <p-inputnumber inputId="integeronly" formControlName="sale_price" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label><i class="pi pi-percentage iconStyle"></i> ITBIS</label>
+          <p-select [options]="systemInformationService.getArrayItbis" optionValue="value" optionLabel="label"
+            formControlName="itbis" />
+        </div>
+
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label>Descripción</label>
+          <textarea rows="5" cols="30" pTextarea formControlName="description"
+            style="max-width: 500px; width: 100%; resize: vertical;"></textarea>
+        </div>
+      </div>
+
+      <div class="buttonContainer">
+        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="secondary"
+          (click)="productForm.reset()" /> <!--(click)="clearForm()"-->
+
+        <p-button [label]="elements == undefined? 'Guardar Producto': 'Editar Producto' " icon="pi pi-send"
+          [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" type="submit" />
+
+      </div>
+    </form>
   </div>
-
-  <form [formGroup]="productForm" (ngSubmit)="saveChanges()" style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
-
-    <h2 style="font-weight: 400;">Formulario para creación de productos</h2>
-
-    <div style="display: flex; gap: 5px; margin: 5px 0;">
-
-      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
-        <label for="name">Nombre</label>
-        <input pInputText id="name" formControlName="name" />
-        <!-- <small id="username-help">Enter your username to reset your password.</small> -->
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-        <label >Precio Unitario</label>
-        <p-inputnumber inputId="integeronly" formControlName="unit_cost" />
-      </div>
-
-    </div>
-
-    <div style="display: flex; gap: 5px; margin: 5px 0;">
-
-      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-        <label >Precio de venta</label>
-        <p-inputnumber inputId="integeronly" formControlName="sale_price" />
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-        <label >ITBIS</label>
-        <p-select [options]="systemInformationService.getArrayItbis" optionValue="value" optionLabel="label" formControlName="itbis" />
-      </div>
-
-    </div>
-
-    <div style="display: flex; gap: 5px; margin: 5px 0;">
-      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-        <label>Descripción</label>
-        <textarea rows="5" cols="30" pTextarea formControlName="description"></textarea>
-      </div>
-    </div>
-
-    <div class="buttonContainer">
-      <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" (click)="productForm.reset()" />
-      <p-button label="Guardar Producto" icon="pi pi-send" severity="contrast" type="submit" />
-    </div>
-  </form>
 
 </div>

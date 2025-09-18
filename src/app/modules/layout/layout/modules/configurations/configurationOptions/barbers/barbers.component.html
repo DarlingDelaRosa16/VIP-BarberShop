@@ -1,5 +1,5 @@
 <div class="title">
-  <h1>Crear Socio</h1>
+  <h1 style="font-weight: 500;">Crear Socio</h1>
 </div>
 
 <form [formGroup]="barberForm" (ngSubmit)="saveChanges()" style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
@@ -72,7 +72,7 @@
   </div>
 </form>
 
-<p-table [value]="barbersService.barbers()" showGridlines [tableStyle]="{ 'min-width': '50rem', 'margin-top': '10px' }">
+<p-table [value]="barbersService.barbers()"  [tableStyle]="{ 'min-width': '50rem', 'margin-top': '10px' }">
   <ng-template #header>
     <tr>
       <th>Nombre</th>

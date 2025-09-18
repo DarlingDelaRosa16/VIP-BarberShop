@@ -1,0 +1,62 @@
+<div class="cardLastOnes" [routerLink]="link()">
+    <div class="contentLast">
+      <div>
+        <div style="display: flex; justify-content: space-between;">
+          <h2 style="margin: 0; font-weight: 500;">{{title()}}</h2>
+          <i [class]="icon()" style="place-self: center; font-size: 1.5rem;"></i>
+        </div>
+        <h4 style="margin: 2px 0 15px 0; font-weight: 700;">{{subTitle()}}</h4>
+      </div>
+
+      <div style="margin-top: 10px;" *ngIf="generalService.popular() != undefined && type() == 1">
+        <div class="recentMov" *ngFor="let service of generalService.popular()">
+          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
+          <!-- <i class="pi pi-plus"
+            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">{{service.name}}</h3>
+              <h4 style="margin: 0; font-weight: 200;  display: flex; align-items: center;"><h5 style="margin: 0 5px 0 0  ;">Cantidad total:</h5>  {{service.total}}</h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 500;">{{service.percentage}}%</h3>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 10px;" *ngIf="datesService.dates() != undefined && type() == 2">
+        <div class="recentMov" *ngFor="let dates of datesService.dates() | slice:0:3">
+          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
+          <!-- <i class="pi pi-plus"
+            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">{{dates.client_name}}</h3>
+              <h4 style="margin: 0; font-weight: 200;  display: flex; align-items: center;"><h5 style="margin: 0 5px 0 0  ;">Servicios:</h5>
+                {{dates.services[0].name}}
+              </h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 500;">{{dates.start_time | date: 'HH:mm'}}</h3>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 10px;" *ngIf="saleService.sales() != undefined && type() == 3">
+        <div class="recentMov" *ngFor="let invoice of saleService.sales() | slice:0:3">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>
+              <h3 style="margin: 0; font-weight: 500;">{{invoice.client_name}}</h3>
+              <h4 style="margin: 0; font-weight: 200;  display: flex; align-items: center;"><h5 style="margin: 0 5px 0 0  ;">detalles:</h5>
+                {{invoice.details[0].name}}
+              </h4>
+            </span>
+
+            <h3 style="margin: 0; font-weight: 500;">{{invoice.created_at | date: 'dd/MM/yyyy'}}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>

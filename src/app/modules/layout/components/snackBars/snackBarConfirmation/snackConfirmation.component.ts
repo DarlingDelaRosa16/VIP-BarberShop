@@ -2,11 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
 import { MaterialComponents } from '../../../../../helpers/material';
 import { ModulesImports } from '../../../../../helpers/modulesImports';
+import { PrimeComponentsModules } from '../../../../../helpers/primeNg';
 
 @Component({
     selector: 'snackbarConfirmDelete',
     standalone: true,
-    imports: [MaterialComponents, ModulesImports],
+    imports: [MaterialComponents, ModulesImports, PrimeComponentsModules],
     templateUrl: 'snackConfirmation.component.html'
 })
 export class SnackConfirmation {

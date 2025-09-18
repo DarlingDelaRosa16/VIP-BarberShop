@@ -1,3 +1,20 @@
+@use '@angular/material' as mat;
+
+// Personalización global de Angular Material
+:root {
+  @include mat.menu-overrides((container-shape: 5px, // ejemplo: border-radius
+      divider-color: red,
+      container-color: white,
+    ));
+}
+
+:root {
+  @include mat.snack-bar-overrides((
+    container-color: white,
+    supporting-text-color: black,
+  ));
+}
+
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 
@@ -12,18 +29,63 @@ body {
   background-color: #edf2fa;
 }
 
-.title {
+.ItemMiniMenu {
+  width: 195px;
+  padding: 5px;
+  margin: 0 5px 5px 5px;
+  border-radius: 5px;
   display: flex;
   align-items: center;
-  height: 5vh;
-  background-color: #eee;
-  border-left: #242424 4px solid;
-  padding: 0 15px;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.ItemMiniMenu:hover {
+  background-color: #edf2fa;
+}
+
+
+.eliminarHover:hover {
+  background-color: rgb(255, 211, 211);
+}
+
+.successHover:hover {
+  background-color: rgba(95, 253, 95, 0.345);
+}
+
+.editarHover:hover {
+  background-color: rgba(255, 235, 59, 0.35); /* Amarillo con transparencia */
+}
+
+.InProcessHover:hover {
+  background-color: rgba(33, 150, 243, 0.35);
+}
+
+.ItemMiniMenu h3{
+  margin: 0;
+  font-weight: 300;
+}
+
+.GeneralCenteredDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.GeneralSpaceBetDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoPlanner {
+  height: 9vh;
+  width: 240px;
 }
 
 .title h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 27px;
   color: #242424;
 }
 
@@ -51,13 +113,13 @@ body {
   margin-bottom: 10px;
 }
 
-.closer{
+.closer {
   padding: 5px;
   cursor: pointer;
   border-radius: 50px;
 }
 
-.closer:hover{
+.closer:hover {
   color: white;
   background-color: #374151;
 }
@@ -72,7 +134,7 @@ body {
 .loader {
   width: 20px;
   height: 20px;
-  border: 3px solid #ddd;
+  border: 3px solid #2563eb;
   border-top: 3px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -120,6 +182,14 @@ body {
 //   background-color: gree !important;
 // }
 
+.cal-hour-segment,
+.cal-time-label-column {
+  border: none !important;
+}
+
+.cal-hour-segment {
+  background: transparent !important;
+}
 
 
 .cal-today {
@@ -146,19 +216,42 @@ body {
 //   background-color: red !important;
 // }
 
-.cal-week-view {
-  background-color: #efefef !important; /* fondo general del calendario */
-}
+// .cal-week-view {
+  // background-color: #efefef !important;
+  /* fondo general del calendario */
+// }
 
 
 .cal-event {
-  background-color: #2563eb !important;
+  // background-color: #2563eb !important;
   color: white !important;
   // border-radius: 40px !important;
   // padding: 14px !important;
   // font-size: 20px;
   // font-weight: 500;
 }
+
+.custom-event {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  padding: 4px;
+}
+
+.custom-event .event-title {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.custom-event .event-service {
+  font-size: 13px;
+  color: #374151; /* gris */
+}
+
 
 // .cal-event-title {
 //   white-space: normal;
@@ -170,3 +263,94 @@ body {
 //   color: white !important;
 // }
 
+.showproduct{
+  background-color: #e0f2fe;
+  padding: 5px 10px;
+  border-radius: 10px;
+  margin: 0 2px;
+
+  max-width: 150px;   /* 👈 ajusta según tu diseño */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.showNote{
+  max-width: 240px;   /* 👈 ajusta según tu diseño */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/////
+///
+///
+///
+
+.snackbar-center {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  border-radius: 10px !important;
+}
+
+.iconStyle {
+  color: #777;
+  font-size: 13.5px;
+}
+
+.iconStyleFa{
+  color: #999;
+  font-size: 12.5px;
+}
+
+label {
+  color: #777;
+  font-size: 13.5px;
+}
+
+.custom-dialog-container .mat-mdc-dialog-container {
+  background-color: white !important;
+}
+
+
+
+// @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+
+// * {
+//   font-family: 'Lato', sans-serif;
+// }
+
+// @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;600;800&display=swap');
+
+// * {
+//   font-family: 'Nunito', sans-serif;
+// }
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
+// @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;500;700&display=swap');
+
+// * {
+//   font-family: 'Work Sans', sans-serif;
+// }
+
+// @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap');
+
+// * {
+//   font-family: 'Open Sans', sans-serif;
+// }
+
+// @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;700&display=swap');
+
+// * {
+//   font-family: 'Source Sans Pro', sans-serif;
+// }

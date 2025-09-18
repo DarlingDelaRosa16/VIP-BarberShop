@@ -6,12 +6,14 @@ import { RequestHelperService } from '../../layout/services/requestHelper.servic
 import { LogInService } from './service/logIn.service';
 import { SystemInformationService } from '../../layout/services/general.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-log-in',
   imports: [PrimeComponentsModules, ModulesImports],
   templateUrl: './log-in.component.html',
-  styleUrl: './log-in.component.css'
+  styleUrl: './log-in.component.css',
+  providers: [MessageService]
 })
 export class LogInComponent implements OnInit {
 
@@ -20,6 +22,7 @@ export class LogInComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private router: Router,
+    private messageService: MessageService,
     private logInService: LogInService,
     private requestHelpers: RequestHelperService,
     private systemInformationService: SystemInformationService,
@@ -35,15 +38,25 @@ export class LogInComponent implements OnInit {
   postLogIn() {
     this.logInService.postLogIn(this.loginForm.value).subscribe((res: any) => {
       this.requestHelpers.handleResponse(res, () => {
-        // console.log(res);
-        this.systemInformationService.setUserToken(res.access_token)
-        localStorage.setItem("token", res.access_token)
+        console.log(res);
 
-        this.systemInformationService.setUser(res.user)
-        localStorage.setItem("user", JSON.stringify(res.user))
+        if (res.user.role == 'Admin') {
+          this.systemInformationService.setUserToken(res.access_token)
+          localStorage.setItem("token", res.access_token)
 
-        this.systemInformationService.setLogged(true)
-        this.router.navigate(['/layout/inicio'])
+          this.systemInformationService.setUser(res.user)
+          localStorage.setItem("user", JSON.stringify(res.user))
+
+          this.systemInformationService.setLogged(true)
+          this.router.navigate(['/layout/inicio'])
+        } else {
+          this.messageService.add({
+            severity: 'info',
+            summary: 'Info',
+            detail: `Usuario sin permisos para ingreso a esta aplicacion`,
+            life: 3900
+          });
+        }
       })
     })
   }

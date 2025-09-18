@@ -1,12 +1,33 @@
-<div style="display: flex; justify-content: space-between; align-items: center; width: 600px;">
+<!-- <div style="display: flex; justify-content: space-between; align-items: center; width: 600px;">
   <span>
-      <h3 style="color: white; font-weight: 200; margin: 0;">{{data.confirmationTitle}}</h3>
-      <h4 style="color: white; font-weight: 200; margin: 0;">{{data.confirmationSubTitle}}</h4>
+    <h3 style="color: white; font-weight: 200; margin: 0;">{{data.confirmationTitle}}</h3>
+    <h4 style="color: white; font-weight: 200; margin: 0;">{{data.confirmationSubTitle}}</h4>
   </span>
   <mat-icon style="color: white;">contact_support</mat-icon>
 </div>
 
 <span style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
-  <button style="border-radius: 2px; width: 100%; background-color: #004b8d; color: white; margin-top: 10px; height: 31px;" (click)="onComfirm()" mat-stroked-button>Aceptar</button>
-  <button style="border-radius: 2px; width: 100%; background-color: #F44336; color: white; margin-top: 10px; height: 31px;" (click)="closeSnackbar()" mat-stroked-button>Cancelar</button>
-</span>
+  <button
+    style="border-radius: 2px; width: 100%; background-color: #004b8d; color: white; margin-top: 10px; height: 31px;"
+    (click)="" mat-stroked-button>Aceptar</button>
+  <button
+    style="border-radius: 2px; width: 100%; background-color: #F44336; color: white; margin-top: 10px; height: 31px;"
+    (click)="" mat-stroked-button>Cancelar</button>
+</span> -->
+
+<div class="fuctionContent GeneralSpaceBetDiv" >
+    <h2 style="margin: 0; font-weight: 400;"> Confirmación</h2>
+    <i class="pi pi-times closer" (click)="closeSnackbar()"></i>
+  </div>
+
+  <div style="display: flex; align-items: center; margin: 15px 0; padding: 10px 0;">
+    <i class="pi pi-exclamation-triangle" style="margin-right: 10px;"></i>
+    <h4 style="margin: 0; font-weight: 300; font-size: 15px;">Estas seguro de eliminar </h4>
+  </div>
+
+  <div style="display: flex; justify-content: end; gap: 5px; font-weight: 100 !important;">
+
+    <p-button size="small" variant="outlined" severity="secondary" label="Cancelar" (onClick)="closeSnackbar()" />
+    <p-button size="small" [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white', fontWeight: '100' }" label="Aceptar" variant="outlined" (onClick)="onComfirm()" />
+
+  </div>

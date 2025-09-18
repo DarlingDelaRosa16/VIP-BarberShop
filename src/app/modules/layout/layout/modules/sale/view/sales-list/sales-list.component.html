@@ -1,42 +1,154 @@
-<div  style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between;">
   <div class="title">
-    <h1>Listado de Facturas</h1>
+    <h1><i class="pi pi-receipt" style="color: #242424; font-size: 24px;"></i> Listado de Facturas</h1>
   </div>
-  <!-- <p-button label="Resumen Inventario" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" /> -->
 </div>
-<!--
-<div class="buttonContainer">
-  <p-button label="Crear Productos" variant="outlined" severity="contrast" (click)="openCreateProductModal()" />
-</div> -->
 
-<!-- [value]="salesService.sales()" -->
-<p-table
-    showGridlines
-    [tableStyle]="{ 'min-width': '50rem', 'margin-top': '15px'}">
-        <ng-template #header>
-            <tr>
-                <th>Codigo</th>
-                <th>Fecha Creacion</th>
-                <th>Nombre</th>
-                <th>Precio Unitario</th>
-                <th>Precio De Venta</th>
-                <th>ITBIS</th>
-                <th>Existencia</th>
-                <th></th>
-                <th><div class="loader" ></div></th> <!--*ngIf="salesService.sales().length == 0"-->
-            </tr>
-        </ng-template>
-        <ng-template #body let-product>
-            <tr>
-                <td>{{ product.id }}</td>
-                <td>{{ product.created_at | date }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.unit_cost }}</td>
-                <td>{{ product.sale_price }}</td>
-                <td>{{ product.itbis }}</td>
-                <td>{{ product.stock }}</td>
-                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
-                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
-            </tr>
-        </ng-template>
+<div
+  style="display: flex; gap: 10px; margin: 10px 0 15px 0; align-items: end; border-radius: 5px; border: 1px solid #eee; padding: 16px;">
+
+  <div class="form-group">
+    <label style="margin-bottom: 5px;">
+      <i class="pi pi-search"></i> Cliente o barbero
+    </label>
+    <p-select [filter]="true" filterBy="first_name,last_name" [showClear]="true" placeholder="Cliente o barbero..."
+      [options]="clientService.clients()" [(ngModel)]="clientSelected" (onChange)="filterInvoices()">
+
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center">
+          <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-client #item>
+        <div class="flex items-center">
+          <div>{{ client.first_name }} {{ client.last_name }}</div>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <!-- Fecha -->
+  <div class="form-group">
+    <label style="margin-bottom: 5px;">
+      <i class="pi pi-calendar"></i> Rango de fecha
+    </label>
+    <p-datepicker showIcon fluid selectionMode="range" [readonlyInput]="true" placeholder="Rango de fecha"
+      [(ngModel)]="rangeDates" (onSelect)="filterInvoices()" [ngModelOptions]="{standalone: true}" />
+  </div>
+
+  <!-- Método de pago -->
+  <div class="form-group">
+    <label style="margin-bottom: 5px;">
+      <i class="pi pi-filter"></i> Método de pago
+    </label>
+    <p-select [options]="paymentMethods" optionLabel="method" optionValue="id" [(ngModel)]="paymentMethod"
+      (onChange)="filterInvoices()" placeholder="Selecciona método" />
+  </div>
+
+  <!-- Limpiar -->
+  <p-button label="Limpiar Filtros" variant="outlined" severity="secondary" (onClick)="clearForm()" />
+</div>
+
+<p-table [value]="filteredInvoices" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template #header>
+    <tr>
+      <th>
+        <i class="pi pi-calendar" style="font-size: 12px; margin-right: 10px;"></i>Fecha de creación
+      </th>
+      <th>
+        <i class="pi pi-user" style="font-size: 12px; margin-right: 10px;"></i>N. Factura
+      </th>
+      <th>
+        <i class="pi pi-user" style="font-size: 12px; margin-right: 10px;"></i>Cliente
+      </th>
+      <th>
+        <i class="pi pi-user" style="font-size: 12px; margin-right: 10px;"></i>Metodo de Pago
+      </th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <i class="pi pi-box" style="font-size: 12px; margin-right: 10px;"></i>Detalles
+        </div>
+      </th>
+      <th>
+        <i class="pi pi-sitemap" style="font-size: 12px; margin-right: 10px;"></i>ITBIS
+      </th>
+      <th>
+        <i class="pi pi-box" style="font-size: 12px; margin-right: 10px;"></i>SubTotal
+      </th>
+      <th>
+        <i class="pi pi-dollar" style="font-size: 12px; margin-right: 10px;"></i>Total
+      </th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <div class="loader" *ngIf="salesService.loadingSales()"></div>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-invoice>
+    <tr>
+      <td>{{ invoice.created_at | date }}</td>
+      <td>FT-000{{ invoice.id }}</td>
+      <td style="color: #2563eb; font-weight: 600;">{{ invoice.client_name }}</td>
+      <td style=" font-weight: 600;" >{{ invoice.payment_type || 'No encontrado' }}</td>
+      <!-- <td >{{ outbound.exit_type }}</td> -->
+      <td>
+        <div class="GeneralCenteredDiv">
+          <div class="showproduct">
+            {{invoice.details[0].name}}
+          </div>
+          @if(invoice.details.length > 1){ +
+          <div class="showproduct">
+            {{invoice.details[1].name }}
+          </div>
+          }
+          <!-- @if(outbound.products.length > 2){ <p style="margin: 0; cursor: pointer;">...</p> } -->
+        </div>
+      </td>
+      <td style="color: green;">
+        {{ invoice.itbis | currency:'RD$ ':'symbol':'1.2-2'}}
+      </td>
+      <td style="color: green;">
+        RD$ {{ invoice.subtotal }}
+      </td>
+      <td style="color: green;">
+        RD$ {{ invoice.total }}
+      </td>
+      <!-- <td>
+        <div class="GeneralCenteredDiv">
+          <div style="background-color: #e0f2fe; padding: 5px; border-radius: 15px;">
+            {{outbound.services[0].name}}
+          </div>
+          @if(outbound.services.length > 1){ +
+          <div style="background-color: #e0f2fe; padding: 5px; border-radius: 15px; margin: 0 2px;">
+            {{outbound.services[1].name }}
+          </div>
+          }
+          @if(outbound.services.length > 2){ <p style="margin: 0; cursor: pointer;">...</p> }
+        </div>
+      </td> -->
+
+      <td>
+        <div class="GeneralCenteredDiv">
+          <i class="fa-solid fa-ellipsis-vertical" style="cursor: pointer;" matTooltip="Menu de opciones"
+            [matMenuTriggerFor]="menu"></i>
+          <mat-menu #menu="matMenu" xPosition="before">
+
+            <div class="ItemMiniMenu" (click)="openDetailViewModal(invoice.details , 'Listado de Detalles', 'Detalles de la factura', 'pi pi-receipt')" >
+              <i class="pi pi-eye" style="color: brown;"></i>
+              <h3>Listado de detalles</h3>
+            </div>
+
+            <div class="ItemMiniMenu" (click)="openViewInvoice(invoice)">
+              <i class="pi pi-receipt" style="color: cadetblue;"></i>
+              <h3>Ver factura</h3>
+            </div>
+
+          </mat-menu>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
+
+<p-toast position="bottom-right" />

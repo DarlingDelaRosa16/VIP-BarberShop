@@ -1,0 +1,163 @@
+<div style="padding: 25px; max-height: 92vh; background-color: white;">
+  <div class=" fuctionContent GeneralSpaceBetDiv">
+    <h2 style="margin: 0;"> <i class="pi pi-calendar" style="margin-right: 8px; font-size: 20px;"></i>Detalles de
+      entrada
+    </h2>
+
+    <i class="pi pi-times closer" (click)="close()"></i>
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd; padding: 5px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-user"
+        style="margin-right: 4px; font-size: 14px; "></i> Información de la entrada</h3>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"> <i class="pi pi-hashtag iconStyle"></i> Id</label>
+        <input pInputText id="name" disabled [value]="data.id" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="pi pi-mobile iconStyle"></i> Tipo de entrada</label>
+        <input pInputText id="tel" disabled [value]="data.entry_type" />
+      </div>
+    </div>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="email"><i class="pi pi-envelope iconStyle"></i> Fecha de entrada</label>
+        <input pInputText id="email" disabled [value]="data.entry_date" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="email"><i class="pi pi-envelope iconStyle"></i> Nota</label>
+        <input pInputText id="email" disabled [value]="data.note" />
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd;  padding: 5px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-calendar"
+        style="margin-right: 4px; font-size: 14px; "></i> Información de usuario responsable</h3>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"><i class="pi pi-calendar iconStyle"></i> Creado por</label>
+        <input pInputText id="name" disabled
+          [value]="data.created_by.person.first_name + ' ' + data.created_by.person.last_name" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"> <i class="pi pi-clock iconStyle"></i> Telefono</label>
+        <input pInputText id="tel" disabled [value]="data.created_by.person.phone_number" />
+      </div>
+
+    </div>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"> <i class="pi pi-play iconStyle"></i> Correo Electronico</label>
+        <input pInputText id="name" disabled [value]="data.created_by.email" />
+      </div>
+
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"> <i class="pi pi-play iconStyle"></i> Dirección</label>
+        <input pInputText id="name" disabled [value]="data.created_by.person.address" />
+      </div>
+    </div>
+
+    <!-- <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"><i class="fa-solid fa-scissors iconStyleFa" ></i> Barbero</label>
+        <input pInputText id="name" disabled [value]="data.barber_name" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="fa-solid fa-traffic-light iconStyleFa" ></i> Estado</label>
+        <input pInputText id="tel" disabled [value]="data.status" [style]="{ 'background-color' : data.color.primary, 'color': 'white'}" />
+      </div>
+
+    </div> -->
+
+  </div>
+
+  <div style="margin: 10px 0 0 0; border-top: 1px solid #ddd; padding:  5px 15px;">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-user"
+        style="margin-right: 4px; font-size: 14px; "></i> Detalle de la entrada</h3>
+
+    <p-table [value]="data.entry_details" scrollable="true" [tableStyle]="{ 'margin-top': '15px', 'width': '100%' }"
+      [scrollHeight]="'33.5vh'">
+
+      <ng-template #header>
+        <tr>
+          <th style="font-weight: 100; font-size: 14px;">
+            <i class="pi pi-tag" style="font-size: 12px;"></i> Nombre
+          </th>
+          <th style="font-weight: 100; font-size: 14px;">
+            <i class="fa-solid fa-hashtag" style="font-size: 10px;"></i> Cant
+          </th>
+          <th style="font-weight: 100; font-size: 14px;">
+            <i class="pi pi-percentage" style="font-size: 10px;"></i> Costo
+          </th>
+          <th style="font-weight: 100; font-size: 14px;">
+            <i class="pi pi-dollar" style="font-size: 12px;"></i> SubTotal
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-product>
+        <tr>
+          <!-- <td>{{ product.id }}</td> -->
+          <td>{{ product.product.name }}</td>
+          <td>{{ product.quantity }}</td>
+          <td>{{ product.unit_cost | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+          <td>{{ product.quantity * product.unit_cost | currency:'RD$ ' : 'symbol':'1.2-2' }}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <tr>
+          <td colspan="3" style="text-align: right; font-weight: bold;">Total:</td>
+          <td>{{ totalSum | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </div>
+
+  <div style="margin: 10px 0 80px 0; border-top: 1px solid #ddd; padding: 5px 15px 25px 15px; ">
+
+    <h3 style=" font-weight: 300; margin: 8px 0 0 0;"> <i class="pi pi-user"
+        style="margin-right: 4px; font-size: 14px; "></i> Información de registro</h3>
+
+    <div style="display: flex; gap: 20px; margin-top: 8px;">
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="name"><i class="pi pi-user iconStyle"></i> Creado por</label>
+        <input pInputText id="name" disabled [value]="data.created_by.email" />
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+        <label for="tel"><i class="pi pi-calendar-plus iconStyle"></i> Fecha creación</label>
+        <input pInputText id="tel" disabled [value]="data.created_at | date: 'dd/MM/yyyy' " />
+      </div>
+    </div>
+
+    <div style="margin-top: 8px;">
+      <div style="display: flex; flex-direction: column; gap: 2px;">
+        <label for="email"><i class="pi pi-refresh iconStyle"></i> Ultima actualización</label>
+        <input pInputText id="email" disabled [value]="data.updated_at | date: 'dd/MM/yyyy' " />
+      </div>
+    </div>
+
+  </div>
+
+</div>

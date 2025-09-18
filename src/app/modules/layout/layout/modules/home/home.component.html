@@ -1,27 +1,43 @@
 <!-- <div class="viewInitContent"> -->
 
-  <div class="title">
-    <h1>Inicio</h1>
-  </div>
+<div class="title">
+  <h1> <i class="fa-solid fa-house" style="color: #242424; font-size: 24px;"></i> Inicio</h1>
+</div>
 
-  <div class="buttonContainer">
-    <!-- <p-button label="Productos" variant="outlined" severity="contrast" /> -->
-    <!-- <p-button label="Entradas" variant="outlined" severity="contrast" /> -->
-    <!-- <p-button label="Salidas" variant="outlined" severity="contrast" /> -->
-    <!-- <p-button label="Barberos" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { reportes: ['reportes-barberos'] }}]"/> -->
-    <!-- <p-button label="Clientes" variant="outlined" severity="contrast" /> -->
-  </div>
+<div class="buttonContainer">
+  <!-- <p-button label="Productos" variant="outlined" severity="contrast" /> -->
+  <!-- <p-button label="Entradas" variant="outlined" severity="contrast" /> -->
+  <!-- <p-button label="Salidas" variant="outlined" severity="contrast" /> -->
+  <!-- <p-button label="Barberos" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { reportes: ['reportes-barberos'] }}]"/> -->
+  <!-- <p-button label="Clientes" variant="outlined" severity="contrast" /> -->
+</div>
 
-  <div class="EstadisticsContainer">
-    <!-- routerLink="/almacen/administrar-entrada" -->
+<div class="EstadisticsContainer">
+  <mini-card style="background: linear-gradient(135deg, #3B82F6, #2563EB); border-radius: 12px;" [icon]="'pi pi-user'"
+    [link]="" [name]="'Barberos Activos'" [amount]="generalService.daily().active_barbers"></mini-card>
 
+  <mini-card style="background: linear-gradient(135deg, #10B981, #059669); border-radius: 12px;"
+    [icon]="'pi pi-money-bill'" [link]="" [name]="'Ingresos Totales'"
+    [amount]="generalService.daily().total_completed"></mini-card>
 
-    <mini-card [icon]="'pi pi-user'" [link]="" [name]="'Barberos Activos'" [amount]="generalService.daily().active_barbers"></mini-card>
-    <mini-card [icon]="'pi pi-money-bill'" [link]="" [name]="'Ingresos Totales'" [amount]="generalService.daily().total_completed"></mini-card>
-    <mini-card [icon]="'pi pi-calendar-clock'" [link]="" [name]="'Citas Programadas'" [amount]="generalService.daily().total_scheduled"></mini-card>
-    <mini-card [icon]="'pi pi-check-circle'" [link]="" [name]="'Citas Completas'" [amount]="generalService.daily().total_completed"></mini-card>
+  <mini-card style="background: linear-gradient(135deg, #F59E0B, #D97706); border-radius: 12px;"
+    [icon]="'pi pi-calendar-clock'" [link]="" [name]="'Citas Programadas'"
+    [amount]="generalService.daily().total_scheduled"></mini-card>
 
-    <!-- <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
+  <mini-card style="background: linear-gradient(135deg, #8B5CF6, #7C3AED); border-radius: 12px;"
+    [icon]="'pi pi-check-circle'" [link]="" [name]="'Citas Completas'"
+    [amount]="generalService.daily().total_completed"></mini-card>
+</div>
+
+<div class="lastThingsContainer">
+  <app-last-thing-card [type]="1" [icon]="'fa-solid fa-ranking-star'" [link]="'#'" [subTitle]="'Los servicios mas solicitados'" [title]="'Servicios Mas Populares'" ></app-last-thing-card>
+  <app-last-thing-card [type]="2" [icon]="'pi pi-clock'" [link]="'#'" [subTitle]="'Proximas Citas'" [title]="'Agenda'" ></app-last-thing-card>
+  <app-last-thing-card [type]="3" [icon]="'fa-solid fa-receipt'" [link]="'#'" [subTitle]="'Ultimas Facturas'" [title]="'Facturas'" ></app-last-thing-card>
+</div>
+
+<app-income-chart></app-income-chart>
+
+<!-- <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
       <div class="contentLast">
         <div>
 
@@ -106,5 +122,3 @@
         </div>
       </div>
     </div> -->
-
-  </div>

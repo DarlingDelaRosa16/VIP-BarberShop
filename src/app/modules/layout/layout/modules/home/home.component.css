@@ -8,8 +8,6 @@
   cursor: pointer;
 }
 
-
-
 .content, .contentRecinto, .contentRecintoRec{
   grid-template-columns: 1fr 1fr;
 }
@@ -20,10 +18,16 @@
 
 .EstadisticsContainer{
   display: grid;
+  gap: 10px;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
-
+.lastThingsContainer{
+  display: grid;
+  gap: 10px;
+  margin-top: 15px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 
 .buttonContainer{
   display: flex;
@@ -47,5 +51,3 @@
   margin-top: 10px;
   border-bottom: 1px solid #e9e9eb;
 }
-
-

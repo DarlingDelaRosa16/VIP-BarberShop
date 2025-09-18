@@ -1,23 +1,84 @@
-<div class="title">
-  <h1>Citas</h1>
+<div class="title" style="margin-bottom: 10px; align-items: start;">
+  <h1> <i class="pi pi-calendar" style="color: #242424; font-size: 24px;"></i> Agenda Semanal</h1>
+
+  <p-button label="Listado de Citas" [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}"
+    [routerLink]="[{ outlets: { barberia: ['listado-citas'] }}]" />
 </div>
 
-<div class="buttonContainer">
-  <p-button label="Listado de Citas" variant="outlined" severity="contrast"
-    [routerLink]="[{ outlets: { barberia: ['listado-citas'] }}]" />
-  <!-- <p-button label="Crear Cita" variant="outlined" severity="contrast" /> -->
-</div>
+<form [formGroup]="filterForm"
+  style="display: flex; gap: 10px; margin: 10px 0 15px 0; align-items: end; border-radius: 5px; border: 1px solid #eee; padding: 16px;">
+  <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-user"></i> Buscar por nombre </label>
+
+    <p-select optionLabel="name" [loading]="clientService.loading()" [filter]="true" filterBy="first_name"
+      [showClear]="true" placeholder="Escribe el nombre del cliente o barbero" formControlName="name"
+      (onChange)="filterDate()" [options]="people">
+      <!--  [(ngModel)]="clientSelected" (onChange)="showClient()"-->
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center">
+          <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }} - <span style="font-weight: 800;">{{
+              selectedOption.email }}</span> -
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="selectedOption.role_id === 2">(Barbero)</span>
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="selectedOption.role_id === 3">(Cliente)</span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-person #item>
+        <div class="flex items-center">
+          <div>
+            {{ person.first_name }} {{ person.last_name }} - <span style="font-weight: 800;">{{ person.email }}</span> -
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="person.role_id === 2">(Barbero)</span>
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="person.role_id === 3">(Cliente)</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <!-- <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="fa-solid fa-scissors"></i> Buscar por nombre de barbero</label>
+
+    <p-select optionLabel="name" [filter]="true" filterBy="first_name" [showClear]="true"
+      placeholder="Escribe el nombre del barbero" formControlName="name" (input)="filterDate()" [options]="barberService.barbers()" >
+       [(ngModel)]="clientSelected" (onChange)="showClient()"
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center">
+          <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-client #item>
+        <div class="flex items-center">
+          <div>{{ client.first_name }} {{ client.last_name }}</div>
+        </div>
+      </ng-template>
+    </p-select>
+
+  </div> -->
+
+  <!-- <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-calendar"></i> Busca por rango de fecha</label>
+    <p-datepicker showIcon fluid selectionMode="range" (onSelect)="filterDate()" formControlName="date" [readonlyInput]="true" placeholder="Rango de fecha" />
+  </div> -->
+
+  <div class="form-group">
+    <label style="margin-bottom: 5px;">
+      <i class="pi pi-filter"></i> Busca por estado
+    </label>
+    <p-select [options]="stateOptions" optionLabel="name" optionValue="name"
+      formControlName="state"
+      placeholder="Estado de la cita"
+      [showClear]="true"
+      (onChange)="filterDate()">
+    </p-select>
+  </div>
+
+  <p-button label="Limpiar Filtros" variant="outlined" severity="secondary" (click)="filterForm.reset() ; filterDate()" />
+</form>
 
 <div class="container">
-
   <!-- <div class="calendar-container"> -->
-  <mwl-calendar-week-view [viewDate]="viewDate" [events]="events"
-    [hourSegments]="2"
-    [dayStartHour]="8"
-    [dayEndHour]="19"
-    [refresh]="refresh"
-    (eventClicked)="handleEventClick($event.event)">
-     >
+  <mwl-calendar-week-view [viewDate]="viewDate" [events]="events" [hourSegments]="2" [dayStartHour]="1"
+    [dayEndHour]="23" [refresh]="refresh" (eventClicked)="handleEventClick($event.event)">
   </mwl-calendar-week-view>
 
   <!-- </div> -->
@@ -52,3 +113,4 @@
     </tr>
   </table> -->
 </div>
+<p-toast position="bottom-right" />

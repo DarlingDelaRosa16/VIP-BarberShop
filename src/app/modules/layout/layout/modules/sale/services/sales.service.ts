@@ -2,8 +2,9 @@ import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SystemInformationService } from '../../../../services/general.service';
 import { RequestHelperService } from '../../../../services/requestHelper.service';
+import { invoiceGetI, invoicePostI } from '../interface/sale.interface';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
 export class SalesService {
 
@@ -23,14 +24,29 @@ export class SalesService {
     this.header = { headers: this.headers };
   }
 
-  private sales$ = signal<any>({})
-  public sales = computed(() => this.sales$())
+  private sales$ = signal<invoiceGetI[]>([]);
+  private loadingSales$ = signal<boolean>(false);
+
+  public sales = computed(() => this.sales$());
+  public loadingSales = computed(() => this.loadingSales$());
 
   public getInvoices() {
-    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/api/invoices`,this.header))
-      .subscribe((res: any) => {
+    this.loadingSales$.set(true); // empieza cargando
+
+    this.requestHelper.handleRequest(() =>
+      this.http.get(`${this.baseURL}/invoices`, this.header)
+    ).subscribe({
+      next: (res: any) => {
         this.sales$.set(res.data);
+        this.loadingSales$.set(false); // terminó de cargar
         console.log(res);
-      });
+      },
+      error: () => {
+        this.loadingSales$.set(false); // aunque falle, quitamos el loading
+      }
+    });
+  }
+  public postInvoice(invoice: invoicePostI) {
+    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/invoices`, invoice, this.header,));
   }
 }

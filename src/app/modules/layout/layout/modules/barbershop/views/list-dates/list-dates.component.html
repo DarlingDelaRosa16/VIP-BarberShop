@@ -1,45 +1,239 @@
-<div  style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between;">
   <div class="title">
-    <h1>Listado de Citas</h1>
+    <h1><i class="fa-solid fa-calendar" style="color: #242424; font-size: 24px;"></i> Agenda Semanal</h1>
   </div>
-  <p-button label="Calendario Citas" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" />
+  <div style="display: flex; gap: 5px;">
+    <p-button label="Calendario Citas" icon="pi pi-arrow-left" variant="outlined" severity="secondary"
+      [routerLink]="['../']" />
+    <p-button [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" label="Crear Cita"
+      icon="pi pi-plus" variant="outlined" (onClick)="openCreateDateModal('')" />
+  </div>
 </div>
 
-<div class="buttonContainer">
-  <p-button label="Crear Cita" variant="outlined" severity="contrast" (onClick)="openCreateDateModal()"/>
-</div>
+<form [formGroup]="DatesFilterForm"
+  style="display: flex; gap: 10px; margin: 10px 0 15px 0; align-items: end; border-radius: 5px; border: 1px solid #eee; padding: 16px;">
 
-<p-table
-    [value]="barbershopService.dates()"
-    showGridlines
-    [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template #header>
-            <tr>
-                <th>Fecha</th>
-                <th>Cliente</th>
-                <th>Barbero</th>
-                <th>Horario</th>
-                <th>Estado</th>
-                <th>Completar</th>
-                <th>Servicios</th>
-                <th></th>
-                <th><div class="loader" *ngIf="barbershopService.dates().length == 0"></div></th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-dates>
-            <tr>
-                <td>{{ dates.appointment_date }}</td>
-                <td>{{ dates.client_name }}</td>
-                <td>{{ dates.barber_name }}</td>
-                <td>{{ dates.start_time }} - {{ dates.end_time }}</td>
-                <td>{{ dates.status }}</td>
-                <td style="display: flex; justify-content: center; "><p-button *ngIf="dates.status === 'Reservado'; else noCompletar" (click)="changeStatusDate(dates.id)" label="Completar" icon="pi pi-thumbs-up" severity="contrast" /></td>
-                <ng-template #noCompletar>
-                  <td style="display: flex; justify-content: center; "><span style="height: 20px;"></span></td>
-                </ng-template>
-                <td><i class="pi pi-list" style="display: grid; place-items: center; color: rgb(12, 12, 181); cursor: pointer;" (click)="openDetailViewModal(dates.services , 'Listado de Servicios', 'Nombre de Servicios')"></i> </td>
-                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;" *ngIf="dates.status === 'Reservado'; else noCompletar"></i> </td>
-                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red; cursor: pointer;" *ngIf="dates.status === 'Reservado'; else noCompletar" (click)="removeDate(dates.id)"></i> </td>
-            </tr>
-        </ng-template>
+  <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-user"></i> Buscar por nombre </label>
+
+    <p-select optionLabel="name" [loading]="clientService.loading()" [filter]="true" filterBy="first_name,last_name"
+      [showClear]="true" placeholder="Escribe el nombre del cliente o barbero" formControlName="name"
+      (onChange)="filterDate()" [options]="people">
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center">
+          <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }} - <span style="font-weight: 800;">{{
+              selectedOption.email }}</span> -
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="selectedOption.role_id === 2">(Barbero)</span>
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="selectedOption.role_id === 3">(Cliente)</span>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template let-person #item>
+        <div class="flex items-center">
+          <div>
+            {{ person.first_name }} {{ person.last_name }} - <span style="font-weight: 800;">{{ person.email }}</span> -
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="person.role_id === 2">(Barbero)</span>
+            <span style="font-weight: 800; color: #2563eb;" *ngIf="person.role_id === 3">(Cliente)</span>
+          </div>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <div class="form-group">
+    <label style="margin-bottom: 5px;">
+      <i class="pi pi-calendar"></i> Busca por rango de fecha
+    </label>
+    <p-datepicker showIcon fluid selectionMode="range" [readonlyInput]="true" placeholder="Rango de fecha"
+      [(ngModel)]="rangeDates" (onSelect)="filterDate()" [ngModelOptions]="{standalone: true}" />
+  </div>
+
+  <div class="form-group">
+    <label style="margin-bottom: 5px;">
+      <i class="pi pi-filter"></i> Busca por estado
+    </label>
+    <p-select [options]="stateOptions" optionLabel="name" optionValue="name" formControlName="state"
+      placeholder="Estado de la cita" [showClear]="true" (onChange)="filterDate()">
+    </p-select>
+  </div>
+
+  <p-button label="Limpiar Filtros" variant="outlined" severity="secondary" (click)="clearForm()" />
+</form>
+
+<p-table [value]="dates" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template #header>
+    <tr>
+      <th>
+        <i class="pi pi-calendar" style="font-size: 12px; margin-right: 10px;"></i>Fecha
+      </th>
+      <th>
+        <i class="pi pi-user" style="font-size: 12px; margin-right: 10px;"></i>Cliente
+      </th>
+      <th>
+        <i class="fa-solid fa-scissors" style="font-size: 12px; margin-right: 10px;"></i>Barbero
+      </th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <i class="fa-solid fa-clock" style="font-size: 12px; margin-right: 10px;"></i> Horario
+        </div>
+      </th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <i class="fa-solid fa-bell-concierge" style="font-size: 12px; margin-right: 10px;"></i> Servicios
+        </div>
+      </th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <i class="fa-solid fa-traffic-light" style="font-size: 12px; margin-right: 10px;"></i> Estado
+        </div>
+      </th>
+
+      <!-- <th>
+        <div class="GeneralCenteredDiv">
+          <i class="fa-solid fa-check" style="font-size: 12px; margin-right: 10px;"></i> Completar
+        </div>
+      </th> -->
+      <th>
+        <div class="GeneralCenteredDiv">
+          <div class="loader" *ngIf="barbershopService.loadingDates()"></div>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-dates>
+    <tr>
+      <td>{{ dates.appointment_date }}</td>
+      <td>{{ dates.client_name }}</td>
+      <td style="color: #2563eb; font-weight: 600;">{{ dates.barber_name }}</td>
+      <td>
+        <div
+          style="background-color: #eee; display: flex; align-items: center; padding: 5px 0; justify-content: center; border-radius: 10px;">
+          {{ dates.start_time | date: "HH:mm a"}} - {{ dates.end_time | date: "HH:mm a" }}
+        </div>
+      </td>
+      <td>
+        <div class="GeneralCenteredDiv">
+          <div style="background-color: #e0f2fe; padding: 5px; border-radius: 15px;">
+            {{dates.services[0].name}}
+          </div>
+          @if(dates.services.length > 1){ +
+          <div style="background-color: #e0f2fe; padding: 5px; border-radius: 15px; margin: 0 2px;">
+            {{dates.services[1].name }}
+          </div>
+
+          }
+          @if(dates.services.length > 2){ <p style="margin: 0; cursor: pointer;">...</p> }
+        </div>
+      </td>
+      <td>
+        <div style=" display: flex; align-items: center; justify-content: center; ">
+          <p-tag *ngIf="dates.status == 'Completado'" icon="pi pi-check" severity="success" [value]="dates.status" />
+
+          <p-tag *ngIf="dates.status == 'En proceso'" severity="info" icon="pi pi-spinner-dotted" [value]="dates.status" />
+          <p-tag *ngIf="dates.status == 'Reservado'" severity="warn" icon="pi pi-info-circle" [value]="dates.status" />
+          <p-tag *ngIf="dates.status == 'Cancelado'" severity="danger" icon="pi pi-times" [value]="dates.status" />
+          &nbsp;
+          <p-tag *ngIf="dates.paid " severity="success" icon="pi pi-money-bill" value="P" />
+        </div>
+
+      </td>
+      <!-- <td>
+        <div class="GeneralCenteredDiv">
+          <p-button *ngIf="dates.status === 'Reservado'; else noCompletar"
+            (click)="changeStatusDate(dates.id, 7)" label="Completar" icon="pi pi-thumbs-up"
+            [style]="{ backgroundColor: '#374151', borderColor: '#374151', color: 'white'}" />
+        </div>
+      </td> -->
+      <!-- <ng-template #noCompletar>
+        <td style="display: flex; justify-content: center; "><span style="height: 20px;"></span></td>
+      </ng-template> -->
+
+      <td>
+        <i *ngIf="dates.status != 'Cancelado'" class="fa-solid fa-ellipsis-vertical" style="cursor: pointer;" matTooltip="Menu de opciones"
+          [matMenuTriggerFor]="menu"></i>
+        <mat-menu #menu="matMenu" xPosition="before">
+
+          <div class="ItemMiniMenu"
+            (click)="ViewDetailModal(dates)">
+            <i class="pi pi-list" style="color: purple;"></i>
+            <h3 >Ver Detalle</h3>
+          </div>
+
+          <div class="ItemMiniMenu"
+            (click)="openDetailViewModal(dates.services , 'Listado de Servicios', 'Nombre de Servicios', 'fa-solid fa-bell-concierge')">
+            <i class="pi pi-eye" style="color: brown;"></i>
+            <h3>Listado de Servicios</h3>
+          </div>
+
+          <div class="ItemMiniMenu" (click)="payment(dates)" *ngIf="dates.status != 'Completado' && dates.paid == false ">
+            <i class="pi pi-money-bill" style="color: green;"></i>
+            <h3>Facturar</h3>
+          </div>
+
+          <div class="ItemMiniMenu" *ngIf="dates.status != 'Completado' && dates.status != 'Cancelado' && dates.paid == false " (click)="goToVentaProductos(dates)">
+            <i class="pi pi-shopping-cart" style="color: blue;"></i>
+            <h3>Venta de Productos</h3>
+          </div>
+
+          <!-- <div class="ItemMiniMenu" *ngIf="dates.status == 'Completado' ">
+            <i class="pi pi-receipt"></i>
+            <h3>Ver Factura</h3>
+          </div> -->
+
+          <div class="MenuWrapper" *ngIf="dates.status != 'Completado' && dates.status != 'Cancelado'" (mouseenter)="stateMenu = true" (mouseleave)="stateMenu = false">
+
+            <!-- Botón principal -->
+            <div class="ItemMiniMenu">
+              <i class="fa-solid fa-traffic-light" style="color: burlywood;"></i>
+              <span class="GeneralSpaceBetDiv" style="width: 100%;">
+                <h3>Cambiar Estado</h3>
+                <i class="pi pi-angle-down" style="color: #aaa;"></i>
+              </span>
+            </div>
+
+            <div *ngIf="stateMenu" class="SubMenu">
+              <div class="ItemMiniMenu InProcessHover" *ngIf="dates.status != 'En proceso' " style="width: 175px; margin: 0 5px 5px 25px;"
+                (click)="changeStatusDate(dates.id, 5)">
+                <i class="pi pi-spinner-dotted" style="color: #1565c0;"></i>
+                <h3>En proceso</h3>
+              </div>
+
+              <div class="ItemMiniMenu successHover" style="width: 175px; margin: 0 5px 5px 25px;"
+                (click)="changeStatusDate(dates.id, 7)">
+                <i class="pi pi-check" style="color: green;"></i>
+                <h3>Completado</h3>
+              </div>
+
+              <div class="ItemMiniMenu eliminarHover" style="width: 175px; margin: 0 5px 5px 25px;"
+                (click)="changeStatusDate(dates.id, 6)">
+                <i class="pi pi-times" style="color: red;"></i>
+                <h3>Cancelado</h3>
+              </div>
+            </div>
+          </div>
+
+          <div class="ItemMiniMenu editarHover" (click)="openCreateDateModal(dates)"
+            *ngIf="dates.status != 'Completado' &&  dates.status != 'Cancelado'">
+            <i class="pi pi-pencil" style="color: #fbc02d;"></i>
+            <h3>Editar</h3>
+          </div>
+
+          <div *ngIf="dates.status === 'Reservado'" class="ItemMiniMenu eliminarHover" (click)="removeDate(dates.id)"
+            style="margin-bottom: 0;">
+            <i class="pi pi-trash" style="color: red;"></i>
+            <h3>Eliminar</h3>
+          </div>
+
+        </mat-menu>
+
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
+
+<div *ngIf="dates.length == 0 && barbershopService.loadingDates() == false" style="display: grid; place-items: center; margin-top: 50px;">
+  <app-no-data [icon]="'pi pi-calendar'" [titleNoData]="'No se encontraron citas'"
+    [subTitleNoData]="'Intenta ajustar los filtros o crear una nueva cita'"></app-no-data>
+</div>
+
+<p-toast position="bottom-right" />

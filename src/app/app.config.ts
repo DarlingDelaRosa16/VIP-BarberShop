@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme:{
-        preset: nora,
+        preset: lara,
         options: {
           darkModeSelector: false || 'none'
       }

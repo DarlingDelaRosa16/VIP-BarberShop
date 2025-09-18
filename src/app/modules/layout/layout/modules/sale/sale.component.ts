@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, EnvironmentInjector, inject, OnInit } from '@angular/core';
 import { ModulesImports } from '../../../../../helpers/modulesImports';
 import { MaterialComponents } from '../../../../../helpers/material';
 import { PrimeComponentsModules } from '../../../../../helpers/primeNg';
@@ -7,41 +7,76 @@ import { ProductGetI, ProductShoppingCartI } from '../inventory/views/products/i
 import { PaymentComponent } from './dialog/payment/payment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ClientService } from '../configurations/configurationOptions/clients/services/clients.service';
+import { PersonGetI } from '../../interface/general.Interface';
+import { Router } from '@angular/router';
+import { ServiceGetI } from '../configurations/configurationOptions/services/interface/services.interface';
+import { MessageService } from 'primeng/api';
+import { DatesGetToSetI } from '../barbershop/interface/barbershop.interface';
+import { PaymentProductComponent } from './dialog/payment-product/payment-product.component';
 
 @Component({
   selector: 'app-sale',
   imports: [MaterialComponents, ModulesImports, PrimeComponentsModules],
   templateUrl: './sale.component.html',
-  styleUrl: './sale.component.css'
+  styleUrl: './sale.component.css',
+  providers: [MessageService]
 })
 export class SaleComponent implements OnInit {
 
   shopingCart: ProductShoppingCartI[] = []
   filterShoppingCart: string = ''
   filterproduct: string = ''
-  clientSelected: any
+  clientSelected!: PersonGetI
   totalItbis: number = 0
   total: number = 0
+  clientIdFromNav!: number
+  appo!: DatesGetToSetI
 
   constructor(
+    private router: Router,
     public dialog: MatDialog,
     public productService: ProductService,
     public clientService: ClientService,
-  ) { }
+    private messageService: MessageService,
 
-  ngOnInit(): void {
-    this.productService.getProducts()
-    this.clientService.getClients()
+  ) {
 
-    // this.clientService.clients().map((client) => ({
-    //   ...client,
-    //   full_name: `${client.first_name} ${client.last_name}`
-    // }))
+    const nav = this.router.getCurrentNavigation();
+    if (nav?.extras.state) {
+
+      const data = nav.extras.state['data'];
+
+      nav.extras.state['data'].services.map((service: ServiceGetI, index: number) => {
+        this.shopingCart.push({
+          itbis: 0,
+          total_itbis_pro: 0,
+          name: service.name,
+          id: service.id,
+          sale_price: service.price,
+          unit_cost: service.price,
+          quantity: 1,
+          subTotal: service.price,
+        })
+      })
+
+      this.clientIdFromNav = data.client_id;
+      this.appo = data
+    }
   }
 
-  showClient() {
-    console.log(this.clientSelected);
-    console.log(this.clientService.clients());
+  private injector = inject(EnvironmentInjector);
+
+  ngOnInit(): void {
+    this.clientService.getClients()
+    this.productService.getProducts()
+
+    this.injector.runInContext(() => {
+      effect(() => {
+        this.clientSelected = this.clientService.clients().find(
+          c => c.id === this.clientIdFromNav
+        )!;
+      });
+    });
   }
 
   filterProduct() {
@@ -100,11 +135,22 @@ export class SaleComponent implements OnInit {
     })
   }
 
-  openPaymentModal() { //elementoList: any[], nombre: string
-    const dialogRef = this.dialog.open(PaymentComponent, {
-      width: '1300px',
-    }) //, { data: { elementoList, nombre }, }
-    dialogRef.afterClosed().subscribe(() => {
-    });
+  openPaymentModal() {
+    console.log(this.clientSelected, this.shopingCart.length);
+
+    console.log(this.shopingCart.length <= 0 && this.clientSelected.id > 0);
+
+    if (this.shopingCart.length > 0 && this.clientSelected != undefined) {
+      const dialogRef = this.dialog.open(PaymentProductComponent, { data: { usuario: this.clientSelected, productos: this.shopingCart } })
+      dialogRef.afterClosed().subscribe(() => {
+      });
+    } else {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Info',
+        detail: `El carrito debe tener al menos un producto y debe haber un usuario seleccionado.`,
+        life: 2700
+      });
+    }
   }
 }

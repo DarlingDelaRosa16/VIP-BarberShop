@@ -24,17 +24,27 @@ export class ClientService {
     this.header = { headers: this.headers };
   }
 
-  private client$ = signal<PersonGetI[]>([])
-  public clients = computed(() => this.client$())
+  private client$ = signal<PersonGetI[]>([]);
+  private loading$ = signal<boolean>(false);
 
-  public getClients() {
-    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/clients`, this.header))
-      .subscribe((res: any) => {
+  public clients = computed(() => this.client$());
+  public loading = computed(() => this.loading$());
+
+  public getClients(name: string = '') {
+    this.loading$.set(true); // comienza cargando
+
+    this.requestHelper.handleRequest(() =>
+      this.http.get(`${this.baseURL}/clients?name=${name}`, this.header)
+    ).subscribe({
+      next: (res: any) => {
         this.client$.set(res.data);
-      });
+        this.loading$.set(false); // terminó de cargar
+      },
+      error: () => {
+        this.loading$.set(false); // aunque falle, quita el loading
+      }
+    });
   }
 
-  // public putBarber(service: BarberPostI) {
-  //   return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/servicios`, service, this.header, ));
-  // }
+
 }

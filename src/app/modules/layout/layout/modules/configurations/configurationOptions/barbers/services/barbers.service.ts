@@ -5,7 +5,7 @@ import { RequestHelperService } from '../../../../../../services/requestHelper.s
 import { PersonGetI } from '../../../../../interface/general.Interface';
 import { BarberSlots } from '../interface/barbers.interface';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
 export class BabersService {
 
@@ -25,21 +25,35 @@ export class BabersService {
     this.header = { headers: this.headers };
   }
 
-  private barbers$ = signal<PersonGetI[]>([])
-  public barbers = computed(() => this.barbers$())
+  private barbers$ = signal<PersonGetI[]>([]);
+  private loadingBarbers$ = signal<boolean>(false);
+
+  public barbers = computed(() => this.barbers$());
+  public loadingBarbers = computed(() => this.loadingBarbers$());
 
   private barbersSlots$ = signal<BarberSlots[]>([])
   public barbersSlots = computed(() => this.barbersSlots$())
 
   public getBarbers() {
-    return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/barbers`, this.header))
-      .subscribe((res: any) => { this.barbers$.set(res.data); ;
-      });
+    this.loadingBarbers$.set(true); // comienza cargando
+
+    this.requestHelper.handleRequest(() =>
+      this.http.get(`${this.baseURL}/barbers`, this.header)
+    ).subscribe({
+      next: (res: any) => {
+        this.barbers$.set(res.data);
+        this.loadingBarbers$.set(false); // terminó de cargar
+      },
+      error: () => {
+        this.barbers$.set([]); // vacía si falla
+        this.loadingBarbers$.set(false); // quita el loading
+      }
+    });
   }
 
   public getAvaliableSlotsBarbers(barber: BarberSlots) {
     return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/barbers/availableSlots`, barber, this.header))
-      // .subscribe((res: any) => { this.barbersSlots$.set(res.data); console.log(res); });
+    // .subscribe((res: any) => { this.barbersSlots$.set(res.data); console.log(res); });
   }
   // public putBarber(service: BarberPostI) {
   //   return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/servicios`, service, this.header, ));

@@ -13,11 +13,23 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { PasswordModule } from 'primeng/password';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TagModule } from 'primeng/tag';
+import { TieredMenuModule } from 'primeng/tieredmenu';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { RatingModule } from 'primeng/rating';
 
 export const PrimeComponentsModules: any = [
   DatePickerModule,
-  MultiSelectModule ,
-  PasswordModule ,
+  RatingModule,
+  SplitButtonModule,
+  ToastModule,
+  TagModule,
+  ConfirmDialogModule ,
+  TieredMenuModule,
+  MultiSelectModule,
+  PasswordModule,
   ButtonModule,
   FloatLabelModule,
   InputTextModule,

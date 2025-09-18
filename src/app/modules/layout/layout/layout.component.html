@@ -2,7 +2,16 @@
 
   <mat-sidenav mode="side" [(opened)]="sidenavOpened">
     <div class="logosideMenuContainer">
-      <!-- <img [routerLink]="['formulacion']" class="logoPlanner" src="DyCVBO.png" alt="Planificación Institucional"> -->
+      <!-- <img [routerLink]="['formulacion']" class="logoPlanner" src="logo.jpg" alt="Vip Stylist"> -->
+      <div class="menu-item">
+        <div class="icon-box">
+          <i class="fa-solid fa-scissors"></i>
+        </div>
+        <div class="text-box">
+          <h2>VIP Stylist</h2>
+          <!-- <p>Mas que un corte de cabello.</p> -->
+        </div>
+      </div>
     </div>
 
     <div class="sideMenuOptionsContainer"> <!---*ngIf="userLogged.rol.modulos"-->
@@ -10,7 +19,7 @@
       <a class="item-menu" [routerLink]="['/layout/inicio']" routerLinkActive="active"> <!-- -->
         <mat-icon>home</mat-icon>Inicio
       </a>
-      <a class="item-menu" [routerLink]="['/layout/estado-barberia']" routerLinkActive="active"> <!---->
+      <a class="item-menu" [routerLink]="['/layout/estado-barberia']" routerLinkActive="active">
         <mat-icon>content_cut</mat-icon>Barberia
       </a>
 
@@ -48,21 +57,55 @@
           </ng-template>
         </div>
       </a>
+
       <div *ngIf="ventaOpened">
 
-        <a class="sub-item-menu" [routerLink]="['/layout/listado-facturas']" routerLinkActive="active"> <!---->
+        <a class="sub-item-menu" [routerLink]="['/layout/listado-facturas']" routerLinkActive="active">
           <mat-icon>receipt_long</mat-icon>Listado de facturas
         </a>
 
-        <a class="sub-item-menu" [routerLink]="['/layout/ventas']" routerLinkActive="active"> <!---->
-          <mat-icon>shopping_cart</mat-icon>Venta de producto
+        <a class="sub-item-menu" [routerLink]="['/layout/ventas']" routerLinkActive="active">
+          <mat-icon>shopping_cart</mat-icon>Facturar productos
         </a>
 
       </div>
 
-      <a class="item-menu" [routerLink]="['/layout/reportes']" routerLinkActive="active"> <!---->
-        <mat-icon>assignment</mat-icon>Reportes
+      <a class="item-menu" routerLinkActive="active" [routerLink]="['/layout/horarios']">
+        <mat-icon>schedule</mat-icon>Horarios
       </a>
+
+      <a class="item-menu" routerLinkActive="active" [routerLink]="['/layout/resenas']">
+        <mat-icon>reviews</mat-icon>Reseñas
+      </a>
+
+      <!-- <a class="item-menu" [routerLink]="['/layout/reportes']" routerLinkActive="active">
+        <mat-icon>assignment</mat-icon>Reportes
+      </a> -->
+
+      <a class="item-menu" (click)="reportsOpened = !reportsOpened"><mat-icon>assignment</mat-icon>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-right: 15px;">
+          Reportes
+          <mat-icon *ngIf="reportsOpened; else close3">keyboard_arrow_up</mat-icon>
+          <ng-template #close3>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+          </ng-template>
+        </div>
+      </a>
+
+      <div *ngIf="reportsOpened">
+        <a class="sub-item-menu" [routerLink]="['/layout/reportes-barberos']" routerLinkActive="active">
+          <i class="pi pi-chart-pie" style="font-size: 23px;"></i>Comisiones Barberos
+        </a>
+
+        <!-- <a class="sub-item-menu" [routerLink]="['/layout/reporte-existencia']" routerLinkActive="active">
+          <i class="pi pi-chart-line" style="font-size: 23px;"></i>Productos en escases
+        </a> -->
+      </div>
+
+      <a class="item-menu" [routerLink]="['/layout/mantenimiento']" routerLinkActive="active">
+        <mat-icon>settings</mat-icon>Mantenimiento
+      </a>
+
       <!-- <a *ngIf="improvePlan && appHelpers.isTodayInRange(improvePlan.fechaInicio, improvePlan.fechaFin) && this.systemInformationService.activeRol().nombre !== 'supervisado'" class="item-menu" [routerLink]="['/layout/plan-de-mejora']" routerLinkActive="active">
               <mat-icon>star</mat-icon>Plan de mejora
           </a>
@@ -72,12 +115,12 @@
     </div>
 
     <div>
-      <div class="ConfigsideMenuContainer">
-        <!--*ngIf="this.systemInformationService.activeRol().nombre !== 'Supervisor' && this.systemInformationService.activeRol().nombre !== 'supervisado'"-->
+      <!-- <div class="ConfigsideMenuContainer">
+        *ngIf="this.systemInformationService.activeRol().nombre !== 'Supervisor' && this.systemInformationService.activeRol().nombre !== 'supervisado'"
         <div class="item-menu" [routerLink]="['/layout/mantenimiento']" routerLinkActive="activeOut">
           <mat-icon>settings</mat-icon>Mantenimiento
         </div>
-      </div>
+      </div> -->
 
       <div class="ConfigsideMenuContainer"><!--(click)="cerrarSesion()"-->
         <div class="item-menu" routerLinkActive="activeOut" (click)="logOut()">

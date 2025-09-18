@@ -1,0 +1,164 @@
+<div style="padding: 10px 20px 20px 20px; min-height: 725px; max-height: 93vh; background-color: white;">
+
+  <div class=" GeneralSpaceBetDiv" style="width: 510px;">
+    <h2 class="Stitle" style="margin: 10px 0;"> <i class="fa-solid fa-box-open"></i> {{elements == undefined ? 'Crear entrada' : 'Editar entrada' }}</h2>
+    <i class="pi pi-times closer" (click)="closeModal()"></i>
+  </div>
+
+  <div style=" border-radius: 8px; border: 1px solid #ddd;  padding: 10px 18px;">
+    <form [formGroup]="inboundForm" (ngSubmit)="saveChanges()">
+
+      <h3 style="font-weight: 400; margin: 10px 0 15px 0;"> <i class="fa-solid fa-box-open "></i> Formulario para
+        creación de entrada</h3>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
+          <label> <i class="pi pi-calendar iconStyle"></i> Fecha</label>
+          <p-datepicker placeholder="Seleccione la fecha" showIcon fluid formControlName="entry_date" />
+          <!-- <small id="username-help">Enter your username to reset your password.</small> -->
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+          <label> <i class="pi pi-sitemap iconStyle"></i> Tipo de entrada</label>
+          <p-select [filter]="true" filterBy="nombre" placeholder="Nombre de tipo de entrada"
+            formControlName="entry_type" [options]="tiposEntradaAlmacen" optionValue="nombre">
+            <!-- [loading]=".loading()"  (onChange)="showClient()"-->
+
+            <ng-template #selectedItem let-selectedOption>
+              <div class="flex items-center">
+                <div>{{ selectedOption.nombre }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template let-tentrada #item>
+              <div>
+                <div>{{ tentrada.nombre }} </div>
+                <!-- <h4 style="margin: 0; font-weight: 600;">{{client.email}}</h4> -->
+              </div>
+            </ng-template>
+          </p-select>
+
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 5px;">
+          <label> <i class="pi pi-receipt iconStyle"></i> Numero de Factura</label>
+          <input type="text" pInputText formControlName="invoice_number" placeholder="F-00122-31331..." />
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 5px;">
+          <label> <i class="pi pi-book iconStyle"></i> Descripción</label>
+          <textarea rows="2" cols="30" pTextarea formControlName="note"
+            style="max-width: 500px; width: 100%; resize: vertical;" placeholder="Escriba una descripción o nota">
+          </textarea>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 10px 0 5px 0;">
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 3">
+          <label> <i class="pi pi-box iconStyle"></i> Producto</label>
+          <p-select [options]="productService.products()" optionLabel="name" placeholder="Busca por nombre de producto"
+            [filter]="true" filterBy="name,description" formControlName="product_id" />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 2px;">
+          <label> <i class="pi pi-hashtag iconStyle"></i> Cantidad</label>
+          <p-inputnumber inputId="integeronly" formControlName="quantity" fluid placeholder="Ejemplo: 2" />
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: end; gap: 2px; flex: 1">
+        <p-button icon="pi pi-plus" label="Agregar" (click)="addItem()" />
+      </div>
+
+      <p-table [value]="shopingCart" scrollable="true" [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem' }"
+        [scrollHeight]="'33.5vh'">
+
+        <ng-template #header>
+          <tr>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="pi pi-tag" style="font-size: 12px;"></i> Nombre
+            </th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="fa-solid fa-hashtag" style="font-size: 10px;"></i> Cant
+            </th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="pi pi-percentage" style="font-size: 10px;"></i> ITBIS
+            </th>
+            <th style="font-weight: 100; font-size: 14px;">
+              <i class="pi pi-dollar" style="font-size: 12px;"></i> SubTotal
+            </th>
+            <th style="width: 2% !important;"></th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-product>
+          <tr>
+            <!-- <td>{{ product.id }}</td> -->
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.total_itbis_pro | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+            <td>{{ product.subTotal | currency:'RD$ ' : 'symbol':'1.2-2' }}</td>
+            <td><i (click)="removeItemShoppingCart(product.id)" matTooltip="Remover del carrito" class="pi pi-times"
+                style="display: grid; place-items: center; color: red; cursor: pointer; font-size: 14px;"></i>
+            </td>
+            <!-- (click)="removeProduct(product.product_id)" -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td colspan="2" style="text-align: right; font-weight: bold;">Total:</td>
+            <td>{{totalItbis | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+            <td>{{total | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+            <td></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <!-- <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 15px 0;">
+        @for (range of hoursRange; track $index) {
+        <label class="selectable"
+          style="border: 1px solid #ccc; display: grid; place-items: center; padding: 5px; cursor: pointer; border-radius: 5px;">
+
+          <input type="radio" name="selectedRange" hidden formControlName="selectedRange" [value]="range">
+          {{ range.start_time }} - {{ range.end_time }}
+
+        </label>
+        }@empty {
+        <div *ngIf="loading == false"
+          style="grid-column: 1/3; border: 1px solid #e9e9eb; display: grid; place-items: center; height: 130px; background-color: #eee; border-radius: 5px;">
+          No hay rangos de horario para mostrar
+        </div>
+
+        <div *ngIf="loading" style="display: grid; place-items: center; grid-column: 1/3; height: 130px;">
+          <span style="display: flex; gap: 10px;">
+            <div class="loader"></div>
+            Cargando...
+          </span>
+        </div>
+        }
+      </div> -->
+
+      <div style="display: flex; justify-content: end; gap: 10px; flex: 1; margin-top: 10px;">
+        <h3 style="margin: 0; font-weight: 500;">Monto total:</h3>
+        <h3 style="margin: 0; color: green;">{{totaltoPay | currency: 'RD$ ':'symbol':'1.2-2'}}</h3>
+      </div>
+
+      <div class="buttonContainer" style="margin-top: 10px;">
+
+        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="secondary"
+          (click)="clearForm()" />
+
+        <p-button [label]="elements == undefined? 'Guardar Entrada': 'Editar Entrada' " icon="pi pi-send"
+          [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" type="submit" />
+
+      </div>
+    </form>
+  </div>
+</div>

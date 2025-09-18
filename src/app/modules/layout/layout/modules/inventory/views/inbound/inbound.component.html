@@ -1,49 +1,151 @@
-<div  style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between;">
   <div class="title">
-    <h1>Entradas</h1>
+    <h1><i class="fa-solid fa-arrow-right" style="color: #242424; font-size: 24px;"></i> Entradas</h1>
   </div>
-  <!-- <p-button label="Resumen Inventario" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" /> -->
+
+  <p-button [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" label="Crear Entrada"
+    icon="pi pi-plus" (onClick)="openCreateInboundModal()" />
+
 </div>
 
-<div class="buttonContainer">
-  <p-button label="Crear Entradas" variant="outlined" severity="contrast" />
-</div>
+<form [formGroup]="InboundFilterForm"
+  style="display: flex; gap: 10px; margin: 10px 0 15px 0; align-items: end; border-radius: 5px; border: 1px solid #eee; padding: 16px;">
 
-<p-table
-    [value]="[
-    { date: '2024-03-01', noFact: 'F001', itbis: 180.00, subTotal: 1000.00, total: 1180.00 },
-    { date: '2024-03-02', noFact: 'F002', itbis: 270.00, subTotal: 1500.00, total: 1770.00 },
-    { date: '2024-03-03', noFact: 'F003', itbis: 90.00, subTotal: 500.00, total: 590.00 },
-    { date: '2024-03-04', noFact: 'F004', itbis: 360.00, subTotal: 2000.00, total: 2360.00 },
-    { date: '2024-03-05', noFact: 'F005', itbis: 450.00, subTotal: 2500.00, total: 2950.00 },
-    { date: '2024-03-06', noFact: 'F006', itbis: 135.00, subTotal: 750.00, total: 885.00 },
-    { date: '2024-03-07', noFact: 'F007', itbis: 225.00, subTotal: 1250.00, total: 1475.00 },
-  ]
-  "
-    showGridlines
-    [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template #header>
-            <tr>
-                <th>Fecha</th>
-                <th>No. Factura</th>
-                <th>ITBIS</th>
-                <th>SubTotal</th>
-                <th>Total</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template #body let-product>
-            <tr>
-                <td>{{ product.date }}</td>
-                <td>{{ product.noFact }}</td>
-                <td>{{ product.itbis }}</td>
-                <td>{{ product.subTotal }}</td>
-                <td>{{ product.total }}</td>
-                <td><i class="pi pi-list" style="display: grid; place-items: center; color: rgb(12, 12, 181);"></i> </td>
-                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
-                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
-            </tr>
-        </ng-template>
+  <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-search"></i> Buscar por N. Factura</label>
+    <input  pInputText optionLabel="name" placeholder="F-00122-31331..." (input)="filterInbound()" formControlName="invoice"/>
+  </div>
+
+  <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-calendar"></i> Busca por rango de fecha</label>
+    <p-datepicker showIcon fluid selectionMode="range" [readonlyInput]="true" placeholder="Rango de fecha"
+      [(ngModel)]="rangeDates" (onSelect)="filterInbound()" [ngModelOptions]="{standalone: true}" />
+  </div>
+
+  <p-button label="Limpiar Filtros" variant="outlined" severity="secondary" (onClick)="clearForm()" />
+</form>
+
+
+<p-table [value]="inbound" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template #header>
+    <tr>
+      <th>
+        <i class="pi pi-calendar" style="font-size: 12px; margin-right: 10px;"></i>Fecha
+      </th>
+
+      <th>
+        <i class="pi pi-user" style="font-size: 12px; margin-right: 10px;"></i>Creada por
+      </th>
+
+      <th>
+          <i class="pi pi-sitemap" style="font-size: 12px; margin-right: 10px;"></i> Tipo de entrada
+      </th>
+
+      <th>
+        <i class="pi pi-receipt" style="font-size: 12px; margin-right: 10px;"></i> N. Factura
+      </th>
+
+      <th>
+        <i class="pi pi-clipboard" style="font-size: 12px; margin-right: 10px;"></i> Descripción
+      </th>
+
+
+
+      <th>
+        <div class="GeneralCenteredDiv">
+          <i class="pi pi-box" style="font-size: 12px; margin-right: 10px;"></i> Productos
+        </div>
+      </th>
+      <!-- <th>
+        <i class="pi pi-dollar" style="font-size: 12px; margin-right: 10px;"></i>ITBIS
+      </th> -->
+      <th>
+        <i class="pi pi-dollar" style="font-size: 12px; margin-right: 10px;"></i> Total
+      </th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <div class="loader" *ngIf="inboundService.loadingInbound()"></div>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-inbound>
+    <tr>
+      <td>
+        <!-- <div
+          style="background-color: #eee; display: flex; align-items: center; padding: 5px 0; justify-content: center; border-radius: 10px;">
+        </div> -->
+        {{ inbound.entry_date }}
+      </td>
+
+      <td style="color: #2563eb; font-weight: 600;">{{ inbound.created_by.person.first_name }} {{inbound.created_by.person.last_name }}</td>
+      <td>
+          <!-- {{inbound.entry_details.length > 1 ? inbound.entry_details.length + ' Productos': inbound.entry_details.length
+          + 'Producto'}} -->
+          {{inbound.entry_type}}
+      </td>
+      <td style="color: #2563eb; font-weight: 600;">{{ inbound.invoice_number }}</td>
+      <td>
+        <div class="showNote">
+          {{inbound.note}}
+        </div>
+      </td>
+      <td>
+        <div class="GeneralCenteredDiv">
+          <div class="showproduct">
+            {{inbound.entry_details[0].product.name}}
+          </div>
+
+          @if(inbound.entry_details.length > 1){ +
+          <div class="showproduct">
+            {{inbound.entry_details[1].product.name }}
+          </div>
+          }
+          <!-- @if(inbound.entry_details.length > 2){ <p style="margin: 0; cursor: pointer;">...</p> } -->
+        </div>
+      </td>
+      <!-- <td>{{itbis}}</td> -->
+      <td>
+        <div style="color: green;">
+          {{inbound.total | currency:'RD$ ':'symbol':'1.2-2' }}
+        </div>
+      </td>
+      <td>
+        <i class="fa-solid fa-ellipsis-vertical" style="cursor: pointer;" matTooltip="Menu de opciones"
+          [matMenuTriggerFor]="menu"></i>
+        <mat-menu #menu="matMenu" xPosition="before">
+
+          <div class="ItemMiniMenu" (click)="showDetail(inbound)">
+            <i class="pi pi-list" style="color: purple;"></i>
+            <h3>Ver Detalle</h3>
+          </div>
+
+          <div class="ItemMiniMenu"
+            (click)="openDetailViewModal(inbound.entry_details , 'Listado de Productos', 'Nombre de Productos', 'pi pi-box')">
+            <i class="pi pi-eye" style="color: brown;"></i>
+            <h3>Listado de produtos</h3>
+          </div>
+
+          <div class="ItemMiniMenu editarHover" (click)="openCreateInboundModal(inbound)">
+            <i class="pi pi-pencil" style="color: #fbc02d;"></i>
+            <h3>Editar</h3>
+          </div>
+
+          <div style="margin-bottom: 0;" class="ItemMiniMenu eliminarHover" (click)="removeInBound(inbound.id)">
+            <i class="pi pi-trash" style="color: red;"></i>
+            <h3>Eliminar</h3>
+          </div>
+
+        </mat-menu>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
+
+<div *ngIf="inboundService.inbound().length == 0 && inboundService.loadingInbound() == false"
+  style="display: grid; place-items: center; margin-top: 50px;">
+  <app-no-data [icon]="'fa-solid fa-box-open'" [titleNoData]="'No se encontraron entradas'"
+    [subTitleNoData]="'Intenta ajustar los filtros o crear una nueva entrada'"></app-no-data>
+</div>
+
+<p-toast position="bottom-right" />

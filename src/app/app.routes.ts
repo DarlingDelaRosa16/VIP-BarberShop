@@ -23,6 +23,8 @@ import { BarbersReportsComponent } from './modules/layout/layout/modules/reports
 import { SaleComponent } from './modules/layout/layout/modules/sale/sale.component';
 import { SalesListComponent } from './modules/layout/layout/modules/sale/view/sales-list/sales-list.component';
 import { RecomendationsComponent } from './modules/layout/layout/modules/configurations/configurationOptions/recomendations/recomendations.component';
+import { ReviewsComponent } from './modules/layout/layout/modules/reviews/reviews.component';
+import { ShiftComponent } from './modules/layout/layout/modules/shift/shift.component';
 
 export const routes: Routes = [
   {
@@ -44,7 +46,7 @@ export const routes: Routes = [
         path: 'ventas',
         component: SaleComponent,
       },
-       {
+      {
         path: 'listado-facturas',
         component: SalesListComponent,
       },
@@ -82,12 +84,18 @@ export const routes: Routes = [
       {
         path: 'productos',
         component: ProductsComponent,
-        // outlet: 'inventario'
+      },
+      {
+        path: 'horarios',
+        component: ShiftComponent,
+      },
+      {
+        path: 'resenas',
+        component: ReviewsComponent,
       },
       {
         path: 'entradas',
         component: InboundComponent,
-        // outlet: 'inventario'
       },
       {
         path: 'salidas',
@@ -110,18 +118,28 @@ export const routes: Routes = [
       {
         path: 'reportes',
         component: ReportsComponent,
-        children: [
-          {
-            path: '',
-            component: DashboardReportsComponent,
-            outlet: 'reportes'
-          },
-          {
-            path: 'reportes-barberos',
-            component: BarbersReportsComponent,
-            outlet: 'reportes'
-          }
-        ]
+        // children: [
+        //   {
+        //     path: '',
+        //     component: DashboardReportsComponent,
+        //     outlet: 'reportes'
+        //   },
+        //   {
+        //     path: 'reportes-barberos',
+        //     component: BarbersReportsComponent,
+        //     outlet: 'reportes'
+        //   }
+        // ]
+      },
+      {
+        path: 'reporte-existencia',
+        component: DashboardReportsComponent,
+        // outlet: 'reportes'
+      },
+      {
+        path: 'reportes-barberos',
+        component: BarbersReportsComponent,
+        // outlet: 'reportes'
       },
       {
         path: 'inicio',

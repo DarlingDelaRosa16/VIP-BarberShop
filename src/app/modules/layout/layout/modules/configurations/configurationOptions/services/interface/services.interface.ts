@@ -14,6 +14,7 @@ export interface ServiceGetI {
   current_price: number,
   previous_price: number | null,
   duration: any,
+  price: number
   updated_by: Date | null,
   created_at: Date,
   updated_at: Date

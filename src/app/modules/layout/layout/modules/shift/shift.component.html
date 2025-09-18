@@ -1,0 +1,122 @@
+<div style="display: flex; justify-content: space-between;">
+  <div class="title">
+    <h1><i class="pi pi-clock" style="color: #242424; font-size: 24px;"></i> Horarios de barberos</h1>
+  </div>
+</div>
+
+<div
+  style="display: flex; gap: 10px; margin: 10px 0 15px 0; align-items: end; border-radius: 5px; border: 1px solid #eee; padding: 16px;">
+
+  <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 2px;">
+
+    <label><i class="fa-solid fa-scissors iconStyleFa"></i> Barbero</label>
+    <p-select [filter]="true" filterBy="first_name,last_name" [loading]="barberService.loadingBarbers()"
+      [options]="barberService.barbers()" placeholder="Selecciona Barbero" [(ngModel)]="barberSelected"
+      (onChange)="getShiftBarber()">
+
+      <ng-template #selectedItem let-selectedOption>
+        <div class="flex items-center">
+          <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+        </div>
+      </ng-template>
+
+      <ng-template let-barber #item>
+        <div class="flex items-center">
+          <div>
+            {{ barber.first_name }} {{ barber.last_name }}
+          </div>
+        </div>
+      </ng-template>
+    </p-select>
+  </div>
+
+  <!-- Limpiar -->
+  <p-button label="Limpiar Filtros" variant="outlined" severity="secondary" (onClick)="  clearForm()"/> <!--(onClick)="clearForm()"-->
+</div>
+
+<div style="display: flex; margin: 10px 0; justify-content: end;" *ngIf="barberSchedule.length > 0">
+  <div class="card">
+    <span class="card-text">DÍAS ACTIVOS:</span>
+    <span class="card-number">{{activeDays}}</span>
+  </div>&nbsp;
+  <div class="card">
+    <span class="card-text">HORAS TOTALES:</span>
+    <span class="card-number">{{totalHours}}</span>
+  </div>
+</div>
+
+<p-table [value]="barberSchedule" [tableStyle]="{ 'min-width': '60rem', 'min-height':'550px' }"
+  *ngIf="barberSchedule.length > 0">
+  <ng-template #header>
+    <tr>
+      <th><i class="pi pi-calendar" style="font-size: 12px; margin-right: 10px;"></i>Día</th>
+      <th><i class="pi pi-check-circle" style="font-size: 12px; margin-right: 10px;"></i>Estado</th>
+      <th><i class="pi pi-clock" style="font-size: 12px; margin-right: 10px;"></i>Hora Inicio</th>
+      <th><i class="pi pi-clock" style="font-size: 12px; margin-right: 10px;"></i>Hora Fin</th>
+      <th><i class="pi pi-hourglass" style="font-size: 12px; margin-right: 10px;"></i>Horas</th>
+      <th><i class="pi pi-eye" style="font-size: 12px; margin-right: 10px;"></i>Vista Previa</th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <div class="loader" *ngIf="shifService.loadingShift()"></div>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-schedule>
+    <tr>
+      <td>
+        {{ schedule.day_name | uppercase }}
+      </td>
+
+      <td>
+        <mat-slide-toggle [checked]="schedule.status_id == 1" color="primary"></mat-slide-toggle>
+      </td>
+
+      <td>
+        <!-- <p-datepicker inputId="calendar-timeonly" [(ngModel)]="schedule.start_time" [timeOnly]="true"  hourFormat="12" /> -->
+        <div
+          style="background-color: #eee; display: flex; align-items: center; padding: 5px 0; justify-content: center; border-radius: 10px;">
+          {{ schedule.start_time }}
+        </div>
+      </td>
+
+      <td>
+        <!-- <p-datepicker [(ngModel)]="schedule.end_time" timeOnly="true" hourFormat="12"
+          inputStyleClass="timeInput"></p-datepicker> -->
+        <div
+          style="background-color: #eee; display: flex; align-items: center; padding: 5px 0; justify-content: center; border-radius: 10px;">
+          {{ schedule.end_time }}
+        </div>
+      </td>
+
+      <!-- Horas calculadas -->
+      <td>
+        <span class="badgeHours">{{ getHours(schedule.start_time, schedule.end_time) }}h</span>
+      </td>
+
+      <!-- Vista Previa -->
+      <td>
+        <div
+          style="background-color: #eee; display: flex; align-items: center; padding: 5px 0; justify-content: center; border-radius: 10px;">
+          {{ schedule.start_time }} - {{ schedule.end_time }}
+        </div>
+        <!-- <div class="tagLunch">
+          <i class="pi pi-clock"></i> Almuerzo
+        </div> -->
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!-- <div style="display: flex; margin: 10px 0; justify-content: end;" *ngIf="barberSchedule.length > 0">
+  <p-button [label]="true == undefined ? 'Guardar Cita' : 'Editar Cita' " icon="pi pi-send"
+    [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" type="submit" />
+</div> -->
+
+<!--  -->
+<div *ngIf="barberSchedule.length == 0 && shifService.loadingShift() == false"
+  style="display: grid; place-items: center; margin-top: 50px;">
+  <app-no-data [icon]="'pi pi-clock'" [titleNoData]="'Seleccione barbero para mostrar horario.'"
+    [subTitleNoData]="'Intenta ajustar los filtros para mostrar horario.'"></app-no-data>
+</div>

@@ -1,0 +1,13 @@
+apx-chart {
+  display: block;
+  width: 100% !important;
+}
+
+.incomeChartContainer {
+  width: 100%;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transition: width 0.3s ease;
+}

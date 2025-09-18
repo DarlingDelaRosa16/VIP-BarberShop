@@ -1,46 +1,48 @@
-<div class="title">
-  <h1>Ventas</h1>
-</div>
+<div>
 
-<div class="clientCard">
+  <div class="title">
+    <h1><i class="pi pi-shopping-cart" style="color: #242424; font-size: 24px;"></i> Facturación</h1>
+  </div>
 
-  <h3 style="margin: 0 0 10px 0;"><i class="pi pi-user"></i> Datos de Cliente</h3>
+  <div class="productDetailsContainer">
 
-  <!-- <form> -->
+    <div class="selectCompra">
+      <div class="clientCard">
 
-  <!-- <div class="form-group">
-      <label for="email">Cliente</label>
-      <input type="text" placeholder="Busca por nombre de cliente" pInputText />
-    </div> -->
+        <h3 style="margin: 0; font-weight: 500;"><i class="pi pi-user"></i> Seleccionar cliente</h3>
 
-  <p-select [options]="clientService.clients()" optionLabel="name" [filter]="true" filterBy="first_name"
-    [showClear]="true" placeholder="Busca por nombre de cliente" [(ngModel)]="clientSelected" (onChange)="showClient()">
-    <ng-template #selectedItem let-selectedOption>
-      <div class="flex items-center">
-        <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+        <div style=" margin: 10px 0 15px 0;">
+
+          <div class="form-group">
+            <p-select [options]="clientService.clients()" [filter]="true" filterBy="first_name,last_name" [showClear]="true"
+              placeholder="Busca por nombre de cliente" [(ngModel)]="clientSelected"> <!--(onChange)="showClient($event)"-->
+              <ng-template #selectedItem let-selectedOption>
+                <div class="flex items-center">
+                  <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+                </div>
+              </ng-template>
+              <ng-template let-client #item>
+                <div>
+                  <div>{{ client.first_name }} {{ client.last_name }}</div>
+                  <h4 style="margin: 0; font-weight: 600;">{{client.email}}</h4>
+                </div>
+              </ng-template>
+            </p-select>
+          </div>
+
+        </div>
+
       </div>
-    </ng-template>
-    <ng-template let-client #item>
-      <div class="flex items-center">
-        <div>{{ client.first_name }} {{ client.last_name }}</div>
-      </div>
-    </ng-template>
-  </p-select>
 
-  <!-- </form> -->
+      <div class="productCard">
+        <h3 style="margin: 10px 0 10px 0; font-weight: 500;"><i class="pi pi-shopping-bag"></i> Productos</h3>
 
-</div>
+        <div class="form-group" style="margin-bottom: 7px;">
+          <input type="text" [(ngModel)]="filterproduct" (input)="filterProduct()"
+            placeholder="Busca por nombre de producto" pInputText />
+        </div>
 
-<div class="productDetailsContainer">
-
-  <div class="productCard">
-    <h3 style="margin: 0 0 10px 0;"><i class="pi pi-shopping-bag"></i> Productos</h3>
-
-    <div class="form-group">
-      <input type="text" [(ngModel)]="filterproduct" (input)="filterProduct()" placeholder="Busca por nombre de producto" pInputText />
-    </div>
-
-    <!--
+        <!--
     <div style="display: flex; flex-direction: column; gap: 2px; flex: 12">
       <label>Producto</label>
       <p-select placeholder="Busca por nombre de producto" [options]="" optionValue="id"
@@ -48,87 +50,99 @@
     </div> -->
 
 
-    <p-table [value]="this.productService.products()" scrollable="true" [scrollHeight]="'49.5vh'" showGridlines
-      [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem'}">
+        <p-table [value]="this.productService.products()" scrollable="true" [scrollHeight]="'55vh'"
+          [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem'}">
 
-      <ng-template #header>
-        <tr>
-          <!-- <th>Codigo</th> -->
-          <th>Nombre</th>
-          <th>Precio De Venta</th>
-          <th>ITBIS</th>
-          <th>Existencia</th>
-          <th></th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-product>
-        <tr>
-          <!-- <td>{{ product.id }}</td> -->
-          <td>{{ product.name }}</td>
-          <td>{{ product.sale_price | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
-          <td>{{ product.itbis }}%</td>
-          <td>{{ product.stock }}</td>
-          <td><i (click)="addItemShoppingCart(product)" matTooltip="Añadir al carrito" class="pi pi-cart-plus"
-              style="display: grid; place-items: center; color: blue; cursor: pointer;"></i> </td>
-          <!-- (click)="removeProduct(product.product_id)" -->
-        </tr>
-      </ng-template>
-    </p-table>
-    <!--
+          <ng-template #header>
+            <tr>
+              <!-- <th>Codigo</th> -->
+              <th><i class="pi pi-tag" style="font-size: 12px; margin-right: 10px;"></i>Nombre</th>
+              <th><i class="pi pi-shopping-bag" style="font-size: 12px; margin-right: 10px;"></i>Precio Venta</th>
+              <th><i class="pi pi-percentage" style="font-size: 12px; margin-right: 10px;"></i>ITBIS</th>
+              <th><i class="pi pi-box" style="font-size: 12px; margin-right: 10px;"></i>Existencia</th>
+
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-product>
+            <tr>
+              <!-- <td>{{ product.id }}</td> -->
+              <td style="color: #2563eb; font-weight: 600;">{{ product.name }}</td>
+              <td>{{ product.sale_price | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+              <td>{{ product.itbis }}%</td>
+              <td>
+                <p-tag *ngIf="product.stock > 0; else noStock" severity="success" [value]="product.stock + ' uds'" />
+                <ng-template #noStock>
+                  <p-tag severity="danger" value="Sin stock" />
+                </ng-template>
+              </td>
+              <td><i *ngIf="product.stock > 0" (click)="addItemShoppingCart(product)" matTooltip="Añadir al carrito"
+                  class="pi pi-plus" style="display: grid; place-items: center; color: green; cursor: pointer;"></i>
+              </td>
+              <!-- (click)="removeProduct(product.product_id)" -->
+            </tr>
+          </ng-template>
+        </p-table>
+        <!--
     <div class="buttonContainer">
       <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" />
       (click)="outboundForm.reset()" type="button"
       <p-button label="Guardar Salida" icon="pi pi-send" severity="contrast" type="submit" />
     </div> -->
-  </div>
-
-  <div class="productCardDetail">
-    <div>
-      <h3 style="margin: 0 0 10px 0;"><i class="pi pi-shopping-cart"></i> Carrito</h3>
-
-      <div class="form-group">
-        <!-- <label for="email">pro</label> -->
-        <input [(ngModel)]="filterShoppingCart" type="text" placeholder="Busca por nombre de producto" pInputText />
       </div>
 
-      <p-table [value]="filteredCart" showGridlines scrollable="true" [scrollHeight]="'45.5vh'"
-        [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem' }">
 
-        <ng-template #header>
-          <tr>
-            <!-- <th>Codigo</th> -->
-            <th >Nombre</th>
-            <th >Cantidad</th>
-            <th >ITBIS</th>
-            <th >SubTotal</th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-product>
-          <tr>
-            <!-- <td>{{ product.id }}</td> -->
-            <td>{{ product.name }}</td>
-            <td>{{ product.quantity }}</td>
-            <td>{{ product.total_itbis_pro | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
-            <td>{{ product.subTotal | currency:'RD$ ' : 'symbol':'1.2-2' }}</td>
-            <td><i (click)="removeItemShoppingCart(product.id)" matTooltip="Remover del carrito"
-                class="pi pi-cart-minus" style="display: grid; place-items: center; color: red; cursor: pointer;"></i>
-            </td>
-            <!-- (click)="removeProduct(product.product_id)" -->
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="footer">
-          <tr>
-            <td colspan="2" style="text-align: right; font-weight: bold;">Total:</td>
-            <td>{{totalItbis | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
-            <td>{{total | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
-            <td></td>
-          </tr>
-        </ng-template>
-      </p-table>
     </div>
-    <p-button [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb'}" (click)="openPaymentModal()" label="Seleccionar Metodo de Pago"
-      icon="pi pi-credit-card" type="submit" />
-  </div>
 
+    <div class="productCardDetail">
+      <div>
+        <h3 style="margin: 0 0 10px 0; font-weight: 500;"><i class="pi pi-shopping-cart"></i> Carrito</h3>
+
+        <div class="form-group">
+          <!-- <label for="email">pro</label> -->
+          <input [(ngModel)]="filterShoppingCart" type="text" placeholder="Busca por nombre de producto" pInputText />
+        </div>
+
+        <p-table [value]="filteredCart" scrollable="true" [scrollHeight]="'60.5vh'"
+          [tableStyle]="{ 'min-width': '20rem', 'margin-top': '1rem' }">
+
+          <ng-template #header>
+            <tr>
+              <!-- <th>Codigo</th> -->
+              <th>Nombre</th>
+              <th>Cantidad</th>
+              <th>ITBIS</th>
+              <th>SubTotal</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-product>
+            <tr>
+              <!-- <td>{{ product.id }}</td> -->
+              <td>{{ product.name }}</td>
+              <td>{{ product.quantity }}</td>
+              <td>{{ product.total_itbis_pro | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+              <td>{{ product.subTotal | currency:'RD$ ' : 'symbol':'1.2-2' }}</td>
+              <td><i (click)="removeItemShoppingCart(product.id)" matTooltip="Remover del carrito" class="pi pi-times"
+                  style="display: grid; place-items: center; color: red; cursor: pointer;"></i>
+              </td>
+              <!-- (click)="removeProduct(product.product_id)" -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <tr>
+              <td colspan="2" style="text-align: right; font-weight: bold;">Total:</td>
+              <td>{{totalItbis | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+              <td>{{total | currency:'RD$ ' : 'symbol':'1.2-2'}}</td>
+              <td></td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <p-button [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb'}"
+        (click)="openPaymentModal()" label="Seleccionar Metodo de Facturación" icon="pi pi-credit-card" type="submit" />
+    </div>
+  </div>
 </div>
+
+<p-toast position="bottom-right" />

@@ -1,9 +1,94 @@
 <div class="paymentModal">
 
-  <div class="total-section">
-    <h4 class="total-label">Total a Pagar</h4>
-    <h2 class="total-amount">RD$ 8,399.00 </h2> <!--${{ totalAmount.toFixed(2) }}-->
+  <div class=" fuctionContent GeneralSpaceBetDiv">
+    <h2 style="margin: 0;"> <i class="pi pi-receipt" style="margin-right: 8px; font-size: 20px;"></i>Facturación</h2>
+    <i class="pi pi-times closer" (click)="close()"></i>
   </div>
+
+  <div
+    style="display: grid; grid-template-columns: 40px auto; background-color: #e0f2fe; padding: 10px; border-radius: 10px; width: 500px; margin-top: 10px;">
+    <i style="display: grid; place-self: center; color: #2563eb;" class="pi pi-user"></i>
+    <div *ngIf="data.dates != undefined">
+      <h3 style="margin: 0; font-weight: 500;">{{data.dates.client_name}}</h3>
+      <h4 style="margin: 0; font-weight: 300;"><span style="margin: 0; font-weight: 800;">{{data.dates.start_time |
+          date: "HH:mm"}} - {{data.dates.end_time | date: "HH:mm a"}}</span> {{data.dates.barber_name}}</h4>
+    </div>
+    <div *ngIf="data.productos != undefined && data.dates == undefined">
+      <h3 style="margin: 0; font-weight: 500;">{{data.usuario.first_name}} {{data.usuario.last_name}}</h3>
+      <!-- <h4 style="margin: 0; font-weight: 300;"><span style="margin: 0; font-weight: 800;">{{data.dates.start_time |
+          date: "HH:mm"}} - {{data.dates.end_time | date: "HH:mm a"}}</span> {{data.dates.barber_name}}</h4> -->
+    </div>
+  </div>
+
+  <div style="margin: 15px 0 0 0; border-top: 1px solid #ddd;">
+    <h3 style=" font-weight: 300; margin: 10px 0 0 0;" *ngIf="data.dates != undefined"> <i class="fa-solid fa-scissors"
+        style="margin-right: 4px; font-size: 14px; "></i>Servicios</h3>
+    <!-- <h3 style=" font-weight: 300; margin: 10px 0 0 0;" *ngIf="data.productos != undefined"> <i class="pi pi-box"
+        style="margin-right: 4px; font-size: 14px; "></i>Productos</h3> -->
+  </div>
+
+  <div *ngIf="data.dates != undefined" style=" margin: 7px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+    <div class="GeneralSpaceBetDiv" style="padding: 10px; border: 1px solid #aaa; border-radius: 10px; background-color: #eee; "
+      *ngFor="let service of data.dates.services">
+      <div>
+        <h4 style="margin: 0; font-weight: 500;">{{service.name}}</h4>
+        <h5 style="margin: 0; font-weight: 100;">{{service.duration}} Min</h5>
+      </div>
+      <h4 style="margin: 0; font-weight: 500; color: green;">{{service.price | currency: 'RD$ ':'symbol':'1.2-2'}}
+      </h4>
+    </div>
+  </div>
+
+  <div *ngIf="data.productos != undefined"
+  >
+  <!-- style=" margin: 7px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4px;"
+
+    <div class="GeneralSpaceBetDiv" style="padding: 10px; border: 1px solid #242424cf; border-radius: 10px; "
+      *ngFor="let producto of data.productos">
+      <div style="max-width: 155px;">
+        <h4 class="truncate-text" style="margin: 0; font-weight: 500;">
+          {{ producto.name }}
+        </h4>
+        <h5 style="margin: 0; font-weight: 100;">{{ producto.quantity }} Uds</h5>
+      </div>
+      <h4 style="margin: 0; font-weight: 500; color: green;">
+        {{ producto.subTotal | currency: 'RD$':'symbol':'1.2-2' }}
+      </h4>
+    </div> -->
+  </div>
+  <!-- <div class="GeneralSpaceBetDiv" style="padding: 10px; border-bottom: 1px solid #ddd ">
+      <div>
+        <h4 style="margin: 0; font-weight: 500;">Corte de Barba</h4>
+        <h5 style="margin: 0; font-weight: 100;">20 min</h5>
+      </div>
+      <h4 style="margin: 0; font-weight: 500; color: green;">RD$3,000</h4>
+    </div>
+    <div class="GeneralSpaceBetDiv" style="padding: 10px; border-bottom: 1px solid #ddd ">
+      <div>
+        <h4 style="margin: 0; font-weight: 500;">Corte de Barba</h4>
+        <h5 style="margin: 0; font-weight: 100;">20 min</h5>
+      </div>
+      <h4 style="margin: 0; font-weight: 500; color: green;">RD$3,000</h4>
+    </div> -->
+
+  <div style="border-bottom: 1px solid #ddd">
+    <span class="GeneralSpaceBetDiv" *ngIf="data.productos != undefined">
+      <h4 class="total-label" style="margin: 10px 0 0 0;">Itbis total</h4>
+      <h2 class="total-itbis">{{totalItbis | currency: 'RD$ ':'symbol':'1.2-2'}}</h2>
+    </span>
+    <span class="GeneralSpaceBetDiv" *ngIf="data.productos != undefined">
+      <h4 class="total-label" style="margin: 10px 0 0 0;">Subtotal</h4>
+      <h2 class="total-itbis">{{totalSub | currency: 'RD$ ':'symbol':'1.2-2'}}</h2>
+    </span>
+    <span class="GeneralSpaceBetDiv">
+      <h4 class="total-label" style="margin: 8px 0 10px 0;"
+        [ngStyle]="{ 'padding': data.productos == undefined ? '13px 0' : '0 0' }">Total a Pagar</h4>
+      <h2 class="total-amount">{{totalSum | currency: 'RD$ ':'symbol':'1.2-2'}}</h2>
+    </span>
+  </div>
+
+  <h3 style="margin: 10px 0 7px 0; font-weight: 300;"> <i class="fa-solid fa-cash-register"
+      style="margin-right: 4px; font-size: 14px;"></i>Metodos de pago</h3>
 
   <div class="tabs-list">
     <button class="tab-trigger" [class.active]="selectedPaymentMethod === 1" (click)="selectPaymentMethod(1)">
@@ -21,13 +106,14 @@
 
   <div class="form-group" style="margin: 15px 0;" *ngIf="selectedPaymentMethod == 1">
     <label>Monto Recibido:</label>
-    <input type="text" placeholder=" Escriba el monto recibido de parte del cliente" pInputText />
+    <input type="number" placeholder=" Escriba el monto recibido de parte del cliente" pInputText
+      [(ngModel)]="montoRecibido" (input)="change()" />
   </div>
 
   <div *ngIf="selectedPaymentMethod == 1; else noMoneyPay">
     <!-- Quick Amount Buttons -->
     <div class="quick-amounts">
-      <button type="button" *ngFor="let amount of quickAmounts" class="quick-amount-btn">
+      <button type="button" *ngFor="let amount of quickAmounts" class="quick-amount-btn" (click)="fastAmount(amount)">
         <!--(click)="setQuickAmount(amount, undefined)"-->
         ${{ amount }}
       </button>
@@ -36,49 +122,59 @@
     <!-- Cash Summary -->
     <div class="cashSummary">
       <div class="moneyRecived">
-        <i style="display: grid; place-self: center;" class="fa-solid fa-money-bills"></i>
+        <i style="display: grid; place-self: center;" class="pi pi-money-bill"></i>
         <div class="montoContainer">
           <h3 class="montoTitle">Monto recibido</h3>
-          <h3>RD$ 350</h3>
+          <h3>{{montoRecibido | currency: 'RD$ ':'symbol':'1.2-2'}}</h3>
         </div>
       </div>
       <div class="changeReturn">
         <i style="display: grid; place-self: center; color: #2563eb;" class="fa-solid fa-coins"></i>
         <div class="montoContainer">
           <h3 class="montoTitle">Monto a Devolver</h3>
-          <h3 style="color: #2563eb; ">RD$ 350</h3>
+          <h3 style="color: #2563eb;">{{montoDevolver | currency: 'RD$ ':'symbol':'1.2-2'}}</h3>
         </div>
       </div>
     </div>
   </div>
 
   <ng-template #noMoneyPay>
-    <div class="form-group" style="margin: 15px 0;">
-      <label>{{selectedPaymentMethod == 2 ? 'Número de Ticket' : 'Número de Transferencia'}}</label>
-
-      <input type="text" placeholder="Ejemplo: TK-100001" pInputText />
+    <div class="form-group" style="margin: 15px 0;" *ngIf="selectedPaymentMethod == 2">
+      <label>Número de Ticket</label>
+      <input type="text" [(ngModel)]="numTicket" placeholder="Ejemplo: TK-100001" pInputText />
     </div>
 
-    <div class="form-group" style="margin: 15px 0;">
+    <div class="form-group" style="margin: 15px 0;" *ngIf="selectedPaymentMethod == 3">
+      <label>Número de Transferencia'</label>
+      <input type="text" [(ngModel)]="numTransfer" placeholder="Ejemplo: TK-100001" pInputText />
+    </div>
+
+    <!-- <div class="form-group" style="margin: 15px 0;">
       <label>Observación</label>
       <input type="text" placeholder="Observación Adicional (Opcional)" pInputText />
-    </div>
+    </div> -->
 
-    <div class="changeReturn" style="margin-top: 15px; border: 1px solid #ccc; padding: 15px 10px;">
-      <i style="display: grid; place-self: center; color: #2563eb;" [class]="selectedPaymentMethod == 2 ? 'pi pi-credit-card' : 'fa-solid fa-mobile-screen'"></i>
+    <div class="changeReturn" style="margin-top: 15px; border: 1px solid #ddd; padding: 15px 10px;">
+      <i style="display: grid; place-self: center; color: #2563eb;"
+        [class]="selectedPaymentMethod == 2 ? 'pi pi-credit-card' : 'fa-solid fa-mobile-screen'"></i>
       <div class="montoContainer">
         <h3 class="montoTitle">Monto a Recibir</h3>
-        <h3 style="color: #2563eb; ">RD$ 350</h3>
+        <h3 style="color: #2563eb; ">{{totalSum | currency: 'RD$ ':'symbol':'1.2-2'}}</h3>
       </div>
     </div>
   </ng-template>
 
   <div class="buttonContainer">
-    <p-button icon="pi pi-times-circle" label="Cancelar Pago" severity="secondary" [style]="{ width: '100%' }" />
+    <p-button icon="pi pi-times-circle" label="Cancelar Pago" severity="secondary" [style]="{ width: '100%' }"
+      (click)="close()" />
+
     <div [ngSwitch]="selectedPaymentMethod">
-      <p-button *ngSwitchCase="1" icon="pi pi-money-bill" label="Guardar Pago" [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
-      <p-button *ngSwitchCase="2" icon="pi pi-credit-card" label="Guardar Pago" [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
-      <p-button *ngSwitchCase="3" icon="fa-solid fa-mobile-screen" label="Guardar Pago" [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+      <p-button (click)="posPayment()" *ngSwitchCase="1" icon="pi pi-money-bill" label="Facturar"
+        [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+      <p-button (click)="posPayment()" *ngSwitchCase="2" icon="pi pi-credit-card" label="Facturar"
+        [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
+      <p-button (click)="posPayment()" *ngSwitchCase="3" icon="fa-solid fa-mobile-screen" label="Facturar"
+        [style]="{ width: '100%', backgroundColor: '#2563eb', borderColor: '#2563eb' }" />
     </div>
   </div>
 </div>

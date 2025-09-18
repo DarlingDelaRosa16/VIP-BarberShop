@@ -6,6 +6,19 @@ export interface RolI {
   updated_at: Date
 }
 
+export interface MonthlyIncome {
+  month: number,
+  month_name: string,
+  total_income: string
+}
+
+export interface PopularServicesI {
+  id: number,
+  name: string,
+  total: number,
+  percentage: number
+}
+
 export interface DailyI {
   total_scheduled: number,
   total_completed: number,
@@ -31,6 +44,7 @@ export interface PersonGetI {
   first_name: string,
   last_name: string,
   email: string,
+  phone_number: string,
   role_id: number,
   status: string,
   created_at: Date,

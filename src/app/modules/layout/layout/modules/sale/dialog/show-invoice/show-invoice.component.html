@@ -1,0 +1,100 @@
+<div style="width: 827px; display: flex; justify-content: end; margin: 10px 0 5px 0;">
+  <i class="pi pi-times closer" (click)="close()"></i>
+</div>
+
+<div class="invoice-container"
+  style="padding: 20px; width: 794px; margin: 0 20px 0 20px; display: flex; justify-content: space-between;">
+
+  <div class=" fuctionContent GeneralSpaceBetDiv">
+    <h2 style="margin: 0;"> <i class="pi pi-receipt" style="font-size: 20px;"></i> Factura</h2>
+  </div>
+
+  <span style="display: flex; gap: 10px;">
+
+    <p-button variant="outlined" severity="success" label="Imprimir" icon="pi pi-print" printSectionId="printInvoice" [useExistingCss]="true" ngxPrint />
+    <!--(onClick)="openCreateInboundModal()" -->
+  </span>
+</div>
+
+<div id="printInvoice" class="invoice-container" style="padding: 20px; width: 794px; margin: 13px 20px 20px 20px;">
+
+  <div class="invoice-header">
+    <div class="company-info">
+      <div class="company-details">
+        <h2>VIP Stylist</h2>
+        <p>📍 Av. 27 de Febrero #456, Santo Domingo</p>
+        <p>📞 +1 (809) 555-0100</p>
+        <p>✉️ infobarberiapro.com</p>
+        <!-- <p><strong>RNC:</strong> 123-45678-9</p> -->
+      </div>
+    </div>
+    <div class="invoice-title">
+      <h1>FACTURA</h1>
+      <p-tag *ngIf="propiedad.invoice.status == 'Devuelto' " severity="warn" icon="pi pi-info-circle" value="Reservado" />
+      <p-tag *ngIf="propiedad.invoice.status == 'Pendiente' " severity="info" icon="pi pi-spinner-dotted" value="En proceso" />
+      <p-tag *ngIf="propiedad.invoice.status == 'Cancelado' " severity="danger" icon="pi pi-times" value="Cancelado" />
+      <p-tag *ngIf="propiedad.invoice.status == 'Pagado' " icon="pi pi-check" severity="success" value="Completado" />
+    </div>
+  </div>
+
+  <div class="invoice-meta">
+    <p><strong>Número:</strong> FT-000{{ propiedad.invoice.id }}</p>
+    <p><strong>Fecha:</strong> {{propiedad.invoice.created_at | date}}</p>
+    <p><strong>Fecha Impresión:</strong> {{date | date: 'dd/MM/yyyy - HH:mm a'}}</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="bill-to">
+    <h3>👤 Facturar a:</h3>
+    <div class="bill-details">
+      <h2>{{propiedad.invoice.client_name}}</h2>
+      <p>✉️ usergmail.com</p>
+      <p>📞 {{propiedad.invoice.phone_number}}</p>
+      <p>📍 {{propiedad.invoice.address}}</p>
+    </div>
+  </div>
+
+
+  <div class="invoice-body">
+    <!-- Tabla de productos -->
+    <p-table [value]="propiedad.invoice.details" class="invoice-table">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Nombre</th>
+          <th style="text-align: center;">Cant.</th>
+          <th style="text-align: right;">Precio Unit.</th>
+          <th style="text-align: right;">Total</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td>{{ item.name }}</td>
+          <td style="text-align: center;">{{ item.quantity }}</td>
+          <td style="text-align: right;">RD$ {{ item.price | number:'1.2-2' }}</td>
+          <td style="text-align: right; font-weight: bold;">RD$ {{ item.subtotal | number:'1.2-2' }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <!-- Totales -->
+    <div class="invoice-totals" style="margin-top: 10px;">
+      <p><strong>Subtotal:</strong> <span>$RD {{propiedad.invoice.subtotal}}</span></p>
+      <p class="tax"><strong>ITBIS :</strong> <span>{{propiedad.invoice.itbis | currency:'RD$ ':'symbol':'1.2-2'}}</span></p>
+      <p class="total"><strong>Total a Pagar:</strong> <span>{{propiedad.invoice.total | currency:'RD$ ':'symbol':'1.2-2'}}</span></p>
+    </div>
+
+    <!-- Método de pago -->
+    <div class="payment-info">
+      <p><strong>MÉTODO DE PAGO:</strong> {{ propiedad.invoice.payment_type}}</p>
+      <p><strong>FECHA DE PAGO:</strong> {{propiedad.invoice.created_at | date}}</p>
+    </div>
+
+    <!-- Notas -->
+    <div class="notes">
+      <p><strong>Notas:</strong></p>
+      <p>Gracias por su preferencia. Esperamos verle pronto.</p>
+    </div>
+  </div>
+</div>

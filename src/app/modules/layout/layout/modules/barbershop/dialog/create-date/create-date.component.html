@@ -1,57 +1,95 @@
-<div class="modal" style="height: 100%;">
-  <div class="closerContainer">
+<div style="padding: 10px 30px 30px 30px; min-height: 725px; background-color: white;">
+
+  <div class="fuctionContent GeneralSpaceBetDiv" style="width: 510px;">
+    <h2 class="Stitle"> <i class="pi pi-calendar-plus" style="font-size: 22px;"></i> {{elements.client_id == undefined ? 'Crear Cita' :
+      'Editar Cita' }}</h2>
     <i class="pi pi-times closer" (click)="closeModal()"></i>
   </div>
 
-  <div class="title">
-    <h1>Crear Cita</h1>
-  </div>
-
-  <div style=" border-radius: 8px; border: 1px solid #ddd; margin-top: 15px; padding: 10px 20px;">
+  <div style=" border-radius: 8px; border: 1px solid #ddd;  padding: 10px 20px;">
     <form [formGroup]="datesForm" (ngSubmit)="saveChanges()">
 
-      <h2 style="font-weight: 400; margin: 10px 0;">Formulario para creación de citas</h2>
+      <h3 style="font-weight: 400; margin: 10px 0 20px 0;"><i class="pi pi-calendar-plus"></i> Formulario para creación de citas</h3>
 
-      <div style="display: flex; gap: 5px; margin: 5px 0;">
+      <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
+
+        <label> <i class="pi pi-user iconStyle" ></i> Cliente</label>
+        <p-select [loading]="clientService.loading()" [filter]="true" filterBy="first_name,last_name"
+          [options]="clientService.clients()" placeholder="Busca por nombre de cliente" formControlName="client_id">
+
+          <ng-template #selectedItem let-selectedOption>
+            <div class="flex items-center">
+              <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+            </div>
+          </ng-template>
+
+          <ng-template let-client #item>
+            <div>
+              <div>{{ client.first_name }} {{ client.last_name }}</div>
+              <h4 style="margin: 0; font-weight: 600;">{{client.email}}</h4>
+            </div>
+          </ng-template>
+        </p-select>
+
+      </div>
+
+      <div style="display: flex; gap: 5px; margin: 8px 0;">
+
         <div style="display: flex; flex-direction: column; gap: 2px; flex: 1;">
-          <label>Fecha</label>
-          <p-datepicker formControlName="appointment_date" />
+          <label><i class="pi pi-calendar iconStyle" ></i> Fecha</label>
+          <p-datepicker placeholder="Seleccione la fecha" showIcon fluid formControlName="appointment_date" />
           <!-- <small id="username-help">Enter your username to reset your password.</small> -->
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-          <label>Barbero</label>
-          <p-select [options]="barberService.barbers()" optionValue="id" optionLabel='first_name'
-            formControlName="barber_id" />
+        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1; margin-top: 2px;">
+
+          <label><i class="fa-solid fa-scissors iconStyleFa" ></i> Barbero</label>
+          <p-select [filter]="true" filterBy="first_name,last_name" [loading]="barberService.loadingBarbers()"
+            [options]="barberService.barbers()" placeholder="Selecciona Barbero" formControlName="barber_id">
+
+            <ng-template #selectedItem let-selectedOption>
+              <div class="flex items-center">
+                <div>{{ selectedOption.first_name }} {{ selectedOption.last_name }}</div>
+              </div>
+            </ng-template>
+
+            <ng-template let-barber #item>
+              <div class="flex items-center">
+                <div>
+                  {{ barber.first_name }} {{ barber.last_name }}
+                </div>
+              </div>
+            </ng-template>
+          </p-select>
         </div>
+
       </div>
 
-      <div style="display: flex; gap: 5px; margin: 5px 0;">
+      <div style="display: flex; gap: 5px; margin: 8px 0;">
 
         <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-          <label>Cliente</label>
-          <p-select [options]="clientService.clients()" optionValue="id" optionLabel='first_name'
-            formControlName="client_id" />
-        </div>
-
-      </div>
-
-      <div style="display: flex; gap: 5px; margin: 5px 0;">
-
-        <div style="display: flex; flex-direction: column; gap: 2px; flex: 1">
-          <label>Servicios</label>
+          <label><i class="fa-solid fa-bell-concierge iconStyleFa" ></i> Servicios</label>
           <p-multiselect [options]="serviceService.services()" formControlName="services" optionLabel="name"
             placeholder="Seleccione los servicios" styleClass="w-full md:w-80" />
         </div>
       </div>
 
       <div style="display: flex; justify-content: end; margin: 10px 0;">
-        <p-button label="Buscar Horario" icon="pi pi-search" (onClick)="findTimeSlots()" />
+        <p-button label="Buscar Horario" severity="secondary" variant="outlined" icon="pi pi-search"
+          (onClick)="findTimeSlots()" />
       </div>
 
-      <h3 style="font-weight: 200; margin: 10px 0;">Horarios Disponibles</h3>
+      <div *ngIf="elements.client_id != undefined && hoursRange.length == 0">
+        <h3 style="font-weight: 200; margin: 3px 0;">Horario Seleccionado</h3>
+        <label
+          style="background-color: #374151; color: white; border: 1px solid #ccc; display: grid; place-items: center; padding: 5px; cursor: pointer; border-radius: 5px;">
+          {{ elements.start_time | date : 'HH:mm a'}} - {{ elements.end_time | date : 'HH:mm a'}}
+        </label>
+      </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 10px 0;">
+      <h3 style="font-weight: 200; margin: 10px 0;"><i class="pi pi-clock" ></i> Horarios Disponibles</h3>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin: 15px 0;">
         @for (range of hoursRange; track $index) {
         <label class="selectable"
           style="border: 1px solid #ccc; display: grid; place-items: center; padding: 5px; cursor: pointer; border-radius: 5px;">
@@ -61,16 +99,29 @@
 
         </label>
         }@empty {
-        <div
-          style="grid-column: 1/3; border: 1px solid #e9e9eb; display: grid; place-items: center; height: 100px; background-color: #eee; border-radius: 5px;">
+        <div *ngIf="loading == false"
+          style="grid-column: 1/3; border: 1px solid #e9e9eb; display: grid; place-items: center; height: 130px; background-color: #eee; border-radius: 5px;">
           No hay rangos de horario para mostrar
+        </div>
+
+        <div *ngIf="loading" style="display: grid; place-items: center; grid-column: 1/3; height: 130px;">
+          <span style="display: flex; gap: 10px;">
+            <div class="loader"></div>
+            Cargando...
+          </span>
         </div>
         }
       </div>
 
-      <div class="buttonContainer">
-        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="danger" (click)="putOutboundDispatch()" />
-        <p-button label="Guardar Cita" icon="pi pi-send" severity="contrast" type="submit" />
+
+      <div class="buttonContainer" style="margin-top: 55px;">
+
+        <p-button label="Limpiar Formulario" icon="pi pi-eraser" variant="outlined" severity="secondary"
+          (click)="clearForm()" />
+
+        <p-button [label]="elements.client_id == undefined ? 'Guardar Cita' : 'Editar Cita' " icon="pi pi-send"
+          [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" type="submit" />
+
       </div>
     </form>
   </div>

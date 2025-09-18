@@ -17,6 +17,7 @@ export interface ProductShoppingCartI {
   name: string,
   id: number,
   sale_price: number,
+  unit_cost: number,
   quantity: number,
   subTotal: number,
 }

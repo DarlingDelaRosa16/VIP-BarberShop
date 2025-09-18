@@ -1,0 +1,52 @@
+.timeInput {
+  width: 90px;
+  text-align: center;
+}
+
+.badgeHours {
+  background-color: #bbf7d0;
+  color: #15803d;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-weight: bold;
+}
+
+.tagLunch {
+  background-color: #fef9c3;
+  color: #ca8a04;
+  padding: 3px 8px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.card {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 10px 15px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      background-color: #fff;
+      /* box-shadow: 0 1px 3px rgba(0,0,0,0.1); */
+      width: fit-content;
+    }
+
+    .card-text {
+      color: #555;
+      margin-right: 10px;
+    }
+
+    .card-number {
+      background-color: #f5f6f8;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #000;
+    }

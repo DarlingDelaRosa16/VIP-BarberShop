@@ -1,0 +1,82 @@
+.alertNotifications {
+  background-color: #eee;
+  margin-bottom: 5px;
+  padding: 0px 5px;
+}
+
+.iconStock {
+  cursor: pointer;
+}
+
+.contentLast,
+.content,
+.contentRecinto,
+.contentRecintoRec {
+  padding: 16px;
+}
+
+.content,
+.contentRecinto,
+.contentRecintoRec {
+  grid-template-columns: 1fr 1fr;
+}
+
+.contentRecintoRec {
+  padding: 16px 10px;
+}
+
+.EstadisticsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.infoCard,
+.infoCardSalida,
+.cardLastOnesEntradas,
+.cardLastOnes,
+.cardLastTwos {
+  border-radius: 12px;
+  cursor: pointer;
+  border: 1px solid #e9e9eb;
+  padding: 10px 20px 20px 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+
+}
+
+.cardLastOnesEntradas {
+  height: 170px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  padding: 10px 10px 0 10px;
+}
+
+.cardLastOnes {
+  grid-column: 1/3;
+}
+
+.cardLastTwos {
+  grid-column: 3/5;
+}
+
+.recentMov {
+  display: grid;
+  /* grid-template-columns: 50px auto; */
+  padding: 5px;
+  margin-top: 10px;
+  border-bottom: 1px solid #e9e9eb;
+}
+
+.cardContent {
+  place-items: end;
+}
+
+.numberOf,
+.numberOfRec {
+  font-size: 36px;
+  font-weight: 100;
+  margin: 0;
+}

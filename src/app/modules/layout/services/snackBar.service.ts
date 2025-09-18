@@ -6,6 +6,8 @@ import { SnackbarError } from '../components/snackBars/snackBarError/snackError.
 import { SnackbarServerError } from '../components/snackBars/SnackBarServerError/snackServerError.component';
 import { SnackBarSuccess } from '../components/snackBars/snackSuccess/snackSuccess.component';
 import { SnackConfirmation } from '../components/snackBars/snackBarConfirmation/snackConfirmation.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { SnackBarMessage } from '../components/snackBars/snackBarMessage/snackBarMessage.component';
 
 @Injectable({ providedIn: 'root' })
 
@@ -13,7 +15,7 @@ export class SnackBarService {
 
   constructor(
     private snackBar: MatSnackBar,
-    private rendererFactory: RendererFactory2
+    private rendererFactory: RendererFactory2,
   ) {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
@@ -73,14 +75,14 @@ export class SnackBarService {
     })
   }
 
-  // snackbarWarning(warningMessage: string, time: number = 2500) {
-  //   this.snackBarRef = this.snackBar.openFromComponent(SnackbarWarning, {
-  //     horizontalPosition: 'center',
-  //     verticalPosition: 'top',
-  //     duration: time,
-  //     data: warningMessage
-  //   })
-  // }
+  snackbarWarning(time: number,color: string, icon: string, message: string) {
+    this.snackBarRef = this.snackBar.openFromComponent(SnackBarMessage, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: time,
+      data: {color, icon, message}
+    })
+  }
 
   snackbarConfirmation(
     confirmationTitle: string = '¿Estas seguro de eliminar el registro?',
@@ -92,6 +94,7 @@ export class SnackBarService {
       const snackBarRefConfirm = this.snackBar.openFromComponent(SnackConfirmation, {
         horizontalPosition: 'center',
         verticalPosition: 'top',
+        panelClass: ['snackbar-center'],
         data: { confirmationTitle, confirmationSubTitle }
       })
 

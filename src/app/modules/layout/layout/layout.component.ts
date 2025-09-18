@@ -17,6 +17,7 @@ export class LayoutComponent {
   user: any
   sidenavOpened: boolean = false;
   ventaOpened: boolean = false;
+  reportsOpened: boolean = false;
   inventaryOpened: boolean = false;
 
   constructor(

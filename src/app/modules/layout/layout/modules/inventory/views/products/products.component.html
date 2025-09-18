@@ -1,42 +1,81 @@
-<div  style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between;">
   <div class="title">
-    <h1>Productos</h1>
+    <h1><i class="pi pi-box" style="color: #242424; font-size: 24px;"></i> Listado de Productos</h1>
   </div>
-  <!-- <p-button label="Resumen Inventario" icon="pi pi-arrow-left" variant="outlined" severity="secondary" [routerLink]="['../']" /> -->
+
+  <p-button [style]="{ backgroundColor: '#2563eb', borderColor: '#2563eb', color: 'white'}" label="Crear Producto"
+    icon="pi pi-plus" variant="outlined" (onClick)="openCreateProductModal()" />
 </div>
 
-<div class="buttonContainer">
-  <p-button label="Crear Productos" variant="outlined" severity="contrast" (click)="openCreateProductModal()" />
-</div>
+<form
+  style="display: flex; gap: 10px; margin: 10px 0 15px 0; align-items: end; border-radius: 5px; border: 1px solid #eee; padding: 16px;">
 
-<p-table
-    [value]="productService.products()"
-    showGridlines
-    [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template #header>
-            <tr>
-                <!-- <th>Codigo</th> -->
-                <th>Fecha Creacion</th>
-                <th>Nombre</th>
-                <th>Precio Unitario</th>
-                <th>Precio De Venta</th>
-                <th>ITBIS</th>
-                <th>Existencia</th>
-                <th></th>
-                <th><div class="loader" *ngIf="productService.products().length == 0"></div></th>
-            </tr>
+  <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-search"></i> Buscar por nombre</label>
+    <input pInputText placeholder="Nombre del producto..." style="width: 100%;" [(ngModel)]="searchProduct"
+      name="searchProduct" (input)="filterProduct()" />
+  </div>
+
+  <div class="form-group">
+    <label style="margin-bottom: 5px;"> <i class="pi pi-calendar"></i> Busca por rango de fecha</label>
+    <p-datepicker showIcon fluid selectionMode="range" [readonlyInput]="true" placeholder="Rango de fecha"
+      [(ngModel)]="rangeDates" (onSelect)="filterProduct()" [ngModelOptions]="{standalone: true}" />
+  </div>
+
+  <p-button label="Limpiar Filtros" variant="outlined" severity="secondary" (onClick)="clearFilters()" />
+</form>
+
+<p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template #header>
+    <tr>
+      <th><i class="pi pi-calendar" style="font-size: 12px; margin-right: 10px;"></i>Fecha Creación</th>
+      <th><i class="pi pi-tag" style="font-size: 12px; margin-right: 10px;"></i>Nombre</th>
+      <th><i class="pi pi-dollar" style="font-size: 12px; margin-right: 10px;"></i>Precio Unitario</th>
+      <th><i class="pi pi-shopping-bag" style="font-size: 12px; margin-right: 10px;"></i>Precio Venta</th>
+      <th><i class="pi pi-percentage" style="font-size: 12px; margin-right: 10px;"></i>ITBIS</th>
+      <th><i class="pi pi-box" style="font-size: 12px; margin-right: 10px;"></i>Existencia</th>
+      <th>
+        <div class="GeneralCenteredDiv">
+          <div class="loader" *ngIf="productService.loadingProducts()"></div>
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-product>
+    <tr>
+      <td>{{ product.created_at | date }}</td>
+      <td style="color: #2563eb; font-weight: 600;">{{ product.name }}</td>
+      <td>{{ product.unit_cost | currency:'RD$ ':'symbol':'1.2-2' }}</td>
+      <td>{{ product.sale_price | currency:'RD$ ':'symbol':'1.2-2' }}</td>
+      <td>{{ product.itbis }}%</td>
+      <td>
+        <p-tag *ngIf="product.stock > 0; else noStock" severity="success" [value]="product.stock + ' uds'" />
+        <ng-template #noStock>
+          <p-tag severity="danger" value="Sin stock" />
         </ng-template>
-        <ng-template #body let-product>
-            <tr>
-                <!-- <td>{{ product.id }}</td> -->
-                <td>{{ product.created_at | date }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.unit_cost }}</td>
-                <td>{{ product.sale_price }}</td>
-                <td>{{ product.itbis }}</td>
-                <td>{{ product.stock }}</td>
-                <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
-                <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
-            </tr>
-        </ng-template>
+      </td>
+
+      <td>
+        <i class="fa-solid fa-ellipsis-vertical" style="cursor: pointer;" matTooltip="Menu de opciones"
+          [matMenuTriggerFor]="menu"></i>
+        <mat-menu #menu="matMenu" xPosition="before">
+          <div class="ItemMiniMenu editarHover" (click)="openCreateProductModal(product)"> <!---->
+            <i class="pi pi-pencil" style="color: #fbc02d;"></i>
+            <h3>Editar</h3>
+          </div>
+          <div class="ItemMiniMenu eliminarHover" (click)="removeProduct(product.id)"> <!--  style="margin-bottom: 0;"-->
+            <i class="pi pi-trash" style="color: red;"></i>
+            <h3 style="color: red;">Eliminar</h3>
+          </div>
+        </mat-menu>
+      </td>
+    </tr>
+  </ng-template>
 </p-table>
+
+<div *ngIf="productService.products().length == 0 && productService.loadingProducts() == false" style="display: grid; place-items: center; margin-top: 50px;">
+  <app-no-data [icon]="'pi pi-box'" [titleNoData]="'No se encontraron productos'"
+    [subTitleNoData]="'Intenta ajustar los filtros o crear un nuevo producto'"></app-no-data>
+</div>
+<p-toast position="bottom-right" />

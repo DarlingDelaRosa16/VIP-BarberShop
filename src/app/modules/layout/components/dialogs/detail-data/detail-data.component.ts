@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { PrimeComponentsModules } from '../../../../../helpers/primeNg';
 import { MaterialComponents } from '../../../../../helpers/material';
 import { ModulesImports } from '../../../../../helpers/modulesImports';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-detail-data',
@@ -14,7 +14,13 @@ export class DetailDataComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    public propiedad: { elementoList: any[], nombre: string, entidad: string },
-  ) { }
+    public propiedad: { elementoList: any[], nombre: string, entidad: string, icon: string },
+    private dialogRef: MatDialogRef<DetailDataComponent>,
+  ) {
+  }
+
+  close(){
+    this.dialogRef.close()
+  }
 
 }
