@@ -28,7 +28,6 @@ export class CreateProductModalComponent {
     private dialogRef: MatDialogRef<CreateProductModalComponent>,
 
   ) {
-    console.log(elements);
 
     this.productForm = this.fb.group({
       id: 0,

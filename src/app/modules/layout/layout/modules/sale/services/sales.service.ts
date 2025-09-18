@@ -39,7 +39,6 @@ export class SalesService {
       next: (res: any) => {
         this.sales$.set(res.data);
         this.loadingSales$.set(false); // terminó de cargar
-        console.log(res);
       },
       error: () => {
         this.loadingSales$.set(false); // aunque falle, quitamos el loading

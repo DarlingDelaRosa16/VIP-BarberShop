@@ -62,7 +62,6 @@ export class BarbersReportsComponent implements OnInit {
     this.barberReportService.getBarbersReport(barber).subscribe((res: any) => {
       if (res.data) {
         this.data = res.data
-        console.log(JSON.stringify(res.data));
 
         this.snackbarService.snackbarSuccess()
       }
@@ -84,7 +83,6 @@ export class BarbersReportsComponent implements OnInit {
 
     this.barberReportService.getBarbersReportSetDate(barber).subscribe((res: any) => {
       if (res.data) {
-        console.log(res);
 
         this.data = res.data
         this.snackbarService.snackbarSuccess()

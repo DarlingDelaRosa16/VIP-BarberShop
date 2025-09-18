@@ -70,7 +70,6 @@ export class IncomeChartComponent implements OnInit {
 
         this.monthlyIncome = monthlyIncomeData.map(item => item.total_income);
         const nums = this.monthlyIncome.map(str => Number(str.replace(/,/g, '')));
-        console.log(nums);
 
         this.activeusercardChartOptions = {
           ...this.activeusercardChartOptions,

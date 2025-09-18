@@ -38,7 +38,6 @@ export class LogInComponent implements OnInit {
   postLogIn() {
     this.logInService.postLogIn(this.loginForm.value).subscribe((res: any) => {
       this.requestHelpers.handleResponse(res, () => {
-        console.log(res);
 
         if (res.user.role == 'Admin') {
           this.systemInformationService.setUserToken(res.access_token)

@@ -22,8 +22,6 @@ export class ViewDetailDateComponent implements OnInit {
     public data: DatesSetDetailViewI,
     private dialogRef: MatDialogRef<ViewDetailDateComponent>,
   ) {
-    console.log(data);
-
   }
 
   ngOnInit(): void {

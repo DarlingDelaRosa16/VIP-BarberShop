@@ -156,8 +156,6 @@ export class ReviewsComponent implements OnInit {
       );
     }
 
-    console.log(this.rangeDates);
-
     // 🔹 Filtrar por rango de fecha
     if (this.rangeDates && this.rangeDates[1] != null) {
       const [startDate, endDate] = this.rangeDates;

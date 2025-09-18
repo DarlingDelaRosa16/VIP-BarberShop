@@ -53,7 +53,6 @@ export class CreateOutboundDispatchComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.elements);
 
 
     this.productService.getProducts()

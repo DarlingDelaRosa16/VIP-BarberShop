@@ -29,7 +29,7 @@ export class RecomendationService {
 
   public getRecomendation() {
     return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/care-tips`, this.header))
-      .subscribe((res: any) => { this.recomendation$.set(res.data);  console.log(res);
+      .subscribe((res: any) => { this.recomendation$.set(res.data);
       });
   }
 

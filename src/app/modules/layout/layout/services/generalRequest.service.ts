@@ -64,7 +64,7 @@ export class GeneralRequestService {
 
   public getMonthlyIncome() {
     return this.requestHelper.handleRequest(() => this.http.get(`${this.baseURL}/reports/yearly-income`, this.header,))
-      .subscribe((res: any) => { this.mounthlyIncome$.set(res); console.log(res);
+      .subscribe((res: any) => { this.mounthlyIncome$.set(res);
       });
   }
 }

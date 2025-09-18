@@ -20,8 +20,6 @@ export class ViewDetailsInboundComponent implements OnInit {
     public data: any,
     private dialogRef: MatDialogRef<ViewDetailsInboundComponent>,
   ) {
-    console.log(data);
-
   }
 
   ngOnInit(): void {

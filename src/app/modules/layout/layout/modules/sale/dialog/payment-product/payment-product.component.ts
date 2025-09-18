@@ -36,7 +36,6 @@ export class PaymentProductComponent {
     private requestHelpers: RequestHelperService,
     private dialogRef: MatDialogRef<PaymentComponent>,
   ) {
-    console.log( this.data.productos);
   }
 
   ngOnInit(): void {
@@ -112,8 +111,6 @@ export class PaymentProductComponent {
   }
 
     saveChanges() {
-      console.log(this.data.usuario);
-
       this.requestHelpers.saveChangesNoForm(() => this.posPayment(), () => {}, this.data.usuario )
     }
 }

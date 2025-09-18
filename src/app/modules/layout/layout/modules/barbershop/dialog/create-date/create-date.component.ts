@@ -41,8 +41,6 @@ export class CreateDateComponent implements OnInit {
 
   ) {
 
-    console.log(elements);
-
     this.datesForm = this.fb.group({
       id: new FormControl(0),
       client_id: new FormControl(0, Validators.required),
