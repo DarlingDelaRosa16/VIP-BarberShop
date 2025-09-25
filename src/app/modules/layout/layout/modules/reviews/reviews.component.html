@@ -33,10 +33,10 @@
     </div>
   </div>
   <div class="cardLastOnesEntradas" style="background: linear-gradient(135deg, #3B82F6, #2563EB);">
-    <div style="display: flex; gap: 15px; ">
+    <div style="display: flex; gap: 15px; padding: 9.5px 0; ">
       <i class="pi pi-star" style="place-self: center; font-size: 30px; font-weight: 100;"></i>
       <div class="numberContent">
-        <h1 class="numberOf" style="font-size: 15px; padding: 9.5px 0;">{{bestBarber}}</h1>
+        <h1 class="numberOf" style="font-size: 15px; ">{{bestBarber}}</h1>
         <h4 style="margin: 0;">MEJOR VALORADO</h4>
       </div>
     </div>
@@ -122,7 +122,7 @@
       {{review.comment}}
     </p>
 
-    <ng-template #noComment> </ng-template>
+    <ng-template #noComment> <div style="height: 15px;"></div></ng-template>
     <div style="display: flex; justify-content: space-between;">
       <span style="display: flex; gap: 4px; align-items: center; ">
         <i class="pi pi-calendar" style="color: #999;"></i>

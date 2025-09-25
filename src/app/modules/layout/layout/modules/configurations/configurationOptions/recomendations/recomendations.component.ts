@@ -23,10 +23,8 @@ export class RecomendationsComponent implements OnInit{
   ) {
     this.recomendationForm = this.fb.group({
       id: 0,
-      previous_price: null,
       name: new FormControl('', Validators.required),
-      current_price: new FormControl(0, Validators.required),
-      duration: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+      description: new FormControl('', Validators.required),
     })
   }
 

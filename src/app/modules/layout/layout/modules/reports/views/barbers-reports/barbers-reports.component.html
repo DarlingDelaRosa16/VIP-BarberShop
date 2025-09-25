@@ -1,6 +1,6 @@
 <div style="display: flex; justify-content: space-between;">
   <div class="title">
-    <h1><i class="fa-solid fa-arrow-right" style="color: #242424; font-size: 24px;"></i> Reportes de Barberos</h1>
+    <h1><i class="pi pi-book" style="color: #242424; font-size: 24px;"></i> Reportes de Barberos</h1>
   </div>
 </div>
 
@@ -62,6 +62,7 @@
     [useExistingCss]="true" ngxPrint />
 
 </div>
+
 <div id="print">
   <div class="report-container" *ngIf="data && data.final_balance != '0.00'; else nodata">
     <h2 style="font-weight: 400;">Reporte de Barbero</h2>

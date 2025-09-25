@@ -150,6 +150,7 @@ mat-sidenav {
 
 .ConfigsideMenuContainer .item-menu:hover {
   border-radius: 15px;
+  height: 100%;
 }
 
 .sub-item-menu:hover  {

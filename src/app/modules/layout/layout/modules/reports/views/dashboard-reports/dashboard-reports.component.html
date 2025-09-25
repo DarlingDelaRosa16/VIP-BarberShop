@@ -1,223 +1,51 @@
-<!-- <div class="viewInitContent"> -->
-
-<div class="title">
-  <h1>Reportes</h1>
+<div style="display: flex; justify-content: space-between;">
+  <div class="title">
+    <h1><i class="pi pi-chart-line" style="color: #242424; font-size: 24px;"></i> Productos en escasez</h1>
+  </div>
 </div>
 
-<div class="buttonContainer">
-  <p-button label="Productos" variant="outlined" severity="contrast" />
-  <p-button label="Entradas" variant="outlined" severity="contrast" />
-  <p-button label="Salidas" variant="outlined" severity="contrast" />
-  <p-button label="Barberos" variant="outlined" severity="contrast" [routerLink]="[{ outlets: { reportes: ['reportes-barberos'] }}]"/>
-  <p-button label="Clientes" variant="outlined" severity="contrast" />
+<div style="display: flex; justify-content: end;">
+  <p-button variant="outlined" severity="success" label="Imprimir" icon="pi pi-print" printSectionId="print"
+    [useExistingCss]="true" ngxPrint />
 </div>
 
-<div class="EstadisticsContainer">
+<div id="print">
+  <h3 style="margin: 5px; font-weight: 300; ">Productos en escasez</h3>
 
-  <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
-    <div class="contentLast">
-      <div>
+  <p-table [value]="barberReportService.productLowStockReport()"
+    [tableStyle]="{ 'min-width': '50rem', 'margin-top': '10px' }">
+    <ng-template #header>
+      <tr>
+        <th><i class="pi pi-calendar" style="font-size: 12px;"></i> Fecha Creación</th>
+        <th><i class="pi pi-tag" style="font-size: 12px;"></i> Nombre</th>
+        <th><i class="pi pi-dollar" style="font-size: 12px;"></i> Precio Unitario</th>
+        <th><i class="pi pi-shopping-bag" style="font-size: 12px;"></i> Precio Venta</th>
+        <th><i class="pi pi-percentage" style="font-size: 12px;"></i> ITBIS</th>
+        <th><i class="pi pi-box" style="font-size: 12px;"></i> Existencia</th>
+      </tr>
+    </ng-template>
 
-        <div style="display: flex; justify-content: space-between;">
-          <h2 style="margin: 0; font-weight: 500;">Ingresos Totales</h2>
-          <i class="pi pi-box" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
-        </div>
-        <h4 style="margin: 2px 0; font-weight: 700;">Inventario</h4>
-      </div>
-      <div class="cardContent" style="margin-top: 25px;">
-        <h1 class="numberOf">{{ 290443 | currency }}</h1>
-      </div>
-    </div>
-  </div>
+    <ng-template #body let-product>
+      <tr>
+        <td>{{ product.created_at | date }}</td>
+        <td style="color: #2563eb; font-weight: 600;">{{ product.name }}</td>
+        <td>{{ product.unit_cost | currency:'RD$ ':'symbol':'1.2-2' }}</td>
+        <td>{{ product.sale_price | currency:'RD$ ':'symbol':'1.2-2' }}</td>
+        <td>{{ product.itbis }}%</td>
+        <td>
+          <p-tag *ngIf="product.stock > 0; else noStock" severity="success" [value]="product.stock + ' uds'" />
+          <ng-template #noStock>
+            <p-tag severity="danger" value="Sin stock" />
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
 
-  <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
-    <div class="contentLast">
-      <div>
-
-        <div style="display: flex; justify-content: space-between;">
-          <h2 style="margin: 0; font-weight: 500;">Productos Vendidos</h2>
-          <i class="pi pi-box" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
-        </div>
-        <h4 style="margin: 2px 0; font-weight: 700;">Inventario</h4>
-      </div>
-      <div class="cardContent" style="margin-top: 25px;">
-        <h1 class="numberOf">522</h1>Items
-      </div>
-    </div>
-  </div>
-
-  <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
-    <div class="contentLast">
-      <div>
-
-        <div style="display: flex; justify-content: space-between;">
-          <h2 style="margin: 0; font-weight: 500;">Servicios Realizados</h2>
-          <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
-        </div>
-        <h4 style="margin: 2px 0; font-weight: 700;">Servicios</h4>
-      </div>
-      <div class="cardContent" style="margin-top: 25px;">
-        <h1 class="numberOf">401</h1>
-      </div>
-    </div>
-  </div>
-
-  <div class="cardLastOnesEntradas" routerLink="/almacen/administrar-entrada">
-    <div class="contentLast">
-      <div>
-
-        <div style="display: flex; justify-content: space-between;">
-          <h2 style="margin: 0; font-weight: 500;">Clientes Atendidos</h2>
-          <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i>
-        </div>
-        <h4 style="margin: 2px 0; font-weight: 700;">Servicios</h4>
-      </div>
-      <div class="cardContent" style="margin-top: 25px;">
-        <h1 class="numberOf">187</h1>
-      </div>
-    </div>
-  </div>
-
-  <div class="cardLastOnes" routerLink="/almacen/administrar-entrada">
-    <div class="contentLast">
-      <div>
-        <div style="display: flex; justify-content: space-between;">
-          <h2 style="margin: 0; font-weight: 500;">Servicios Mas Populares</h2>
-          <!-- <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i> -->
-        </div>
-        <h4 style="margin: 2px 0; font-weight: 700;">Los servicios mas solicitados</h4>
-      </div>
-
-      <div style="margin-top: 10px;">
-        <div class="recentMov">
-          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
-          <!-- <i class="pi pi-plus"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Corte Hombre</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">138 servicios</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 500;">{{55200 | currency}}</h3>
-          </div>
-        </div>
-
-        <div class="recentMov">
-          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
-          <!-- <i class="pi pi-arrow-down-left"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Cerquillo</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">100 servicios</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 500;">{{25000 | currency}}</h3>
-          </div>
-        </div>
-
-        <div class="recentMov">
-          <!-- <i class="pi pi-arrow-down-left"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Corte Niños</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">76</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 500;">{{22800 | currency}}</h3>
-          </div>
-        </div>
-
-        <div class="recentMov">
-          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
-          <!-- <i class="pi pi-plus"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Corte de Barba</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">42</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 400;">{{8400 | currency}}</h3>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-
-  <div class="cardLastTwos" routerLink="/almacen/administrar-entrada">
-    <div class="contentLast">
-      <div>
-        <div style="display: flex; justify-content: space-between;">
-          <h2 style="margin: 0; font-weight: 500;">Clientes Frecuentes</h2>
-          <!-- <i class="pi pi-money-bill" style="place-self: center; font-size: 1.5rem; font-weight: 100;"></i> -->
-        </div>
-        <h4 style="margin: 2px 0; font-weight: 700;">Clientes con mas visitas</h4>
-      </div>
-      <div style="margin-top: 10px;">
-
-        <div class="recentMov">
-          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
-          <!-- <i class="pi pi-plus"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Carlos Rodriguez</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">12 Visitas</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 500;">{{4400 | currency}}</h3>
-          </div>
-        </div>
-
-        <div class="recentMov">
-          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
-          <!-- <i class="pi pi-arrow-down-left"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Jonel Rodriguez</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">9 Visitas</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 500;">{{3800 | currency}}</h3>
-          </div>
-        </div>
-
-        <div class="recentMov">
-          <!-- <i class="pi pi-arrow-down-left"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Ramon Corporan</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">7 Visitas</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 500;">{{2100 | currency}}</h3>
-          </div>
-        </div>
-
-        <div class="recentMov">
-          <!-- <div style="border-radius: 50px; height: 50px; background-color: #eee; margin-right: 5px;"></div> -->
-          <!-- <i class="pi pi-plus"
-            style="place-self: center; font-size: 1rem; font-weight: 100; padding: 13px; background-color: #eee; border-radius: 50px;"></i> -->
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-              <h3 style="margin: 0; font-weight: 500;">Oscar De Leon</h3>
-              <h4 style="margin: 2px 0; font-weight: 200;">Visitas 5</h4>
-            </span>
-
-            <h3 style="margin: 0; font-weight: 400;">{{1700 | currency}}</h3>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-
+<div
+  *ngIf="barberReportService.productLowStockReport().length == 0 && barberReportService.loadingProductLowStock() == false"
+  style="display: grid; place-items: center; margin-top: 50px;">
+  <app-no-data [icon]="'pi pi-chart-line'" [titleNoData]="'No se encontraron productos'"
+    [subTitleNoData]="'No se encontraron productos en escasez.'"></app-no-data>
 </div>

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SystemInformationService } from '../../../../services/general.service';
 import { RequestHelperService } from '../../../../services/requestHelper.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 
 export class BabersReportService {
 
@@ -26,25 +26,45 @@ export class BabersReportService {
   private barbersReport$ = signal<any>({})
   public barbersReport = computed(() => this.barbersReport$())
 
+  private productLowStockReport$ = signal<any[]>([]);
+  private loadingProductLowStock$ = signal<boolean>(false);
+
+  // Computed
+  public productLowStockReport = computed(() => this.productLowStockReport$());
+  public loadingProductLowStock = computed(() => this.loadingProductLowStock$());
   // private barbersSlots$ = signal<BarberSlots[]>([])
   // public barbersSlots = computed(() => this.barbersSlots$())
 
   public getBarbersReport(barberReport: any) {
-    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/barbers/report`, barberReport,this.header))
-      // .subscribe((res: any) => { this.barbersReport$.set(res.data); console.log(res);
-      // });
+    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/barbers/report`, barberReport, this.header))
+    // .subscribe((res: any) => { this.barbersReport$.set(res.data); console.log(res);
+    // });
   }
 
   public getBarbersReportSetDate(barberReport: any) {
-    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/barbers/report`, barberReport,this.header))
-      // .subscribe((res: any) => { this.barbersReport$.set(res.data); console.log(res);
-      // });
+    return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/barbers/report`, barberReport, this.header))
+    // .subscribe((res: any) => { this.barbersReport$.set(res.data); console.log(res);
+    // });
   }
 
-  // public getAvaliableSlotsBarbers(barber: BarberSlots) {
-  //   return this.requestHelper.handleRequest(() => this.http.post(`${this.baseURL}/barbers/availableSlots`, barber, this.header))
-  //     .subscribe((res: any) => { this.barbersSlots$.set(res.data); console.log(res); });
-  // }
+  // Service
+  public getLowStockProducts() {
+    this.loadingProductLowStock$.set(true); // comienza cargando
+
+    this.requestHelper.handleRequest(() =>
+      this.http.get(`${this.baseURL}/products-low-stock`, this.header)
+    ).subscribe({
+      next: (res: any) => {
+        this.productLowStockReport$.set(res.data);
+        this.loadingProductLowStock$.set(false); // terminó de cargar
+        console.log(res);
+      },
+      error: () => {
+        this.loadingProductLowStock$.set(false); // aunque falle, quita el loading
+      }
+    });
+  }
+
   // public putBarber(service: BarberPostI) {
   //   return this.requestHelper.handleRequest(() => this.http.put(`${this.baseURL}/servicios`, service, this.header, ));
   // }
