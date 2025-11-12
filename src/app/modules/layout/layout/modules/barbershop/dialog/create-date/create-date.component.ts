@@ -121,7 +121,7 @@ export class CreateDateComponent implements OnInit {
     const duration = services.reduce((acc, service) => acc + service.duration, 0);
 
     const dataSlots: BarberSlots = {
-      barber_id: this.datesForm.value.barber_id,
+      barber_id: this.datesForm.value.barber_id.id,
       date: formattedDate,
       duration: JSON.stringify(duration)
     }

@@ -7,7 +7,7 @@ import { shifI } from './interface/shif.interface';
 import { ShiftService } from './services/shif.service';
 import { BabersService } from '../configurations/configurationOptions/barbers/services/barbers.service';
 import { PersonGetI } from '../../interface/general.Interface';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SnackBarService } from '../../../services/snackBar.service';
 import { RequestHelperService } from '../../../services/requestHelper.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -20,13 +20,14 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 })
 export class ShiftComponent implements OnInit {
   barberSchedule: shifI[] = [];
-  barberLunchSchedule: shifI[] = [];
+  barberLunchSchedule!: {errorCode: string, lunch_end: string, lunch_start: string}
   barberSelected!: PersonGetI;
 
   activeDays: string = '0/0';
   totalHours: number = 0;
 
   shiftForm!: FormGroup;
+  shiftLunchForm!: FormGroup;
 
   private injector = inject(EnvironmentInjector);
 
@@ -40,6 +41,12 @@ export class ShiftComponent implements OnInit {
 
     this.shiftForm = this.fb.group({
       schedules: this.fb.array([]) // cada día con start y end
+    });
+
+    this.shiftLunchForm = this.fb.group({
+      barber_id: new FormControl(0),
+      lunch_start: new FormControl('', Validators.required),
+      lunch_end: new FormControl('', Validators.required),
     });
   }
 
@@ -63,11 +70,15 @@ export class ShiftComponent implements OnInit {
 
     this.injector.runInContext(() => {
       effect(() => {
-
-        this.barberLunchSchedule = this.shifService.shift();
-        console.log();
-
+        this.barberLunchSchedule = this.shifService.shiftLunch();
         this.barberSchedule = this.shifService.shift();
+        console.log(this.barberLunchSchedule);
+
+        this.shiftLunchForm.patchValue({
+          lunch_start: this.barberLunchSchedule.lunch_start,
+          lunch_end: this.barberLunchSchedule.lunch_end
+        })
+
         this.buildForm(this.barberSchedule); // construye el formulario
         this.calculateScheduleInfo();
       });

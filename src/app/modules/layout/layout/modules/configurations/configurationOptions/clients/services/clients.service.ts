@@ -46,5 +46,8 @@ export class ClientService {
     });
   }
 
+  public deleteClient(idDelete: number) {
+    return this.requestHelper.handleRequest(() => this.http.delete(`${this.baseURL}/clients/${idDelete}`, this.header,));
+  }
 
 }

@@ -16,7 +16,7 @@ export class SystemInformationService {
   private URLProduccion = "https://laravelbarbershop-production.up.railway.app/api"
   get getURL(): string { return this.URLProduccion }
 
-  private userToken: string = "Bearer 3|MBqkmfYjvaiIxEPDcZyU1ibR9WQhDVleMWU33ZmEa7c5b352";
+  private userToken: string = '';
   get getToken(): string { return this.userToken }
   setUserToken(token: string) { this.userToken = `Bearer ${token}` }
 

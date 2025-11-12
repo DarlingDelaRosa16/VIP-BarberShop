@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { RequestHelperService } from '../../../../../services/requestHelper.service';
 import { GeneralRequestService } from '../../../../services/generalRequest.service';
 import { ClientService } from './services/clients.service';
+import { SnackBarService } from '../../../../../services/snackBar.service';
 
 @Component({
   selector: 'app-clients',
@@ -20,17 +21,18 @@ export class ClientsComponent implements OnInit {
     public fb: FormBuilder,
     public clientService: ClientService,
     private requestHelpers: RequestHelperService,
+    private snackBar: SnackBarService,
     public generalRequestService: GeneralRequestService,
   ) {
     this.clientForm = this.fb.group({
       id: 0,
       role_id: new FormControl(0, Validators.required),
-      email:  new FormControl('', Validators.required),
-      address:  new FormControl('',Validators.required),
-      first_name:new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
+      address: new FormControl('', Validators.required),
+      first_name: new FormControl('', Validators.required),
       last_name: new FormControl('', Validators.required),
       // password:  new FormControl('', Validators.required),
-      phone_number:  new FormControl('', Validators.required),
+      phone_number: new FormControl('', Validators.required),
       // password_confirmation: new FormControl('', Validators.required),
     })
   }
@@ -39,20 +41,34 @@ export class ClientsComponent implements OnInit {
     this.clientService.getClients()
   }
 
-  postClient(){
+  postClient() {
     this.generalRequestService.postRegister(this.clientForm.value).subscribe((res: any) => {
       this.requestHelpers.handleResponse(res, () => this.clientService.getClients(), this.clientForm)
     })
   }
 
-  putClient(){
+  putClient() {
     // this.barbersService.putBarber(this.barberForm.value).subscribe((res: any) => {
     //   this.requestHelpers.handleResponse(res, () => this.barbersService.getBarbers(), this.barberForm)
     // })
   }
 
-  saveChanges(){
+  async removeClient(idClient: number) {
+    let closeAccount: boolean = await this.snackBar.snackbarConfirmation('Estas seguro de eliminar el registro?', '')
+
+    if (closeAccount) {
+      this.clientService.deleteClient(idClient).subscribe((res: any) => {
+        if (res.errorCode == 200) {
+          this.snackBar.snackbarSuccess()
+          this.clientService.getClients()
+          // this.outbounds = this.value ? this.outboundService.outboundDis() : this.outboundService.outbound();
+        }
+      })
+    }
+  }
+
+  saveChanges() {
     this.clientForm.patchValue({ role_id: 3 })
-    this.requestHelpers.saveChanges(() => this.postClient(), () => this.putClient(), this.clientForm.value.id ,this.clientForm)
+    this.requestHelpers.saveChanges(() => this.postClient(), () => this.putClient(), this.clientForm.value.id, this.clientForm)
   }
 }

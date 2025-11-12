@@ -46,27 +46,26 @@
   </div>
 </div>
 
-<div style=" margin: 10px 0 15px 0; border-radius: 5px; border: 1px solid #eee; padding: 8px 16px 16px 16px; ">
+<div style=" margin: 10px 0 15px 0; border-radius: 5px; border: 1px solid #eee; padding: 8px 16px 16px 16px; " *ngIf="barberSchedule.length > 0">
 
   <h3 style="margin: 5px 0; font-weight: 600; ">Horario de almuerzo</h3>
-  <div style="display: flex; gap: 10px;  align-items: end;">
+  <form [formGroup]="shiftLunchForm" style="display: flex; gap: 10px;  align-items: end;">
 
     <div class="form-group">
       <label style="margin-bottom: 5px;"> <i class="pi pi-calendar"></i> Hora Inicio</label>
-      <p-datepicker inputId="calendar-timeonly" formControlName="start_time" [timeOnly]="true" hourFormat="12" fluid />
+      <p-datepicker inputId="calendar-timeonly" formControlName="lunch_start" [timeOnly]="true" hourFormat="12" fluid />
     </div>
 
     <div class="form-group">
       <label style="margin-bottom: 5px;"> <i class="pi pi-calendar"></i> Hora Fin</label>
-      <p-datepicker formControlName="end_time" timeOnly="true" hourFormat="12" inputStyleClass="timeInput"
-        fluid></p-datepicker>
+      <p-datepicker formControlName="lunch_end" timeOnly="true" hourFormat="12" inputStyleClass="timeInput" fluid></p-datepicker>
     </div>
 
     <div style="display:flex; justify-content:flex-end; margin-top:10px;">
       <p-button label="Guardar Horarios de Almuerzo" icon="fa-solid fa-utensils" (onClick)="save()"
         severity="warn"></p-button>
     </div>
-  </div>
+  </form>
 </div>
 
 <form *ngIf="schedules.length > 0" [formGroup]="shiftForm">

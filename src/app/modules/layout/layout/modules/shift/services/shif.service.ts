@@ -32,7 +32,7 @@ export class ShiftService {
   private shiftLunch$ = signal<any>([]);
   private loadingLunchShift$ = signal<boolean>(false);
 
-  public shiftLunch = computed(() => this.shift$());
+  public shiftLunch = computed(() => this.shiftLunch$());
   public loadingLunchShift = computed(() => this.loadingShift$());
 
   public getShiftByBarber(barber_id: number) {
@@ -58,7 +58,7 @@ export class ShiftService {
       this.http.get(`${this.baseURL}/barbers/lunch_time/${barber_id}`, this.header)
     ).subscribe({
       next: (res: any) => {
-        this.shiftLunch$.set(res.data);
+        this.shiftLunch$.set(res);
         this.loadingLunchShift$.set(false); // terminó de cargar
       },
       error: () => {

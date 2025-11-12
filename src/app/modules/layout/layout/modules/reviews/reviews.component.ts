@@ -177,14 +177,14 @@ export class ReviewsComponent implements OnInit {
           selectedPerson.role_id === 2 ? 'barbero' :
             selectedPerson.role_id === 3 ? 'cliente' : '';
         const texto = etiqueta
-          ? `No hay citas para el ${etiqueta} ${selectedPerson.first_name} ${selectedPerson.last_name}`
-          : `No hay citas para ${selectedPerson.first_name} ${selectedPerson.last_name}`;
+          ? `No hay reseñas del ${etiqueta} ${selectedPerson.first_name} ${selectedPerson.last_name}`
+          : `No hay reseñas de ${selectedPerson.first_name} ${selectedPerson.last_name}`;
         this.messageService.add({ severity: 'info', summary: 'Info', detail: texto, life: 4000 });
       } else if (this.rangeDates && this.rangeDates[1] != null) {
         this.messageService.add({
           severity: 'info',
           summary: 'Info',
-          detail: `No hay citas dentro del rango de fechas seleccionado`,
+          detail: `No hay reseñas dentro del rango de fechas seleccionado`,
           life: 4000
         });
       }

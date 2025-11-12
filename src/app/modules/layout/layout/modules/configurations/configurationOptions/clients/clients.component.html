@@ -75,7 +75,7 @@
       <th>Apellido</th>
       <th>Correo Electronico</th>
       <!-- <th>Estado</th> -->
-      <th></th>
+      <!-- <th></th> -->
       <th></th>
     </tr>
   </ng-template>
@@ -85,8 +85,8 @@
       <td>{{ barber.last_name }}</td>
       <td>{{ barber.email }}</td>
       <!-- <td>{{ barber.status }}</td> -->
-      <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td>
-      <td><i class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
+      <!-- <td><i class="pi pi-pencil" style="display: grid; place-items: center; color: green;"></i> </td> -->
+      <td><i (click)="removeClient(barber.id)" class="pi pi-trash" style="display: grid; place-items: center; color: red;"></i> </td>
     </tr>
   </ng-template>
 </p-table>

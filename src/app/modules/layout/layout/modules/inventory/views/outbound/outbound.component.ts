@@ -133,7 +133,7 @@ export class OutboundComponent implements OnInit {
     });
   }
   async removeOutBound(idInbound: number) {
-    let closeAccount: boolean = await this.snackBar.snackbarConfirmation('Estas seguro de eliminar la cita?', '')
+    let closeAccount: boolean = await this.snackBar.snackbarConfirmation('Estas seguro de eliminar la salida?', '')
 
     if (closeAccount) {
       this.outboundService.deleteOutbound(idInbound).subscribe((res: any) => {

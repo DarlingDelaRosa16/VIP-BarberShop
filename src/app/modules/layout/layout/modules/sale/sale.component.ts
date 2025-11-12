@@ -83,13 +83,22 @@ export class SaleComponent implements OnInit {
     this.productService.getProducts(this.filterproduct)
   }
 
-  addItemShoppingCart(item: ProductShoppingCartI) {
+  addItemShoppingCart(item: ProductGetI) {
     const existingItem = this.shopingCart.find(p => p.id === item.id);
 
     if (existingItem) {
-      existingItem.quantity += 1;
-      existingItem.subTotal = existingItem.quantity * item.sale_price;
-      existingItem.total_itbis_pro = existingItem.subTotal * (item.itbis / 100);
+      if (existingItem?.quantity < item.stock) {
+        existingItem.quantity += 1;
+        existingItem.subTotal = existingItem.quantity * item.sale_price;
+        existingItem.total_itbis_pro = existingItem.subTotal * (item.itbis / 100);
+      } else {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Info',
+          detail: `La cantidad total en el carrito (${existingItem.quantity}) no puede ser mayor a la existencia (${item.stock}).`,
+          life: 2700
+        });
+      }
     } else {
       this.shopingCart.push({
         ...item,
